@@ -410,7 +410,12 @@ export function buildMarchString(
 
   // Remove all vector crypto from general pool
   const vCryptoIds = ['zvbb', 'zvbc', 'zvkb', 'zvkg', 'zvkned', 'zvknhb', 'zvknha', 'zvksed', 'zvksh', 'zvkt', 'ext_zvknc', 'ext_zvkng', 'ext_zvkn', 'ext_zvksc', 'ext_zvksg', 'ext_zvks'];
-  const baseSelected = Array.from(remainingSelected).filter(id => !vCryptoIds.includes(id));
+  let baseSelected = Array.from(remainingSelected).filter(id => !vCryptoIds.includes(id));
+
+  // 8. Zfh folding: if Zfh is selected, suppress Zfhmin from output
+  if (baseSelected.includes('zfh')) {
+    baseSelected = baseSelected.filter(id => id !== 'zfhmin');
+  }
 
   // 8. Construct standard and custom collections
   const standardExts: string[] = [];

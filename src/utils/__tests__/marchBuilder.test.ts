@@ -98,10 +98,10 @@ describe('buildMarchString', () => {
     const selected = new Set<string>([
       'xxldsp', 'zba', 'zbb', 'zicbom', 'xxlfbf'
     ]);
-    const result = buildMarchString(mockCore32FD, selected);
+    const result = buildMarchString(mockCore64FD, selected);
     // zba, zbb, zicbom should be alphabetically sorted standard Z extensions
     // xxldsp, xxlfbf should be alphabetically sorted custom X extensions at the end
-    expect(result.march).toBe('rv32imafdc_zba_zbb_zicbom_xxldsp_xxlfbf');
+    expect(result.march).toBe('rv64imafdc_zba_zbb_zicbom_xxldsp_xxlfbf');
   });
 
   it('checks disabling and compatibility rules correctly', () => {

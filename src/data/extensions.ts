@@ -53,9 +53,9 @@ export const EXTENSIONS: Extension[] = [
   { id: 'zbs', name: 'Zbs', category: 'bitmanip', description: 'Single-bit instructions', supportedSeries: [], type: 'standard' },
 
   // 3. CMO
-  { id: 'zicbom', name: 'Zicbom', category: 'cmo', description: 'Cache-block management instructions', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], type: 'standard' },
-  { id: 'zicbop', name: 'Zicbop', category: 'cmo', description: 'Cache-block prefetch instructions', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], type: 'standard' },
-  { id: 'zicboz', name: 'Zicboz', category: 'cmo', description: 'Cache-block zero instructions', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], type: 'standard' },
+  { id: 'zicbom', name: 'Zicbom', category: 'cmo', description: 'Cache-block management instructions', supportedSeries: ['nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], type: 'standard' },
+  { id: 'zicbop', name: 'Zicbop', category: 'cmo', description: 'Cache-block prefetch instructions', supportedSeries: ['nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], type: 'standard' },
+  { id: 'zicboz', name: 'Zicboz', category: 'cmo', description: 'Cache-block zero instructions', supportedSeries: ['nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], type: 'standard' },
 
   // 4. Zicond
   { id: 'zicond', name: 'Zicond', category: 'zicond', description: 'Integer Conditional Operations v1.0', supportedSeries: [], type: 'standard' },
