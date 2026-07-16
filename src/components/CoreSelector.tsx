@@ -19,7 +19,11 @@ export const CoreSelector: React.FC<CoreSelectorProps> = ({
   const seriesList = useMemo(() => {
     const series = new Set<string>();
     NUCLEI_CORES.forEach(c => series.add(c.series));
-    return ['all', ...Array.from(series).sort()];
+    return ['all', ...Array.from(series).sort((a, b) => {
+      const numA = parseInt(a.replace('nuclei-', '').replace('-series', ''));
+      const numB = parseInt(b.replace('nuclei-', '').replace('-series', ''));
+      return numA - numB;
+    })];
   }, []);
 
   const filteredCores = useMemo(() => {

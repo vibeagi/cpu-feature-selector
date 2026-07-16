@@ -93,7 +93,7 @@ export const ExtensionGroup: React.FC<ExtensionGroupProps> = ({
             )}
           </div>
 
-          <p className="text-[10px] text-slate-400 mt-0.5 leading-normal line-clamp-1">
+          <p className="text-[10px] text-slate-400 mt-0.5 leading-normal break-words line-clamp-2">
             {ext.description}
           </p>
 
@@ -106,7 +106,7 @@ export const ExtensionGroup: React.FC<ExtensionGroupProps> = ({
           {isDisabled && (
             <div className="flex items-start gap-0.5 mt-0.5 text-[9px] text-red-500 font-medium leading-normal">
               <AlertCircle className="h-2.5 w-2.5 mt-0.5 flex-shrink-0" />
-              <span className="truncate">{disabledReason}</span>
+              <span className="break-words leading-snug">{disabledReason}</span>
             </div>
           )}
         </div>
@@ -170,9 +170,32 @@ export const ExtensionGroup: React.FC<ExtensionGroupProps> = ({
               )}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-              {exts.map(renderExtensionCheckbox)}
-            </div>
+            {category.id === 'vector' ? (
+              <>
+                <div className="mb-3">
+                  <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <span className="w-1 h-3 bg-indigo-400 rounded-full" />
+                    Zvl*: Minimum Vector Length Standard Extensions
+                  </h5>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                    {exts.filter(ext => ext.id.startsWith('zvl')).map(renderExtensionCheckbox)}
+                  </div>
+                </div>
+                <div>
+                  <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <span className="w-1 h-3 bg-sky-400 rounded-full" />
+                    Zve*: Vector Extensions for Embedded Processors
+                  </h5>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                    {exts.filter(ext => !ext.id.startsWith('zvl')).map(renderExtensionCheckbox)}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                {exts.map(renderExtensionCheckbox)}
+              </div>
+            )}
           </div>
         );
       })}

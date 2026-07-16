@@ -418,7 +418,7 @@ export function buildMarchString(
   }
 
   // 8. Construct standard and custom collections
-  const standardExts: string[] = [];
+  let standardExts: string[] = [];
   const customExts: string[] = [];
 
   // Add the folded ones to their lists based on ID prefix
@@ -427,7 +427,9 @@ export function buildMarchString(
   // Also push standard/custom from baseSelected (filtering composites)
   for (const id of baseSelected) {
     const ext = EXTENSIONS.find(e => e.id === id);
-    if (!ext || ext.isComposite) continue;
+    if (!ext) continue;
+    // Skip composites except zfh (zfh is a real extension name that must appear in march string)
+    if (ext.isComposite && ext.id !== 'zfh') continue;
     // Standard 'v' is already merged into baseArch, don't output as _v
     if (id === 'v') continue;
 
@@ -444,6 +446,15 @@ export function buildMarchString(
       customExts.push(id);
     } else {
       standardExts.push(id);
+    }
+  }
+
+  // If base arch still has 'c' (not stripped by zcmp/zcmt), zca and zcf are
+  // implicitly included and should not appear in the march string
+  if (baseArch.includes('c')) {
+    const implicitZc = standardExts.filter(id => id === 'zca' || id === 'zcf');
+    if (implicitZc.length > 0) {
+      standardExts = standardExts.filter(id => id !== 'zca' && id !== 'zcf');
     }
   }
 
