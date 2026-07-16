@@ -1,20 +1,20 @@
 import { useState, useEffect } from 'react';
 import type { CpuCore } from './data/cores';
 import { NUCLEI_CORES } from './data/cores';
-import { EXTENSIONS } from './data/extensions';
+import { EXTENSIONS, EXTENSION_CATEGORIES } from './data/extensions';
 import { CoreSelector } from './components/CoreSelector';
 import { ExtensionGroup } from './components/ExtensionGroup';
 import { ResultPanel } from './components/ResultPanel';
-import { buildMarchString, isExtensionDisabled } from './utils/marchBuilder';
+import { buildMarchString, isExtensionDisabled, getExtensionDisabledReason } from './utils/marchBuilder';
 import { Cpu, RotateCcw } from 'lucide-react';
 
 function App() {
-  // Default to N300FD
   const defaultCore = NUCLEI_CORES.find(c => c.name === 'N300FD') || NUCLEI_CORES[0];
   const [selectedCore, setSelectedCore] = useState<CpuCore>(defaultCore);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set<string>());
+  const [activeCategory, setActiveCategory] = useState<string>('zc');
 
-  // Recommendations for vector based on core changes
+  // Recommend vector option based on core changes
   const recommendVector = (core: CpuCore): string | null => {
     const baseArch = core.arch.toLowerCase();
     const isRV32 = baseArch.startsWith('rv32');
@@ -23,7 +23,7 @@ function App() {
     const hasD = baseArch.includes('d');
 
     if (core.series === 'nuclei-100-series' || core.series === 'nuclei-200-series') {
-      return null; // 100 and 200 series don't support vector
+      return null;
     }
 
     if (isRV32) {
@@ -40,7 +40,6 @@ function App() {
   const handleSelectCore = (core: CpuCore) => {
     setSelectedCore(core);
 
-    // Filter out invalid/unsupported extensions for the new core
     const nextSet = new Set<string>();
     const recVec = recommendVector(core);
 
@@ -48,8 +47,6 @@ function App() {
       const ext = EXTENSIONS.find(e => e.id === id);
       if (!ext) continue;
 
-      // Temporarily check if it's disabled on the new core (disregarding other selections for now)
-      // Since it's a new core, we check if it is compatible with the new core's series/arch
       const isCompat = ext.supportedSeries.length === 0 || ext.supportedSeries.includes(core.series);
       const isArchCompat = !ext.dependsOnArch || ext.dependsOnArch.every(char => core.arch.toLowerCase().includes(char));
       const isRV32Only = ['zcf', 'zilsd', 'zclsd'].includes(ext.id);
@@ -60,20 +57,36 @@ function App() {
       }
     }
 
-    // Auto-recommend a vector extension if vector is supported on the new core
     if (recVec) {
-      // Remove any existing vector choice
       const vectorOptions = ['zve32x', 'zve32f', 'zve64x', 'zve64f', 'zve64d', 'v'];
       vectorOptions.forEach(opt => nextSet.delete(opt));
-      // Add recommended one
       nextSet.add(recVec);
     }
 
-    // Resolve composites and conflicts on the updated set
     setSelectedIds(syncCompositesAndConflicts(nextSet, core));
   };
 
-  // Resolve composites, dependency linkages, and conflict resolutions
+  // Recursive helpers for composite selections
+  const recursiveAdd = (id: string, set: Set<string>) => {
+    set.add(id);
+    const ext = EXTENSIONS.find(e => e.id === id);
+    if (ext && ext.components) {
+      ext.components.forEach(compId => {
+        recursiveAdd(compId, set);
+      });
+    }
+  };
+
+  const recursiveDelete = (id: string, set: Set<string>) => {
+    set.delete(id);
+    const ext = EXTENSIONS.find(e => e.id === id);
+    if (ext && ext.components) {
+      ext.components.forEach(compId => {
+        recursiveDelete(compId, set);
+      });
+    }
+  };
+
   const syncCompositesAndConflicts = (currentSet: Set<string>, core: CpuCore): Set<string> => {
     const nextSet = new Set(currentSet);
 
@@ -81,8 +94,6 @@ function App() {
     const vectorOptions = ['zve32x', 'zve32f', 'zve64x', 'zve64f', 'zve64d', 'v'];
     const activeVectors = Array.from(nextSet).filter(id => vectorOptions.includes(id));
     if (activeVectors.length > 1) {
-      // Keep the most recently added or the highest one.
-      // To be safe, keep the first one we find or clean up so only one remains.
       const toKeep = activeVectors[activeVectors.length - 1];
       vectorOptions.forEach(opt => {
         if (opt !== toKeep) nextSet.delete(opt);
@@ -99,21 +110,26 @@ function App() {
       });
     }
 
-    // 3. Handle specific conflicts (zcf vs zclsd)
-    if (nextSet.has('zcf') && nextSet.has('zclsd')) {
-      // If both are present, remove one of them based on precedence or keep.
-      // Let's assume zclsd has priority or whichever was not deleted.
-      // We will handle this gracefully in toggle, but here we just prune.
+    // 3. Handle DSP mutual exclusion (only select at most one level)
+    const dspOptions = ['xxldsp', 'xxldspn1x', 'xxldspn2x', 'xxldspn3x'];
+    const activeDsps = Array.from(nextSet).filter(id => dspOptions.includes(id));
+    if (activeDsps.length > 1) {
+      const toKeep = activeDsps[activeDsps.length - 1];
+      dspOptions.forEach(opt => {
+        if (opt !== toKeep) nextSet.delete(opt);
+      });
     }
 
     // 4. Run iterative composite check
     let changed = true;
-    while (changed) {
+    let iterations = 0;
+    while (changed && iterations < 5) {
       changed = false;
+      iterations++;
       for (const ext of EXTENSIONS) {
         if (!ext.components || ext.components.length === 0) continue;
 
-        // If the extension is checked, ensure all its components are also checked
+        // If the composite itself is checked, make sure all its components are checked
         if (nextSet.has(ext.id)) {
           for (const compId of ext.components) {
             if (!nextSet.has(compId)) {
@@ -122,16 +138,12 @@ function App() {
             }
           }
         } else {
-          // If the extension is NOT checked, but all of its components ARE checked, auto-check it
+          // If all components are checked and NOT disabled, auto-check the composite
           const allCompSelected = ext.components.every(compId => {
-            const compExt = EXTENSIONS.find(e => e.id === compId);
-            if (!compExt) return false;
-            // Only check active components (not disabled on this core)
-            if (isExtensionDisabled(compId, nextSet, core)) return true;
+            if (isExtensionDisabled(compId, nextSet, core)) return true; // ignore disabled deps
             return nextSet.has(compId);
           });
 
-          // Wait, only auto-check if there is at least one active component (to avoid checking empty composites)
           const hasActiveComp = ext.components.some(compId => !isExtensionDisabled(compId, nextSet, core));
 
           if (allCompSelected && hasActiveComp) {
@@ -142,7 +154,7 @@ function App() {
       }
     }
 
-    // 5. Clean up disabled options from composite checks (e.g. if zcf got checked but it's disabled)
+    // 5. Clean up disabled options from composite checks
     for (const extId of nextSet) {
       if (isExtensionDisabled(extId, nextSet, core)) {
         nextSet.delete(extId);
@@ -160,44 +172,41 @@ function App() {
     const isCurrentlyChecked = nextSet.has(id);
 
     if (isCurrentlyChecked) {
-      // Uncheck logic
-      nextSet.delete(id);
-
-      // If it's a composite, uncheck all of its sub-components
-      if (ext.components) {
-        ext.components.forEach(compId => nextSet.delete(compId));
-      }
+      // Recursive delete to fix composite cancellation bug
+      recursiveDelete(id, nextSet);
 
       // Linkage: If we unchecked a component, uncheck any composite that depends on it
-      EXTENSIONS.forEach(parentExt => {
-        if (parentExt.components?.includes(id)) {
-          nextSet.delete(parentExt.id);
-          // Recursively uncheck parent composites
-          EXTENSIONS.forEach(grandparent => {
-            if (grandparent.components?.includes(parentExt.id)) {
-              nextSet.delete(grandparent.id);
+      let parentFound = true;
+      while (parentFound) {
+        parentFound = false;
+        EXTENSIONS.forEach(parentExt => {
+          if (parentExt.components && nextSet.has(parentExt.id)) {
+            // Check if any required component is now missing from nextSet
+            const anyMissing = parentExt.components.some(compId => !nextSet.has(compId));
+            if (anyMissing) {
+              nextSet.delete(parentExt.id);
+              parentFound = true;
             }
-          });
-        }
-      });
+          }
+        });
+      }
     } else {
-      // Check logic
-      nextSet.add(id);
-
       // Mutually exclusive: Vector levels
       const vectorOptions = ['zve32x', 'zve32f', 'zve64x', 'zve64f', 'zve64d', 'v'];
       if (vectorOptions.includes(id)) {
-        vectorOptions.forEach(opt => {
-          if (opt !== id) nextSet.delete(opt);
-        });
+        vectorOptions.forEach(opt => nextSet.delete(opt));
       }
 
       // Mutually exclusive: Vector register lengths
       const vlOptions = ['zvl128b', 'zvl256b', 'zvl512b', 'zvl1024b'];
       if (vlOptions.includes(id)) {
-        vlOptions.forEach(opt => {
-          if (opt !== id) nextSet.delete(opt);
-        });
+        vlOptions.forEach(opt => nextSet.delete(opt));
+      }
+
+      // Mutually exclusive: DSP levels
+      const dspOptions = ['xxldsp', 'xxldspn1x', 'xxldspn2x', 'xxldspn3x'];
+      if (dspOptions.includes(id)) {
+        dspOptions.forEach(opt => nextSet.delete(opt));
       }
 
       // Mutually exclusive conflicts: zcf vs zclsd
@@ -207,10 +216,8 @@ function App() {
         nextSet.delete('zcf');
       }
 
-      // If it's a composite, check all of its sub-components
-      if (ext.components) {
-        ext.components.forEach(compId => nextSet.add(compId));
-      }
+      // Recursive add to check all child components
+      recursiveAdd(id, nextSet);
     }
 
     setSelectedIds(syncCompositesAndConflicts(nextSet, selectedCore));
@@ -224,7 +231,6 @@ function App() {
     const hasF = baseArch.includes('f');
     const hasD = baseArch.includes('d');
 
-    // Remove conflicting zclsd if Zc is all-selected
     nextSet.delete('zclsd');
 
     nextSet.add('zca');
@@ -235,7 +241,7 @@ function App() {
     if (isRV32 && (hasF || hasD)) {
       nextSet.add('zcf');
     } else {
-      nextSet.delete('zcf'); // Remove zcf if not RV32 or no float
+      nextSet.delete('zcf');
     }
 
     setSelectedIds(syncCompositesAndConflicts(nextSet, selectedCore));
@@ -254,6 +260,26 @@ function App() {
     setSelectedIds(syncCompositesAndConflicts(nextSet, selectedCore));
   };
 
+  // "全选兼容组合" Action
+  const handleSelectAllCompatibleComposites = () => {
+    const nextSet = new Set(selectedIds);
+
+    // We scan all composites (except zk+zks full package to let individual zk/zks form, or we can check zk_zks directly)
+    // Find all composites that are compatible
+    const composites = EXTENSIONS.filter(ext => ext.isComposite);
+
+    composites.forEach(comp => {
+      // Check if this composite is disabled
+      const reason = isExtensionDisabled(comp.id, nextSet, selectedCore);
+      if (!reason) {
+        // If compatible, recursively add all its components
+        recursiveAdd(comp.id, nextSet);
+      }
+    });
+
+    setSelectedIds(syncCompositesAndConflicts(nextSet, selectedCore));
+  };
+
   const handleReset = () => {
     setSelectedCore(defaultCore);
     const initialSet = new Set<string>();
@@ -262,7 +288,6 @@ function App() {
     setSelectedIds(initialSet);
   };
 
-  // Initialize with default core vector recommendation
   useEffect(() => {
     const initialSet = new Set<string>();
     const recVec = recommendVector(defaultCore);
@@ -272,42 +297,119 @@ function App() {
 
   const { march, mabi, logs } = buildMarchString(selectedCore, selectedIds);
 
+  const getSelectedCount = (catId: string) => {
+    const exts = EXTENSIONS.filter(e => e.category === catId);
+    return exts.filter(e => selectedIds.has(e.id) && !isExtensionDisabled(e.id, selectedIds, selectedCore)).length;
+  };
+
+  const scrollToCategory = (catId: string) => {
+    setActiveCategory(catId);
+    const element = document.getElementById(`cat-${catId}`);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans antialiased">
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans antialiased selection:bg-indigo-150">
+      {/* Top Engineering Grid Bar */}
+      <div className="h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 w-full" />
+
       {/* Header */}
-      <header className="border-b border-slate-900 bg-slate-900/30 backdrop-blur py-5 px-6 sticky top-0 z-10">
+      <header className="border-b border-slate-200 bg-white/85 backdrop-blur-md sticky top-0 z-30 py-4 px-6 shadow-sm">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="bg-purple-600/10 border border-purple-500/30 p-2 rounded-lg text-purple-400">
+            <div className="bg-indigo-50 border border-indigo-200 p-2 rounded-lg text-indigo-600 shadow-sm">
               <Cpu className="h-6 w-6" />
             </div>
             <div>
-              <h1 className="text-xl md:text-2xl font-bold tracking-tight text-slate-100 m-0 leading-tight">
+              <h1 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 m-0 leading-tight">
                 Nuclei RISC-V 编译参数生成器
               </h1>
-              <p className="text-xs md:text-sm text-slate-400 mt-1">
-                选择 CPU Core 与支持的扩展，自动进行依赖校验、冲突解决与复合扩展折叠，输出推荐的 -march 与 -mabi。
+              <p className="text-xs text-slate-500 mt-1">
+                高密度的亮色极简工业控制台，支持自动依赖校验、互斥与折叠规则。
               </p>
             </div>
           </div>
           <button
             onClick={handleReset}
-            className="flex items-center justify-center gap-2 px-3 py-1.5 text-xs font-semibold bg-slate-900 border border-slate-800 rounded-lg hover:bg-slate-800 transition-colors text-slate-300 self-start md:self-auto"
+            className="flex items-center justify-center gap-2 px-3 py-1.5 text-xs font-semibold bg-white border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 hover:text-slate-900 transition-colors shadow-sm self-start md:self-auto"
           >
             <RotateCcw className="h-3.5 w-3.5" />
-            <span>恢复默认设置</span>
+            <span>重置参数</span>
           </button>
         </div>
       </header>
 
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Side: Selectors (2/3 width) */}
-        <div className="lg:col-span-2 space-y-6">
+      {/* Three-Column Grid Layout */}
+      <div className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+        {/* Column 1: Left Navigation & Action Panel (1/4 width) */}
+        <div className="lg:col-span-1 space-y-6">
+          {/* Core Selector */}
           <CoreSelector
             selectedCore={selectedCore}
             onSelectCore={handleSelectCore}
           />
+
+          {/* Quick Actions Panel */}
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-3">
+            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">快捷指令集操作</h3>
+            <button
+              onClick={handleSelectAllCompatibleComposites}
+              className="w-full flex items-center justify-center gap-2 py-2 px-4 text-xs font-semibold bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 active:bg-indigo-800 transition-colors shadow-sm"
+            >
+              一键全选兼容组合扩展
+            </button>
+            <p className="text-[10px] text-slate-500 leading-normal text-center">
+              将自动扫描并勾选所有当前 Core 支持的组合扩展（如 B 扩展、Zk、Zvkn 等）。
+            </p>
+          </div>
+
+          {/* Category Quick Scroll Links */}
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">扩展分类导航</h3>
+            <div className="space-y-1">
+              {EXTENSION_CATEGORIES.map(cat => {
+                const count = getSelectedCount(cat.id);
+                // Hide if unsupported on current series
+                const exts = EXTENSIONS.filter(e => e.category === cat.id);
+                const allDisabled = exts.every(ext => {
+                  const reason = getExtensionDisabledReason(ext.id, selectedIds, selectedCore);
+                  return reason?.includes('系列处理器') || (ext.id === 'zmmul' && selectedCore.series !== 'nuclei-100-series');
+                });
+
+                if (allDisabled) return null;
+
+                const isActive = activeCategory === cat.id;
+
+                return (
+                  <button
+                    key={cat.id}
+                    onClick={() => scrollToCategory(cat.id)}
+                    className={`w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-left text-xs font-medium transition-colors ${
+                      isActive
+                        ? 'bg-indigo-50 text-indigo-600 font-semibold'
+                        : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                    }`}
+                  >
+                    <span className="truncate">{cat.name.split(' ')[0]}</span>
+                    {count > 0 && (
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
+                        isActive ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-500'
+                      }`}>
+                        {count}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Column 2 & 3: Center Extensions Control Panel (2/4 width) */}
+        <div className="lg:col-span-2">
           <ExtensionGroup
             selectedCore={selectedCore}
             selectedIds={selectedIds}
@@ -317,19 +419,21 @@ function App() {
           />
         </div>
 
-        {/* Right Side: Results (1/3 width) */}
+        {/* Column 4: Right Output & Log Panel (1/4 width) */}
         <div className="lg:col-span-1">
-          <ResultPanel
-            march={march}
-            mabi={mabi}
-            logs={logs}
-          />
+          <div className="sticky top-24">
+            <ResultPanel
+              march={march}
+              mabi={mabi}
+              logs={logs}
+            />
+          </div>
         </div>
-      </main>
+      </div>
 
       {/* Footer */}
-      <footer className="border-t border-slate-900 py-6 px-6 text-center text-xs text-slate-600 bg-slate-950">
-        <p>© 2026 Nuclei CPU Feature Selector. Powered by Vite + React + Tailwind.</p>
+      <footer className="border-t border-slate-200 py-5 text-center text-xs text-slate-500 bg-white">
+        <p>Nuclei CPU Feature Selector Console © 2026. Made with Precision.</p>
       </footer>
     </div>
   );
