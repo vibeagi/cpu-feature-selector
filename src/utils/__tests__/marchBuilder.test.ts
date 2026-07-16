@@ -110,8 +110,9 @@ describe('buildMarchString', () => {
     expect(isExtensionDisabled('zmmul', selected, mockCore100)).toBe(false);
     expect(isExtensionDisabled('zmmul', selected, mockCore32)).toBe(true); // 300 series has M
 
-    // Zcf is only valid on RV32 with float
-    expect(isExtensionDisabled('zcf', selected, mockCore32FD)).toBe(false); // RV32 with F
+    // Zcf is only valid on RV32 with float (and requires Zca)
+    const selectedZcf = new Set<string>(['zca']);
+    expect(isExtensionDisabled('zcf', selectedZcf, mockCore32FD)).toBe(false); // RV32 with F
     expect(isExtensionDisabled('zcf', selected, mockCore64FD)).toBe(true);  // RV64
 
     // Vector Crypto requires a vector extension

@@ -77,6 +77,14 @@ export function getExtensionDisabledReason(
     return '与 Zclsd 压缩双字对加载存储扩展冲突';
   }
 
+  // zcd conflicts with zcmp/zcmt
+  if (extId === 'zcd' && (selectedIds.has('zcmp') || selectedIds.has('zcmt'))) {
+    return '与 Zcmp/Zcmt 扩展冲突';
+  }
+  if ((extId === 'zcmp' || extId === 'zcmt') && selectedIds.has('zcd')) {
+    return '与 Zcd 扩展冲突';
+  }
+
   // 7. Check standard extension dependencies
   if (ext.dependsOnExtensions) {
     for (const depId of ext.dependsOnExtensions) {
@@ -449,12 +457,15 @@ export function buildMarchString(
     }
   }
 
-  // If base arch still has 'c' (not stripped by zcmp/zcmt), zca and zcf are
+  // If base arch still has 'c' (not stripped by zcmp/zcmt), zca, zcf, and zcd are
   // implicitly included and should not appear in the march string
+  // C always implies Zca
+  // C+F implies Zcf (RV32 only)
+  // C+D implies Zcd
   if (baseArch.includes('c')) {
-    const implicitZc = standardExts.filter(id => id === 'zca' || id === 'zcf');
+    const implicitZc = standardExts.filter(id => id === 'zca' || id === 'zcf' || id === 'zcd');
     if (implicitZc.length > 0) {
-      standardExts = standardExts.filter(id => id !== 'zca' && id !== 'zcf');
+      standardExts = standardExts.filter(id => id !== 'zca' && id !== 'zcf' && id !== 'zcd');
     }
   }
 

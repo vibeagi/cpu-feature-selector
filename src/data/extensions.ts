@@ -38,12 +38,13 @@ export const EXTENSION_CATEGORIES: ExtensionCategory[] = [
 
 export const EXTENSIONS: Extension[] = [
   // 1. Zc
-  { id: 'zca', name: 'Zca', category: 'zc', description: 'Zc Base compressed instructions for integer', supportedSeries: [], type: 'standard' },
-  { id: 'zcb', name: 'Zcb', category: 'zc', description: 'Zc Extension for additional simple compressed instructions', supportedSeries: [], type: 'standard' },
-  { id: 'zcmp', name: 'Zcmp', category: 'zc', description: 'Zc Extension for push/pop and double move compressed instructions', supportedSeries: [], type: 'standard', conflictsWith: [] },
-  { id: 'zcmt', name: 'Zcmt', category: 'zc', description: 'Zc Extension for table jump compressed instructions', supportedSeries: [], type: 'standard', conflictsWith: [] },
-  { id: 'zcf', name: 'Zcf', category: 'zc', description: 'Zc Extension for RV32 float load/store compressed instructions', supportedSeries: [], dependsOnArch: ['f'], conflictsWith: ['zclsd'], type: 'standard' },
-  { id: 'xxlcz', name: 'Xxlcz', category: 'zc', description: 'Nuclei Customized XLCZ ISA Extension', supportedSeries: [], type: 'custom' },
+  { id: 'zca', name: 'Zca', category: 'zc', description: 'Zc Base compressed instructions for integer (implied by C)', supportedSeries: [], type: 'standard' },
+  { id: 'zcb', name: 'Zcb', category: 'zc', description: 'Zc Extension for additional simple compressed instructions', supportedSeries: [], type: 'standard', dependsOnExtensions: ['zca'] },
+  { id: 'zcmp', name: 'Zcmp', category: 'zc', description: 'Zc Extension for push/pop and double move compressed instructions', supportedSeries: [], type: 'standard', dependsOnExtensions: ['zca'], conflictsWith: ['zcd'] },
+  { id: 'zcmt', name: 'Zcmt', category: 'zc', description: 'Zc Extension for table jump compressed instructions', supportedSeries: [], type: 'standard', dependsOnExtensions: ['zca'], conflictsWith: ['zcd'] },
+  { id: 'zcd', name: 'Zcd', category: 'zc', description: 'Zc Extension for double-precision float load/store compressed instructions (implied by C+D)', supportedSeries: [], dependsOnArch: ['d'], dependsOnExtensions: ['zca'], conflictsWith: ['zcmp', 'zcmt'], type: 'standard' },
+  { id: 'zcf', name: 'Zcf', category: 'zc', description: 'Zc Extension for RV32 float load/store compressed instructions (implied by C+F on RV32)', supportedSeries: [], dependsOnArch: ['f'], dependsOnExtensions: ['zca'], conflictsWith: ['zclsd'], type: 'standard' },
+  { id: 'xxlcz', name: 'Xxlcz', category: 'zc', description: 'Nuclei Customized XLCZ ISA Extension', supportedSeries: ['nuclei-200-series', 'nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series'], type: 'custom' },
 
   // 2. Bit-Manipulation
   { id: 'ext_b', name: 'B 扩展 (zba+zbb+zbs)', category: 'bitmanip', description: '标准 Bit-Manipulation 组合 (zba + zbb + zbs)', supportedSeries: [], type: 'standard', isComposite: true, components: ['zba', 'zbb', 'zbs'] },

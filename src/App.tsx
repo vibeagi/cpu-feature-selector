@@ -120,6 +120,17 @@ function App() {
       });
     }
 
+    // 3b. zcd vs zcmp/zcmt mutual exclusion
+    if (nextSet.has('zcd') && (nextSet.has('zcmp') || nextSet.has('zcmt'))) {
+      nextSet.delete('zcmp');
+      nextSet.delete('zcmt');
+    }
+
+    // 3d. zcf vs zclsd mutual exclusion
+    if (nextSet.has('zcf') && nextSet.has('zclsd')) {
+      nextSet.delete('zclsd');
+    }
+
     // 4. Run iterative composite check
     let changed = true;
     let iterations = 0;
@@ -216,6 +227,14 @@ function App() {
         nextSet.delete('zcf');
       }
 
+      // zcd vs zcmp/zcmt (C+D implies Zcd, excludes Zcmp/Zcmt)
+      if (id === 'zcd') {
+        nextSet.delete('zcmp');
+        nextSet.delete('zcmt');
+      } else if (id === 'zcmp' || id === 'zcmt') {
+        nextSet.delete('zcd');
+      }
+
       // Recursive add to check all child components
       recursiveAdd(id, nextSet);
     }
@@ -233,10 +252,18 @@ function App() {
 
     nextSet.delete('zclsd');
 
-    nextSet.add('zca');
-    nextSet.add('zcb');
-    nextSet.add('zcmp');
-    nextSet.add('zcmt');
+    // Per 29.1.4: when D is specified, C = Zca + Zcd (excludes Zcmp/Zcmt)
+    if (hasD) {
+      nextSet.add('zca');
+      nextSet.add('zcd');
+      nextSet.delete('zcmp');
+      nextSet.delete('zcmt');
+    } else {
+      nextSet.add('zca');
+      nextSet.add('zcb');
+      nextSet.add('zcmp');
+      nextSet.add('zcmt');
+    }
 
     if (isRV32 && (hasF || hasD)) {
       nextSet.add('zcf');
