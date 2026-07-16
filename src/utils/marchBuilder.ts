@@ -1,5 +1,6 @@
-import { CpuCore } from '../data/cores';
-import { EXTENSIONS, Extension } from '../data/extensions';
+import type { CpuCore } from '../data/cores';
+import { EXTENSIONS } from '../data/extensions';
+import type { Extension } from '../data/extensions';
 
 export interface LogEntry {
   type: 'info' | 'warn' | 'success';
@@ -26,10 +27,8 @@ export function getExtensionDisabledReason(
 
   const baseArch = core.arch.toLowerCase();
   const isRV32 = baseArch.startsWith('rv32');
-  const isRV64 = baseArch.startsWith('rv64');
 
   const hasM = baseArch.includes('m');
-  const hasA = baseArch.includes('a');
   const hasF = baseArch.includes('f');
   const hasD = baseArch.includes('d');
 
@@ -342,15 +341,6 @@ export function buildMarchString(
   ));
 
   const hasZvbb = vCryptoPool.has('zvbb');
-  const hasZvbc = vCryptoPool.has('zvbc');
-  const hasZvkb = vCryptoPool.has('zvkb');
-  const hasZvkg = vCryptoPool.has('zvkg');
-  const hasZvkned = vCryptoPool.has('zvkned');
-  const hasZvknhb = vCryptoPool.has('zvknhb') || vCryptoPool.has('ext_zvkn') || vCryptoPool.has('ext_zvknc') || vCryptoPool.has('ext_zvkng'); // components check will confirm
-  const hasZvknha = vCryptoPool.has('zvknha') || hasZvknhb;
-  const hasZvksed = vCryptoPool.has('zvksed');
-  const hasZvksh = vCryptoPool.has('zvksh');
-  const hasZvkt = vCryptoPool.has('zvkt');
 
   // Let's resolve the actual checked values
   // Since we also support checking sub-elements to select composites, let's verify components.

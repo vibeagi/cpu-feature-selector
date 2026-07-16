@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { buildMarchString, isExtensionDisabled, getExtensionDisabledReason } from '../marchBuilder';
-import { CpuCore } from '../../data/cores';
+import { buildMarchString, isExtensionDisabled } from '../marchBuilder';
+import type { CpuCore } from '../../data/cores';
 
 describe('buildMarchString', () => {
   const mockCore32FD: CpuCore = {
