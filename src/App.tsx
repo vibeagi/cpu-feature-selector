@@ -169,6 +169,9 @@ function App() {
             }
           }
         } else {
+          // Skip auto-check for C/Zce composites (user-managed)
+          if (ext.id === 'ext_c' || ext.id === 'ext_zce') continue;
+
           // If all components are checked and NOT disabled, auto-check the composite
           const allCompSelected = ext.components.every(compId => {
             if (isExtensionDisabled(compId, nextSet, core)) return true; // ignore disabled deps
