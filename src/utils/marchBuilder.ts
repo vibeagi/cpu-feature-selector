@@ -319,12 +319,8 @@ export function buildMarchString(
   } else if (isZkFull) {
     cryptoOutput.push('zk');
     logs.push({ type: 'success', message: '折叠标量加密 NIST 完整版 (zk = zkn + zkr + zkt) 到: _zk' });
-    if (isZksFull) {
-      cryptoOutput.push('zks');
-    } else {
-      if (hasZksed) cryptoOutput.push('zksed');
-      if (hasZksh) cryptoOutput.push('zksh');
-    }
+    if (hasZksed) cryptoOutput.push('zksed');
+    if (hasZksh) cryptoOutput.push('zksh');
   } else if (isZknFull && isZksFull) {
     cryptoOutput.push('zkn', 'zks');
     logs.push({ type: 'success', message: '折叠标量加密子集到: _zkn_zks' });
@@ -348,11 +344,6 @@ export function buildMarchString(
       cryptoOutput.push('zks');
       logs.push({ type: 'success', message: '折叠标量加密国密子集 (zbkb+zbkc+zbkx+zksed+zksh) 到: _zks' });
     } else {
-      // If zkn is full, zbkb/zbkc/zbkx are already added, so don't double add
-      if (!isZknFull) {
-        // If we didn't add them under zkn, add them if selected
-        // Wait, they are added in the zkn else block above.
-      }
       if (hasZksed) cryptoOutput.push('zksed');
       if (hasZksh) cryptoOutput.push('zksh');
     }

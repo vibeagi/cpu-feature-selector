@@ -185,6 +185,8 @@ Format: `CORE_NAME = arch abi series`
 - `Zvksg 组合` = Zvks + Zvkg
 - `Zvks 组合` = Zvksed + Zvksh + Zvkb + Zvkt
 
+**Sub-extensions:** `zvbb`, `zvbc`, `zvkb`, `zvkg`, `zvkned`, `zvknhb`, `zvknha`, `zvksed`, `zvksh`, `zvkt`
+
 **Zvknhb** includes Zvknha.
 
 **Dependencies:**

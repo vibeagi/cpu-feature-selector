@@ -61,9 +61,10 @@ This specification describes the requirements and technical design for the CPU C
 - Zvl*: single choice of vector register length
 
 #### Vector Crypto (600/900/1000, depends Vector)
+- Sub-extensions: Zvbb, Zvbc, Zvkb, Zvkg, Zvkned, Zvknhb, Zvknha, Zvksed, Zvksh, Zvkt
 - Composites: Zvkn, Zvknc, Zvkng, Zvks, Zvksc, Zvksg
 - Zvknhb includes Zvknha; Zvkn/Zvbc/Zvknhb require Vector≥zve64x
-- March: fold to highest matching composite
+- March: fold to highest matching composite (Zvknc preempts Zvkng preempts Zvkn)
 
 ---
 
