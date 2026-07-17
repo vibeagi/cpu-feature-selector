@@ -35,14 +35,16 @@ export const ResultPanel: React.FC<ResultPanelProps> = ({
 
   const fullCommand = `-march=${march} -mabi=${mabi}`;
 
-  // Compute ARCH_EXT: everything after the base arch prefix
+  // Compute ARCH_EXT: everything after the base arch prefix, prefixed with _
   const archExt = useMemo(() => {
     const parts = march.split('_');
     if (parts.length <= 1) return '';
-    return parts.slice(1).join('_');
+    return '_' + parts.slice(1).join('_');
   }, [march]);
 
-  const sdkOptions = `CORE=${selectedCore.name.toLowerCase()} ARCH_EXT=${archExt}`;
+  const sdkOptions = archExt
+    ? `CORE=${selectedCore.name.toLowerCase()} ARCH_EXT=${archExt}`
+    : `CORE=${selectedCore.name.toLowerCase()}`;
 
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-5">
