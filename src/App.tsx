@@ -14,34 +14,11 @@ function App() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set<string>());
   const [activeCategory, setActiveCategory] = useState<string>('zc');
 
-  // Recommend vector option based on core changes
-  const recommendVector = (core: CpuCore): string | null => {
-    const baseArch = core.arch.toLowerCase();
-    const isRV32 = baseArch.startsWith('rv32');
-    const isRV64 = baseArch.startsWith('rv64');
-    const hasF = baseArch.includes('f');
-    const hasD = baseArch.includes('d');
-
-    if (core.series === 'nuclei-100-series' || core.series === 'nuclei-200-series') {
-      return null;
-    }
-
-    if (isRV32) {
-      return hasF || hasD ? 'zve32f' : 'zve32x';
-    } else if (isRV64) {
-      if (hasD) return 'v';
-      if (hasF) return 'zve64f';
-      return 'zve64x';
-    }
-    return null;
-  };
-
   // Sync / validation run whenever selected core changes
   const handleSelectCore = (core: CpuCore) => {
     setSelectedCore(core);
 
     const nextSet = new Set<string>();
-    const recVec = recommendVector(core);
 
     for (const id of selectedIds) {
       const ext = EXTENSIONS.find(e => e.id === id);
@@ -55,12 +32,6 @@ function App() {
       if (isCompat && isArchCompat && isRV32Compat) {
         nextSet.add(id);
       }
-    }
-
-    if (recVec) {
-      const vectorOptions = ['zve32x', 'zve32f', 'zve64x', 'zve64f', 'zve64d', 'v'];
-      vectorOptions.forEach(opt => nextSet.delete(opt));
-      nextSet.add(recVec);
     }
 
     // Auto-select C extension if core arch has 'c'
@@ -347,16 +318,12 @@ function App() {
   const handleReset = () => {
     setSelectedCore(defaultCore);
     const initialSet = new Set<string>();
-    const recVec = recommendVector(defaultCore);
-    if (recVec) initialSet.add(recVec);
     if (defaultCore.arch.toLowerCase().includes('c')) initialSet.add('ext_c');
     setSelectedIds(initialSet);
   };
 
   useEffect(() => {
     const initialSet = new Set<string>();
-    const recVec = recommendVector(defaultCore);
-    if (recVec) initialSet.add(recVec);
     if (defaultCore.arch.toLowerCase().includes('c')) initialSet.add('ext_c');
     setSelectedIds(initialSet);
   }, []);
