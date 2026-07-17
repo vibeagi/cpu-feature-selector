@@ -33,7 +33,8 @@ export const EXTENSION_CATEGORIES: ExtensionCategory[] = [
   { id: 'dsp', name: 'DSP 扩展', description: 'Nuclei 定制 DSP 扩展指令，支持各种级别的数据流加速（单选）。' },
   { id: 'crypto-scalar', name: 'Scalar Crypto', description: '标量层面的商用及标准密码算法指令集。' },
   { id: 'vector', name: 'Vector 向量扩展', description: '向量计算标准扩展（可根据规则和默认值自动勾选，单选）。' },
-  { id: 'crypto-vector', name: 'Vector Crypto 向量加密扩展', description: '基于向量处理器的密码算法指令集（依赖于 Vector 扩展）。' }
+  { id: 'crypto-vector', name: 'Vector Crypto 向量加密扩展', description: '基于向量处理器的密码算法指令集（依赖于 Vector 扩展）。' },
+  { id: 'float-int', name: 'Zfinx+ 整型寄存器浮点扩展', description: '整型寄存器浮点扩展，与 F/D/Zfa 互斥。依赖 F 支持。' }
 ];
 
 export const EXTENSIONS: Extension[] = [
@@ -77,6 +78,12 @@ export const EXTENSIONS: Extension[] = [
   { id: 'zfh', name: 'Zfh', category: 'float', description: 'Standard Half-Precision Floating-Point (includes Zfhmin)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['f'], type: 'standard', isComposite: true, components: ['zfhmin'] },
   { id: 'zfhmin', name: 'Zfhmin', category: 'float', description: 'Minimal Half-Precision Floating-Point', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['f'], type: 'standard' },
   { id: 'zfa', name: 'Zfa', category: 'float', description: 'Additional Floating-Point Instructions v1.0', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['f'], type: 'standard' },
+
+  // 8b. Zfinx+ (Floating-Point in Integer Registers, mutually exclusive with standard F/D)
+  { id: 'zfinx', name: 'Zfinx', category: 'float-int', description: 'Single-precision float in integer registers (与 F/D 互斥)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series'], type: 'standard' },
+  { id: 'ext_zdinx', name: 'Zdinx', category: 'float-int', description: 'Double-precision float in integer registers (includes Zfinx)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series'], type: 'standard', isComposite: true, components: ['zfinx'] },
+  { id: 'ext_zhinx', name: 'Zhinx', category: 'float-int', description: 'Half-precision float in integer registers (includes Zfinx+Zhinxmin)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series'], type: 'standard', isComposite: true, components: ['zfinx', 'zhinxmin'] },
+  { id: 'zhinxmin', name: 'Zhinxmin', category: 'float-int', description: 'Minimal half-precision float in integer registers (includes Zfinx)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series'], type: 'standard', dependsOnExtensions: ['zfinx'] },
 
   // 9. BF16
   { id: 'zfbfmin', name: 'Zfbfmin', category: 'bf16', description: 'Scalar BF16 Converts', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['f'], type: 'standard' },

@@ -127,7 +127,22 @@ export function getExtensionDisabledReason(
     }
   }
 
-  // 9. Composite conflict check: if a composite's component conflicts with selectedIds, disable the composite
+  // 9a. Zfinx+ extensions are mutually exclusive with standard float/f16/zfa/bf16
+  if (ext.category === 'float-int') {
+    const floatConflictIds = ['zfh', 'zfhmin', 'zfa', 'zfbfmin'];
+    const hasFloatConflict = floatConflictIds.some(id => selectedIds.has(id) || baseArch.includes('f') || baseArch.includes('d'));
+    if (hasFloatConflict) {
+      return '与 F/D/Zfa/BF16 标准浮点扩展互斥';
+    }
+  }
+  if (extId === 'zfh' || extId === 'zfhmin' || extId === 'zfa' || extId === 'zfbfmin' || ext.category === 'bf16') {
+    const floatIntIds = ['zfinx', 'ext_zdinx', 'ext_zhinx', 'zhinxmin'];
+    if (floatIntIds.some(id => selectedIds.has(id))) {
+      return '与 Zfinx 整型寄存器浮点扩展互斥';
+    }
+  }
+
+  // 9b. Composite conflict check: if a composite's component conflicts with selectedIds, disable the composite
   if (ext.isComposite && ext.components) {
     for (const compId of ext.components) {
       const compExt = EXTENSIONS.find(e => e.id === compId);
@@ -459,6 +474,22 @@ export function buildMarchString(
 
   // Add the folded ones to their lists based on ID prefix
   const allFolded = [...dspOutput, ...cryptoOutput, ...vectorCryptoOutput];
+
+  // Zfinx folding: zdinx includes zfinx, zhinx includes zfinx+zhinxmin, zhinxmin depends on zfinx
+  const hasZfinx = baseSelected.includes('zfinx');
+  if (validSelected.has('ext_zdinx') && !isExtensionDisabled('ext_zdinx', validSelected, core)) {
+    allFolded.push('zdinx');
+    baseSelected = baseSelected.filter(id => id !== 'zfinx' && id !== 'ext_zdinx');
+  } else if (validSelected.has('ext_zhinx') && !isExtensionDisabled('ext_zhinx', validSelected, core)) {
+    allFolded.push('zhinx');
+    baseSelected = baseSelected.filter(id => id !== 'zfinx' && id !== 'zhinxmin' && id !== 'ext_zhinx');
+  } else if (hasZfinx && baseSelected.includes('zhinxmin')) {
+    allFolded.push('zhinxmin');
+    baseSelected = baseSelected.filter(id => id !== 'zfinx' && id !== 'zhinxmin');
+  } else if (hasZfinx) {
+    allFolded.push('zfinx');
+    baseSelected = baseSelected.filter(id => id !== 'zfinx');
+  }
 
   // Also push standard/custom from baseSelected (filtering composites)
   for (const id of baseSelected) {
