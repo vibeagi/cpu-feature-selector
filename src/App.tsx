@@ -485,7 +485,7 @@ function App() {
                             : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700 border border-transparent'
                         }`}
                       >
-                        <span className="truncate max-w-[80px]">{cat.name.split(' ')[0]}</span>
+                        <span className="truncate max-w-[100px]">{cat.name}</span>
                         {count > 0 && (
                           <span className={`text-[9px] px-1 py-0.5 rounded-full font-bold ${
                             isActive ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-500'

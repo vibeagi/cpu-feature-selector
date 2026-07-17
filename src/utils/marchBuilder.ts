@@ -437,6 +437,13 @@ export function buildMarchString(
   }
   if (hasZvbb) vectorCryptoOutput.push('zvbb');
 
+  // Zvknhb folding: if zvknhb is selected, suppress zvknha from output
+  if (validSelected.has('zvknhb')) {
+    // remove zvknha from vectorCryptoOutput if present
+    const idx = vectorCryptoOutput.indexOf('zvknha');
+    if (idx !== -1) vectorCryptoOutput.splice(idx, 1);
+  }
+
   // Remove all vector crypto from general pool
   const vCryptoIds = ['zvbb', 'zvbc', 'zvkb', 'zvkg', 'zvkned', 'zvknhb', 'zvknha', 'zvksed', 'zvksh', 'zvkt', 'ext_zvknc', 'ext_zvkng', 'ext_zvkn', 'ext_zvksc', 'ext_zvksg', 'ext_zvks'];
   let baseSelected = Array.from(remainingSelected).filter(id => !vCryptoIds.includes(id));
