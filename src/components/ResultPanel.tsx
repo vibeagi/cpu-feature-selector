@@ -88,7 +88,7 @@ export const ResultPanel: React.FC<ResultPanelProps> = ({
     <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-5">
       <h2 className="text-sm font-bold text-slate-800 flex items-center gap-2 border-b border-slate-100 pb-3">
         <Code2 className="h-4 w-4 text-indigo-600" />
-        <span>生成结果 (GCC Options)</span>
+        <span>编译运行选项</span>
       </h2>
 
       <div className="space-y-3.5">
