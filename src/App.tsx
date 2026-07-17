@@ -295,26 +295,7 @@ function App() {
     setSelectedIds(syncCompositesAndConflicts(nextSet, selectedCore));
   };
 
-  // "全选兼容组合" Action
-  const handleSelectAllCompatibleComposites = () => {
-    const nextSet = new Set(selectedIds);
-
-    // We scan all composites (except zk+zks full package to let individual zk/zks form, or we can check zk_zks directly)
-    // Find all composites that are compatible
-    const composites = EXTENSIONS.filter(ext => ext.isComposite);
-
-    composites.forEach(comp => {
-      // Check if this composite is disabled
-      const reason = isExtensionDisabled(comp.id, nextSet, selectedCore);
-      if (!reason) {
-        // If compatible, recursively add all its components
-        recursiveAdd(comp.id, nextSet);
-      }
-    });
-
-    setSelectedIds(syncCompositesAndConflicts(nextSet, selectedCore));
-  };
-
+  
   const handleReset = () => {
     setSelectedCore(defaultCore);
     const initialSet = new Set<string>();
@@ -359,7 +340,7 @@ function App() {
               </div>
               <div>
                 <h1 className="text-base font-bold tracking-tight text-slate-900 m-0 leading-tight">
-                  Nuclei RISC-V 编译参数生成器
+                  Nuclei RISC-V CPU 扩展选择器
                 </h1>
                 <p className="text-[10px] text-slate-500 mt-0.5">
                   选择 CPU Core 与支持的扩展，自动进行依赖校验、冲突解决与复合扩展折叠
@@ -393,18 +374,12 @@ function App() {
                 {/* Quick Actions Row */}
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={handleSelectAllCompatibleComposites}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-semibold bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 active:bg-indigo-800 transition-colors shadow-sm whitespace-nowrap"
-                  >
-                    一键全选兼容组合扩展
-                  </button>
-                  <button
                     onClick={handleClearAll}
                     className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-semibold bg-white border border-slate-300 text-slate-600 rounded-lg hover:bg-slate-50 transition-colors shadow-sm whitespace-nowrap"
                   >
                     清除选中扩展
                   </button>
-                  <span className="text-[10px] text-slate-400">自动扫描并勾选所有当前 Core 支持的组合扩展</span>
+                  <span className="text-[10px] text-slate-400">清除所有扩展勾选，仅保留 CORE 自带的 C 扩展</span>
                 </div>
 
                 {/* Category Nav Links */}

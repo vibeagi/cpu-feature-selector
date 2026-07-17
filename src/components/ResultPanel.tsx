@@ -33,7 +33,8 @@ export const ResultPanel: React.FC<ResultPanelProps> = ({
     });
   };
 
-  const fullCommand = `-march=${march} -mabi=${mabi}`;
+  const mtune = selectedCore ? `-mtune=${selectedCore.series}` : '';
+  const fullCommand = `-march=${march} -mabi=${mabi} ${mtune}`;
 
   // Compute ARCH_EXT: everything after the base arch prefix, prefixed with _
   const archExt = useMemo(() => {
@@ -71,6 +72,13 @@ export const ResultPanel: React.FC<ResultPanelProps> = ({
           <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">应用二进制接口 (-mabi)</span>
           <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 font-mono text-sm text-slate-700 shadow-inner">
             -mabi={mabi}
+          </div>
+        </div>
+
+        <div className="space-y-1">
+          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">微架构优化 (-mtune)</span>
+          <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 font-mono text-sm text-slate-700 shadow-inner">
+            {mtune}
           </div>
         </div>
 
