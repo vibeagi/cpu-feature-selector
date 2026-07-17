@@ -1,0 +1,392 @@
+[
+  {
+    "name": "zicntr",
+    "description": "Extensions for Counters",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/counters.html#7-1-1-zicntr-extension-for-base-counters-and-timers"
+  },
+  {
+    "name": "zihpm",
+    "description": "Extensions for Counters",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/counters.html#7-1-2-zihpm-extension-for-hardware-performance-counters"
+  },
+  {
+    "name": "zihintntl",
+    "description": "Extension for Non-Temporal Locality Hints",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zihintntl.html"
+  },
+  {
+    "name": "zihintpause",
+    "description": "Extension for Pause Hint",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/rationale.html#zihintpause-extension-for-pause-hint"
+  },
+  {
+    "name": "zmmul",
+    "description": "Zmmul Extension - multiplication subset of the M extension (MUL, MULH, MULHU, MULHSU, MULW for RV64)",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/m-st-ext.html#12-1-3-zmmul-extension-version-1-0"
+  },
+  {
+    "name": "zimop",
+    "description": "Extension for May-Be-Operations",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zimop.html"
+  },
+  {
+    "name": "zicond",
+    "description": "Extension for Integer Conditional Operations",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zicond.html"
+  },
+  {
+    "name": "zicbom",
+    "description": "Cache-block Management",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html"
+  },
+  {
+    "name": "zicbop",
+    "description": "Cache-block Prefetch",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html"
+  },
+  {
+    "name": "zicboz",
+    "description": "Cache-block Zero",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html"
+  },
+  {
+    "name": "zfh",
+    "description": "Extensions for Half-Precision Floating-Point",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfh.html"
+  },
+  {
+    "name": "zfhmin",
+    "description": "Extensions for Half-Precision Floating-Point",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfh.html#half-pr-flt-class"
+  },
+  {
+    "name": "zfbfmin",
+    "description": "Scalar BF16 Minimum",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/bfloat16.html#zfbfmin"
+  },
+  {
+    "name": "zvfbfmin",
+    "description": "Vector BF16 Minimum",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/bfloat16.html#zvfbfmin"
+  },
+  {
+    "name": "zvfbfwma",
+    "description": "Vector BF16 Widening Multiply-Add",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/bfloat16.html#zvfbfwma"
+  },
+  {
+    "name": "zfa",
+    "description": "Extension for Additional Floating-Point Instructions",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfa.html"
+  },
+  {
+    "name": "zfinx",
+    "description": "Extensions for Floating-Point in Integer Registers",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html#sec:zfinx"
+  },
+  {
+    "name": "zdinx",
+    "description": "Extensions for Floating-Point in Integer Registers",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html#27-1-2-zdinx"
+  },
+  {
+    "name": "zhinx",
+    "description": "Extensions for Floating-Point in Integer Registers",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html#27-1-4-zhinx"
+  },
+  {
+    "name": "zhinxmin",
+    "description": "Extensions for Floating-Point in Integer Registers",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html#27-1-5-zhinxmin"
+  },
+  {
+    "name": "zca",
+    "description": "Compressed Integer",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#29-1-5-zca"
+  },
+  {
+    "name": "zcb",
+    "description": "Simple Code-Size Saving Instructions",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#29-1-8-zcb"
+  },
+  {
+    "name": "zcd",
+    "description": "Compressed Double FP",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#29-1-7-zcd"
+  },
+  {
+    "name": "zcf",
+    "description": "Compressed Single FP",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#29-1-6-zcf-rv32-only"
+  },
+  {
+    "name": "zcmp",
+    "description": "Compressed Push/Pop",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#Zcmp"
+  },
+  {
+    "name": "zcmt",
+    "description": "Compressed Table Jump",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#Zcmt"
+  },
+  {
+    "name": "zce",
+    "description": "Zce - All Zc Extensions for Microcontrollers",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#29-1-3-zce"
+  },
+  {
+    "name": "zba",
+    "description": "Address Generation",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/b-st-ext.html#zba"
+  },
+  {
+    "name": "zbb",
+    "description": "Basic Bit-Manipulation",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/b-st-ext.html#zbb"
+  },
+  {
+    "name": "zbc",
+    "description": "Carry-less Multiplication",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/b-st-ext.html#zbc"
+  },
+  {
+    "name": "zbs",
+    "description": "Single-bit Instructions",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/b-st-ext.html#zbs"
+  },
+  {
+    "name": "b",
+    "description": "Extension for Bit Manipulation",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/b-st-ext.html#bits"
+  },
+  {
+    "name": "v",
+    "description": "Standard Extension for Vector Operations",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html"
+  },
+  {
+    "name": "zve32x",
+    "description": "Vector for RV32 without FPU, EEW 8/16/32",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-2-zve-vector-extensions-for-embedded-processors"
+  },
+  {
+    "name": "zve32f",
+    "description": "Vector for RV32 with Single FPU, EEW 8/16/32",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-2-zve-vector-extensions-for-embedded-processors"
+  },
+  {
+    "name": "zve64x",
+    "description": "Vector without FPU, EEW 8/16/32/64",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-2-zve-vector-extensions-for-embedded-processors"
+  },
+  {
+    "name": "zve64f",
+    "description": "Vector with Single FPU, EEW 8/16/32/64",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-2-zve-vector-extensions-for-embedded-processors"
+  },
+  {
+    "name": "zve64d",
+    "description": "Vector with Double FPU, EEW 8/16/32/64",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-2-zve-vector-extensions-for-embedded-processors"
+  },
+  {
+    "name": "zvl32b",
+    "description": "Vector VLEN 32",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-1-zvl-minimum-vector-length-standard-extensions"
+  },
+  {
+    "name": "zvl64b",
+    "description": "Vector VLEN 64",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-1-zvl-minimum-vector-length-standard-extensions"
+  },
+  {
+    "name": "zvl128b",
+    "description": "Vector VLEN 128",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-1-zvl-minimum-vector-length-standard-extensions"
+  },
+  {
+    "name": "zvl256b",
+    "description": "Vector VLEN 256",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-1-zvl-minimum-vector-length-standard-extensions"
+  },
+  {
+    "name": "zvl512b",
+    "description": "Vector VLEN 512",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-1-zvl-minimum-vector-length-standard-extensions"
+  },
+  {
+    "name": "zvl1024b",
+    "description": "Vector VLEN 1024",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-1-zvl-minimum-vector-length-standard-extensions"
+  },
+  {
+    "name": "zbkb",
+    "description": "Bitmanip instructions for Cryptography",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zbkb-sc"
+  },
+  {
+    "name": "zbkc",
+    "description": "Carry-less multiply instructions for Galois/Counter Mode",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zbkc-sc"
+  },
+  {
+    "name": "zbkx",
+    "description": "Crossbar permutation instructions for SBoxes",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zbkx-sc"
+  },
+  {
+    "name": "zkne",
+    "description": "NIST AES Encryption",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zkne"
+  },
+  {
+    "name": "zknd",
+    "description": "NIST AES Decryption",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zknd"
+  },
+  {
+    "name": "zknh",
+    "description": "NIST Hash Function (SHA-256/SHA-512)",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zknh"
+  },
+  {
+    "name": "zksed",
+    "description": "SM4 Block Cipher",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zksed"
+  },
+  {
+    "name": "zksh",
+    "description": "SM3 Hash Function",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zksh"
+  },
+  {
+    "name": "zkr",
+    "description": "Entropy Source",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zkr"
+  },
+  {
+    "name": "zkt",
+    "description": "Data-independent execution latency",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#32-1-5-5-zkt-listings"
+  },
+  {
+    "name": "zvbb",
+    "description": "Vector Basic Bit-manipulation",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#33-1-2-15-1-all-zvbb-instructions"
+  },
+  {
+    "name": "zvbc",
+    "description": "Vector Carryless Multiplication",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#33-1-2-15-2-all-zvbc-instructions"
+  },
+  {
+    "name": "zvkb",
+    "description": "Vector Crypto Bit-manipulation",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkb"
+  },
+  {
+    "name": "zvkg",
+    "description": "Vector GCM/GMAC",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkg"
+  },
+  {
+    "name": "zvkned",
+    "description": "Vector AES Encryption/Decryption",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkned"
+  },
+  {
+    "name": "zvknha",
+    "description": "Vector SHA-256 Hash Function",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html"
+  },
+  {
+    "name": "zvknhb",
+    "description": "Vector SHA-512 Hash Function",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#crypto-vector-element-groups"
+  },
+  {
+    "name": "zvkn",
+    "description": "Vector NIST Suite",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkn"
+  },
+  {
+    "name": "zvknc",
+    "description": "Vector NIST with carryless",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvknc"
+  },
+  {
+    "name": "zvkng",
+    "description": "Vector NIST with GCM",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkng"
+  },
+  {
+    "name": "zvksed",
+    "description": "Vector SM4",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvksed"
+  },
+  {
+    "name": "zvksh",
+    "description": "Vector SM3",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvksh"
+  },
+  {
+    "name": "zvks",
+    "description": "Vector ShangMi Suite",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvks"
+  },
+  {
+    "name": "zvksc",
+    "description": "Vector ShangMi with carryless",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvksc"
+  },
+  {
+    "name": "zvksg",
+    "description": "Vector ShangMi with GCM",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvksg"
+  },
+  {
+    "name": "zvkt",
+    "description": "Vector data-independent latency",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkt"
+  },
+  {
+    "name": "zicfilp",
+    "description": "Landing Pad for Control-flow Integrity",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/unpriv-cfi.html#unpriv-forward"
+  },
+  {
+    "name": "zicfiss",
+    "description": "Shadow Stack for Control-flow Integrity",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/unpriv-cfi.html#34-1-2-3-zicfiss-instructions"
+  },
+  {
+    "name": "zilsd",
+    "description": "Extensions for Load/Store pair for RV32",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zilsd.html"
+  },
+  {
+    "name": "zclsd",
+    "description": "Compressed Load/Store pair for RV32",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zilsd.html"
+  },
+  {
+    "name": "zicsr",
+    "description": "Control and Status Register",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zicsr.html"
+  },
+  {
+    "name": "zifencei",
+    "description": "Instruction-Fetch Fence",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zifencei.html"
+  },
+  {
+    "name": "ztso",
+    "description": "Total Store Ordering",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/ztso-st-ext.html#ztso"
+  },
+  {
+    "name": "zawrs",
+    "description": "Wait-on-Reservation-Set",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zawrs.html"
+  }
+]
