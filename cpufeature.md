@@ -137,10 +137,10 @@ Format: `CORE_NAME = arch abi series`
 ### 10. BF16 浮点扩展
 
 - `zfbfmin` — Scalar BF16 Converts (depends on F)
-- `zvfbfmin` — Vector BF16 Converts (requires Vector >= zve32f)
+- `zvfbfmin` — Vector BF16 Converts (requires Vector with float: zve32f/zve64f/zve64d/v)
 - `zvfbfwma` — Vector BF16 widening mul-add (depends on Zfbfmin + Zvfbfmin)
 - `xxlfbf` — Nuclei Customized BF16 (depends on F)
-- `xxlvfbf` — Nuclei Customized Vector BF16 (requires Vector >= zve32f)
+- `xxlvfbf` — Nuclei Customized Vector BF16 (requires Vector with float: zve32f/zve64f/zve64d/v)
 
 ### 11. Load/Store Pair (RV32 only, 300/600/900/1000)
 
