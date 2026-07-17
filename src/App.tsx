@@ -422,20 +422,22 @@ function App() {
         </div>
       </div>
 
-      {/* SCROLLABLE: Main Content Area */}
-      <div className="flex-1 max-w-7xl w-full mx-auto px-4 md:px-6 py-6 grid grid-cols-1 lg:grid-cols-4 gap-6 overflow-y-auto">
-        {/* Left: Extensions */}
-        <div className="lg:col-span-3">
-          <ExtensionGroup
-            selectedCore={selectedCore}
-            selectedIds={selectedIds}
-            onToggleExtension={handleToggleExtension}
-            onSelectAllCategory={handleSelectAllCategory}
-          />
+      {/* SCROLLABLE: Extensions Area + Fixed Results Panel */}
+      <div className="flex-1 flex flex-row overflow-hidden">
+        {/* Left: Extensions (scrollable) */}
+        <div className="flex-1 overflow-y-auto px-4 md:px-6 py-6">
+          <div className="max-w-7xl mx-auto">
+            <ExtensionGroup
+              selectedCore={selectedCore}
+              selectedIds={selectedIds}
+              onToggleExtension={handleToggleExtension}
+              onSelectAllCategory={handleSelectAllCategory}
+            />
+          </div>
         </div>
 
-        {/* Right: Results Panel (sticky) */}
-        <div className="lg:col-span-1">
+        {/* Right: Results Panel (fixed) */}
+        <div className="w-[360px] flex-shrink-0 border-l border-slate-200 bg-white overflow-y-auto p-4 md:p-5">
           <div className="sticky top-4">
             <ResultPanel
               march={march}
