@@ -9,8 +9,6 @@ interface ExtensionGroupProps {
   selectedCore: CpuCore;
   selectedIds: Set<string>;
   onToggleExtension: (id: string) => void;
-  onZcAllSelect: () => void;
-  onZcClear: () => void;
   onSelectAllCategory: (catId: string) => void;
 }
 
@@ -20,8 +18,6 @@ export const ExtensionGroup: React.FC<ExtensionGroupProps> = ({
   selectedCore,
   selectedIds,
   onToggleExtension,
-  onZcAllSelect,
-  onZcClear,
   onSelectAllCategory,
 }) => {
 
@@ -128,15 +124,7 @@ export const ExtensionGroup: React.FC<ExtensionGroupProps> = ({
               </div>
 
               <div className="flex gap-1">
-                {category.id === 'zc' && (
-                  <>
-                    <button onClick={(e) => { e.stopPropagation(); onZcAllSelect(); }}
-                      className="px-2 py-0.5 text-[10px] font-semibold bg-indigo-50 text-indigo-600 border border-indigo-200 rounded hover:bg-indigo-100 transition-colors shadow-sm">按核心自动全选</button>
-                    <button onClick={(e) => { e.stopPropagation(); onZcClear(); }}
-                      className="px-2 py-0.5 text-[10px] font-semibold bg-slate-50 text-slate-500 border border-slate-200 rounded hover:bg-slate-100 transition-colors shadow-sm">清空</button>
-                  </>
-                )}
-                {CATEGORIES_WITH_ALL_SELECT.includes(category.id) && (
+                {(CATEGORIES_WITH_ALL_SELECT.includes(category.id) || category.id === 'zc') && (
                   <button onClick={(e) => { e.stopPropagation(); onSelectAllCategory(category.id); }}
                     className="px-2 py-0.5 text-[10px] font-semibold bg-indigo-50 text-indigo-600 border border-indigo-200 rounded hover:bg-indigo-100 transition-colors shadow-sm">全选</button>
                 )}

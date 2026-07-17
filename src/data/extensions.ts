@@ -81,7 +81,7 @@ export const EXTENSIONS: Extension[] = [
   // 9. BF16
   { id: 'zfbfmin', name: 'Zfbfmin', category: 'bf16', description: 'Scalar BF16 Converts', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['f'], type: 'standard' },
   { id: 'zvfbfmin', name: 'Zvfbfmin', category: 'bf16', description: 'Vector BF16 Converts (requires Vector >= zve32f)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], type: 'standard' },
-  { id: 'zvfbfwma', name: 'Zvfbfwma', category: 'bf16', description: 'Vector BF16 widening mul-add (requires Vector >= zve32f + Zfbfmin)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnExtensions: ['zfbfmin'], type: 'standard' },
+  { id: 'zvfbfwma', name: 'Zvfbfwma', category: 'bf16', description: 'Vector BF16 widening mul-add (requires Zvfbfmin + Zfbfmin)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnExtensions: ['zfbfmin', 'zvfbfmin'], type: 'standard' },
   { id: 'xxlfbf', name: 'Xxlfbf', category: 'bf16', description: 'Nuclei Customized BF16 extension', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['f'], type: 'custom' },
   { id: 'xxlvfbf', name: 'Xxlvfbf', category: 'bf16', description: 'Nuclei Customized Vector BF16 extension (requires Vector >= zve32f)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], type: 'custom' },
 

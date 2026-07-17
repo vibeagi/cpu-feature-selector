@@ -305,54 +305,6 @@ function App() {
     setSelectedIds(syncCompositesAndConflicts(nextSet, selectedCore));
   };
 
-  // Shortcut for Zc All Select
-  const handleZcAllSelect = () => {
-    const nextSet = new Set(selectedIds);
-    const baseArch = selectedCore.arch.toLowerCase();
-    const isRV32 = baseArch.startsWith('rv32');
-    const hasF = baseArch.includes('f');
-    const hasD = baseArch.includes('d');
-
-    nextSet.delete('zclsd');
-
-    // Per 29.1.4: when D is specified, C = Zca + Zcd (excludes Zcmp/Zcmt)
-    if (hasD) {
-      nextSet.add('zca');
-      nextSet.add('zcd');
-      nextSet.delete('zcmp');
-      nextSet.delete('zcmt');
-    } else {
-      nextSet.add('zca');
-      nextSet.add('zcb');
-      nextSet.add('zcmp');
-      nextSet.add('zcmt');
-    }
-
-    if (isRV32 && (hasF || hasD)) {
-      nextSet.add('zcf');
-    } else {
-      nextSet.delete('zcf');
-    }
-
-    setSelectedIds(syncCompositesAndConflicts(nextSet, selectedCore));
-  };
-
-  // Shortcut for Zc Clear
-  const handleZcClear = () => {
-    const nextSet = new Set(selectedIds);
-    nextSet.delete('ext_c');
-    nextSet.delete('ext_zce');
-    nextSet.delete('zca');
-    nextSet.delete('zcb');
-    nextSet.delete('zcmp');
-    nextSet.delete('zcmt');
-    nextSet.delete('zcf');
-    nextSet.delete('zcd');
-    nextSet.delete('xxlcz');
-
-    setSelectedIds(syncCompositesAndConflicts(nextSet, selectedCore));
-  };
-
   // "全选分类" Action
   const handleSelectAllCategory = (catId: string) => {
     const nextSet = new Set(selectedIds);
@@ -536,8 +488,6 @@ function App() {
             selectedCore={selectedCore}
             selectedIds={selectedIds}
             onToggleExtension={handleToggleExtension}
-            onZcAllSelect={handleZcAllSelect}
-            onZcClear={handleZcClear}
             onSelectAllCategory={handleSelectAllCategory}
           />
         </div>
