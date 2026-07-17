@@ -487,8 +487,8 @@ export function buildMarchString(
   for (const id of baseSelected) {
     const ext = EXTENSIONS.find(e => e.id === id);
     if (!ext) continue;
-    // Skip composites except zfh (zfh is a real extension name that must appear in march string)
-    if (ext.isComposite && ext.id !== 'zfh') continue;
+    // Skip composites (they are not real march extension names)
+    if (ext.isComposite) continue;
     // Standard 'v' is already merged into baseArch, don't output as _v
     if (id === 'v') continue;
 

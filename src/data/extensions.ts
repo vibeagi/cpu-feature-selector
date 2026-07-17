@@ -75,7 +75,7 @@ export const EXTENSIONS: Extension[] = [
   { id: 'zihintntl', name: 'Zihintntl', category: 'zihint', description: 'Non-Temporal Locality Hints, Version 1.0', supportedSeries: ['nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], type: 'standard' },
 
   // 8. Float (Half precision & Zfa)
-  { id: 'zfh', name: 'Zfh', category: 'float', description: 'Standard Half-Precision Floating-Point (includes Zfhmin)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['f'], type: 'standard', isComposite: true, components: ['zfhmin'] },
+  { id: 'zfh', name: 'Zfh', category: 'float', description: 'Standard Half-Precision Floating-Point (includes Zfhmin)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['f'], type: 'standard' },
   { id: 'zfhmin', name: 'Zfhmin', category: 'float', description: 'Minimal Half-Precision Floating-Point', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['f'], type: 'standard' },
   { id: 'zfa', name: 'Zfa', category: 'float', description: 'Additional Floating-Point Instructions v1.0', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['f'], type: 'standard' },
 

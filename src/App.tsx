@@ -273,6 +273,9 @@ function App() {
         nextSet.delete('zcd');
       }
 
+      // Zfh → Zfhmin auto-include (Zfh includes Zfhmin)
+      if (id === 'zfh') nextSet.add('zfhmin');
+
       // Zfinx+ mutually exclusive with standard float/F/D/Zfa/BF16
       const floatIntIds = ['zfinx', 'ext_zdinx', 'ext_zhinx', 'zhinxmin'];
       const floatStdIds = ['zfh', 'zfhmin', 'zfa', 'zfbfmin'];

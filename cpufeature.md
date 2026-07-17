@@ -126,7 +126,7 @@ Format: `CORE_NAME = arch abi series`
 
 ### 9. F16+Zfa 浮点与半精度扩展
 
-- `zfh` — Standard Half-Precision Floating-Point (includes Zfhmin)
+- `zfh` — Standard Half-Precision Floating-Point (auto-includes Zfhmin)
 - `zfhmin` — Minimal Half-Precision Floating-Point
 - `zfa` — Additional Floating-Point Instructions
 
