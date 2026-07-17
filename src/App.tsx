@@ -147,6 +147,21 @@ function App() {
 
         // If the composite itself is checked, make sure all its components are checked
         if (nextSet.has(ext.id)) {
+          // C composite: also conditionally add zcf (RV32+F) and zcd (D)
+          if (ext.id === 'ext_c') {
+            if (core.arch.toLowerCase().startsWith('rv32') && core.arch.toLowerCase().includes('f')) {
+              if (!nextSet.has('zcf')) { nextSet.add('zcf'); changed = true; }
+            }
+            if (core.arch.toLowerCase().includes('d')) {
+              if (!nextSet.has('zcd')) { nextSet.add('zcd'); changed = true; }
+            }
+          }
+          // Zce composite: conditionally add zcf (RV32+F)
+          if (ext.id === 'ext_zce') {
+            if (core.arch.toLowerCase().startsWith('rv32') && core.arch.toLowerCase().includes('f')) {
+              if (!nextSet.has('zcf')) { nextSet.add('zcf'); changed = true; }
+            }
+          }
           for (const compId of ext.components) {
             if (!nextSet.has(compId)) {
               nextSet.add(compId);

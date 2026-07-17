@@ -127,6 +127,23 @@ export function getExtensionDisabledReason(
     }
   }
 
+  // 9. Composite conflict check: if a composite's component conflicts with selectedIds, disable the composite
+  if (ext.isComposite && ext.components) {
+    for (const compId of ext.components) {
+      const compExt = EXTENSIONS.find(e => e.id === compId);
+      if (!compExt) continue;
+      // Check if component has a conflict with selectedIds
+      if (compExt.conflictsWith) {
+        for (const conflictId of compExt.conflictsWith) {
+          if (selectedIds.has(conflictId)) {
+            const conflictExt = EXTENSIONS.find(e => e.id === conflictId);
+            return `组件 ${compExt.name} 与 ${conflictExt?.name || conflictId} 冲突`;
+          }
+        }
+      }
+    }
+  }
+
   return null;
 }
 
