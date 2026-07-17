@@ -271,7 +271,7 @@ export function buildMarchString(
   // Composite checks:
   // zk = zkn + zkr + zkt = (zbkb+zbkc+zbkx+zknd+zkne+zknh) + zkr + zkt
   // zks = zbkb+zbkc+zbkx+zksed+zksh
-  // If zk and zks are both fully selected (or ext_zk_zks is selected) -> output zk, zks
+  // If zk and zks are both fully selected -> output zk, zks
   // If zk is fully selected -> output zk
   // If zkn and zks are fully selected -> output zkn, zks
   // If zkn is fully selected -> output zkn
@@ -279,7 +279,7 @@ export function buildMarchString(
 
   const cryptoOutput: string[] = [];
   const cryptoPool = new Set(Array.from(nonDspSelected).filter(id =>
-    ['zbkb', 'zbkc', 'zbkx', 'zknd', 'zkne', 'zknh', 'zksed', 'zksh', 'zkr', 'zkt', 'ext_zk_zks', 'ext_zk', 'ext_zkn', 'ext_zks'].includes(id)
+    ['zbkb', 'zbkc', 'zbkx', 'zknd', 'zkne', 'zknh', 'zksed', 'zksh', 'zkr', 'zkt', 'ext_zk', 'ext_zkn', 'ext_zks'].includes(id)
   ));
 
   // Determine if composite segments are selected
@@ -347,7 +347,7 @@ export function buildMarchString(
   }
 
   // Remove all scalar crypto components/composites from general pool
-  const cryptoIds = ['zbkb', 'zbkc', 'zbkx', 'zknd', 'zkne', 'zknh', 'zksed', 'zksh', 'zkr', 'zkt', 'ext_zk_zks', 'ext_zk', 'ext_zkn', 'ext_zks'];
+  const cryptoIds = ['zbkb', 'zbkc', 'zbkx', 'zknd', 'zkne', 'zknh', 'zksed', 'zksh', 'zkr', 'zkt', 'ext_zk', 'ext_zkn', 'ext_zks'];
   const remainingSelected = new Set(Array.from(nonDspSelected).filter(id => !cryptoIds.includes(id)));
 
   // 7. Fold Vector Crypto Extensions:

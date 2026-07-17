@@ -42,10 +42,10 @@ export const EXTENSIONS: Extension[] = [
   { id: 'ext_zce', name: 'Zce 扩展', category: 'zc', description: 'Zce 组合 (RV32: Zca+Zcb+Zcmp+Zcmt±Zcf; RV64: Zca+Zcb+Zcmp+Zcmt)', supportedSeries: [], type: 'standard', isComposite: true, components: ['zca', 'zcb', 'zcmp', 'zcmt'] },
   { id: 'zca', name: 'Zca', category: 'zc', description: 'Zc Base compressed instructions for integer (implied by C)', supportedSeries: [], type: 'standard' },
   { id: 'zcb', name: 'Zcb', category: 'zc', description: 'Zc Extension for additional simple compressed instructions', supportedSeries: [], type: 'standard', dependsOnExtensions: ['zca'] },
+  { id: 'zcf', name: 'Zcf', category: 'zc', description: 'Zc Extension for RV32 float load/store compressed instructions (implied by C+F on RV32)', supportedSeries: [], dependsOnArch: ['f'], dependsOnExtensions: ['zca'], conflictsWith: ['zclsd'], type: 'standard' },
+  { id: 'zcd', name: 'Zcd', category: 'zc', description: 'Zc Extension for double-precision float load/store compressed instructions (implied by C+D)', supportedSeries: [], dependsOnArch: ['d'], dependsOnExtensions: ['zca'], conflictsWith: ['zcmp', 'zcmt'], type: 'standard' },
   { id: 'zcmp', name: 'Zcmp', category: 'zc', description: 'Zc Extension for push/pop and double move compressed instructions', supportedSeries: [], type: 'standard', dependsOnExtensions: ['zca'], conflictsWith: ['zcd'] },
   { id: 'zcmt', name: 'Zcmt', category: 'zc', description: 'Zc Extension for table jump compressed instructions', supportedSeries: [], type: 'standard', dependsOnExtensions: ['zca'], conflictsWith: ['zcd'] },
-  { id: 'zcd', name: 'Zcd', category: 'zc', description: 'Zc Extension for double-precision float load/store compressed instructions (implied by C+D)', supportedSeries: [], dependsOnArch: ['d'], dependsOnExtensions: ['zca'], conflictsWith: ['zcmp', 'zcmt'], type: 'standard' },
-  { id: 'zcf', name: 'Zcf', category: 'zc', description: 'Zc Extension for RV32 float load/store compressed instructions (implied by C+F on RV32)', supportedSeries: [], dependsOnArch: ['f'], dependsOnExtensions: ['zca'], conflictsWith: ['zclsd'], type: 'standard' },
   { id: 'xxlcz', name: 'Xxlcz', category: 'zc', description: 'Nuclei Customized XLCZ ISA Extension', supportedSeries: ['nuclei-200-series', 'nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series'], type: 'custom' },
 
   // 2. Bit-Manipulation
@@ -80,10 +80,10 @@ export const EXTENSIONS: Extension[] = [
 
   // 9. BF16
   { id: 'zfbfmin', name: 'Zfbfmin', category: 'bf16', description: 'Scalar BF16 Converts', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['f'], type: 'standard' },
-  { id: 'zvfbfmin', name: 'Zvfbfmin', category: 'bf16', description: 'Vector BF16 Converts', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnExtensions: ['zve32f'], type: 'standard' },
-  { id: 'zvfbfwma', name: 'Zvfbfwma', category: 'bf16', description: 'Vector BF16 widening mul-add', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnExtensions: ['zfbfmin', 'zvfbfmin'], type: 'standard' },
+  { id: 'zvfbfmin', name: 'Zvfbfmin', category: 'bf16', description: 'Vector BF16 Converts (requires Vector >= zve32f)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], type: 'standard' },
+  { id: 'zvfbfwma', name: 'Zvfbfwma', category: 'bf16', description: 'Vector BF16 widening mul-add (requires Vector >= zve32f + Zfbfmin)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnExtensions: ['zfbfmin'], type: 'standard' },
   { id: 'xxlfbf', name: 'Xxlfbf', category: 'bf16', description: 'Nuclei Customized BF16 extension', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['f'], type: 'custom' },
-  { id: 'xxlvfbf', name: 'Xxlvfbf', category: 'bf16', description: 'Nuclei Customized Vector BF16 extension', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnExtensions: ['zve32f'], type: 'custom' },
+  { id: 'xxlvfbf', name: 'Xxlvfbf', category: 'bf16', description: 'Nuclei Customized Vector BF16 extension (requires Vector >= zve32f)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], type: 'custom' },
 
   // 10. Load/Store pair (RV32 only)
   { id: 'zilsd', name: 'Zilsd', category: 'loadstore', description: 'Standard Load/Store pair for RV32', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], type: 'standard' },
@@ -100,7 +100,6 @@ export const EXTENSIONS: Extension[] = [
   { id: 'xxldspn3x', name: 'Xxldspn3x', category: 'dsp', description: 'Nuclei Customized DSP Level 3 (includes Level 2)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['m'], type: 'custom' },
 
   // 13. Scalar Crypto
-  { id: 'ext_zk_zks', name: '全选 (zk+zks)', category: 'crypto-scalar', description: '全选所有的 Scalar Crypto 扩展', supportedSeries: ['nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['a', 'm'], type: 'standard', isComposite: true, components: ['ext_zk', 'ext_zks'] },
   { id: 'ext_zk', name: 'Zk 组合', category: 'crypto-scalar', description: 'Standard Scalar Cryptography composite (zkn + zkr + zkt)', supportedSeries: ['nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['a', 'm'], type: 'standard', isComposite: true, components: ['ext_zkn', 'zkr', 'zkt'] },
   { id: 'ext_zkn', name: 'Zkn 组合', category: 'crypto-scalar', description: 'NIST Algorithm Suite composite (zbkb+zbkc+zbkx+zknd+zkne+zknh)', supportedSeries: ['nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['a', 'm'], type: 'standard', isComposite: true, components: ['zbkb', 'zbkc', 'zbkx', 'zknd', 'zkne', 'zknh'] },
   { id: 'ext_zks', name: 'Zks 组合', category: 'crypto-scalar', description: 'ShangMi Algorithm Suite composite (zbkb+zbkc+zbkx+zksed+zksh)', supportedSeries: ['nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['a', 'm'], type: 'standard', isComposite: true, components: ['zbkb', 'zbkc', 'zbkx', 'zksed', 'zksh'] },
