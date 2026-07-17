@@ -36,7 +36,7 @@ This specification describes the requirements and technical design for the CPU C
 - March folding: zdinx→zdinx, zhinx→zhinx, zhinxmin→zhinxmin, else zfinx
 
 #### F16+Zfa (300/600/900/1000, depends on F)
-- Zfh (includes Zfhmin by depends/auto-include), Zfhmin, Zfa
+- Zfhmin (prerequisite), Zfh (depends on Zfhmin), Zfa
 - March: if Zfh selected → suppress Zfhmin output
 
 #### BF16 (300/600/900/1000)
