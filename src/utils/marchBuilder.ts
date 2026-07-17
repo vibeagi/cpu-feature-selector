@@ -128,10 +128,6 @@ export function getExtensionDisabledReason(
   }
 
   // 9a. Zfinx+ extensions are mutually exclusive with standard float/f16/zfa/bf16
-  // Zfh locks Zfhmin when selected
-  if (extId === 'zfhmin' && selectedIds.has('zfh')) {
-    return '已由 Zfh 自动包含，无法单独取消';
-  }
   if (ext.category === 'float-int') {
     const floatConflictIds = ['zfh', 'zfhmin', 'zfa', 'zfbfmin'];
     const hasFloatConflict = floatConflictIds.some(id => selectedIds.has(id) || baseArch.includes('f') || baseArch.includes('d'));
