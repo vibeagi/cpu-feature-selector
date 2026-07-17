@@ -14,6 +14,15 @@ interface ExtensionInfo {
 
 const extInfoMap = new Map<string, ExtensionInfo>();
 (EXTENSION_INFO as ExtensionInfo[]).forEach(e => extInfoMap.set(e.name, e));
+// Map ext_ prefixed IDs to their base names for composite extensions
+const extIdToInfoName: Record<string, string> = {
+  'ext_zk': 'zk', 'ext_zkn': 'zkn', 'ext_zks': 'zks',
+  'ext_zvkn': 'zvkn', 'ext_zvknc': 'zvknc', 'ext_zvkng': 'zvkng',
+  'ext_zvks': 'zvks', 'ext_zvksc': 'zvksc', 'ext_zvksg': 'zvksg',
+  'ext_b': 'b',
+  'ext_c': 'zca', 'ext_zce': 'zce',
+  'ext_zdinx': 'zdinx', 'ext_zhinx': 'zhinx',
+};
 
 interface ExtensionGroupProps {
   selectedCore: CpuCore;
@@ -45,7 +54,8 @@ export const ExtensionGroup: React.FC<ExtensionGroupProps> = ({
     const isChecked = selectedIds.has(ext.id);
     const parentName = getParentCompositeId(ext.id);
     const isPassivelyChecked = isChecked && parentName !== null;
-    const info = extInfoMap.get(ext.name) || extInfoMap.get(ext.id);
+    const infoName = extIdToInfoName[ext.id] || ext.name;
+    const info = extInfoMap.get(ext.name) || extInfoMap.get(infoName) || extInfoMap.get(ext.id);
 
     let labelClass = "text-xs font-semibold transition-colors ";
     let containerClass = "relative flex items-start p-2 rounded-lg border transition-all select-none ";
