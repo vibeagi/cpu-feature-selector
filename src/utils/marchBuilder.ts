@@ -496,7 +496,16 @@ export function buildMarchString(
   }
 
   // Deduplicate and sort standard 'z' extensions alphabetically
-  const uniqueStandard = Array.from(new Set(standardExts)).sort((a, b) => a.localeCompare(b));
+  // Zc extensions follow a specific order: zca, zcb, zcf, zcd, zcmp, zcmt
+  const zcOrder = ['zca', 'zcb', 'zcf', 'zcd', 'zcmp', 'zcmt'];
+  const uniqueStandard = Array.from(new Set(standardExts)).sort((a, b) => {
+    const aIdx = zcOrder.indexOf(a);
+    const bIdx = zcOrder.indexOf(b);
+    if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+    if (aIdx !== -1) return -1;
+    if (bIdx !== -1) return 1;
+    return a.localeCompare(b);
+  });
 
   // Deduplicate and sort custom 'x' extensions alphabetically
   const uniqueCustom = Array.from(new Set(customExts)).sort((a, b) => a.localeCompare(b));
