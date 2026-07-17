@@ -1,0 +1,1726 @@
+{ "extensions": [
+    {
+      "name": "zicntr",
+      "description": "Extensions for Counters",
+      "architecture": ["RV32", "RV64"],
+      "category": "ZICNTR",
+      "dependencies": [
+        "zicsr"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/counters.html#7-1-1-zicntr-extension-for-base-counters-and-timers"
+    },
+    {
+      "name": "zicntr",
+      "description": "Extensions for Counters",
+      "architecture": "RV64",
+      "category": "ZICNTR",
+      "dependencies": [
+        "zicsr"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/counters.html#7-1-1-zicntr-extension-for-base-counters-and-timers"
+    },
+    {
+      "name": "zihpm",
+      "description": "Extensions for Counters",
+      "architecture": "RV32",
+      "category": "ZIHPM",
+      "dependencies": [
+        "zicsr"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/counters.html#7-1-2-zihpm-extension-for-hardware-performance-counters"
+    },
+    {
+      "name": "zihpm",
+      "description": "Extensions for Counters",
+      "architecture": "RV64",
+      "category": "ZIHPM",
+      "dependencies": [
+        "zicsr"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/counters.html#7-1-2-zihpm-extension-for-hardware-performance-counters"
+    },
+    {
+      "name": "zihintntl",
+      "description": "Extension for Non-Temporal Locality Hints",
+      "architecture": "RV32",
+      "category": "ZIHINTNTL",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zihintntl.html"
+    },
+    {
+      "name": "zihintntl",
+      "description": "Extension for Non-Temporal Locality Hints",
+      "architecture": "RV64",
+      "category": "ZIHINTNTL",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zihintntl.html"
+    },
+    {
+      "name": "zihintpause",
+      "description": "Extension for Pause Hint",
+      "architecture": "RV32",
+      "category": "ZIHINTPAUSE",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/rationale.html#zihintpause-extension-for-pause-hint"
+    },
+    {
+      "name": "zihintpause",
+      "description": "Extension for Pause Hint",
+      "architecture": "RV64",
+      "category": "ZIHINTPAUSE",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/rationale.html#zihintpause-extension-for-pause-hint"
+    },
+    {
+      "name": "zmmul",
+      "description": "Zmmul Extension - multiplication subset of the M extension (MUL, MULH, MULHU, MULHSU, MULW for RV64)",
+      "architecture": "RV32",
+      "category": "ZMMUL",
+      "dependencies": [],
+      "conflicts": [
+        
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/m-st-ext.html#12-1-3-zmmul-extension-version-1-0"
+    },
+    {
+      "name": "zmmul",
+      "description": "Zmmul Extension - multiplication subset of the M extension (MUL, MULH, MULHU, MULHSU, MULW for RV64)",
+      "architecture": "RV64",
+      "category": "ZMMUL",
+      "dependencies": [],
+      "conflicts": [
+        
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/m-st-ext.html#12-1-3-zmmul-extension-version-1-0"
+    },
+    {
+      "name": "zimop",
+      "description": "Extension for May-Be-Operations",
+      "architecture": "RV32",
+      "category": "ZIMOP",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zimop.html"
+    },
+    {
+      "name": "zimop",
+      "description": "Extension for May-Be-Operations",
+      "architecture": "RV64",
+      "category": "ZIMOP",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zimop.html"
+    },
+    {
+      "name": "zicond",
+      "description": "Extension for Integer Conditional Operations",
+      "architecture": "RV32",
+      "category": "ZICOND",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zicond.html"
+    },
+    {
+      "name": "zicond",
+      "description": "Extension for Integer Conditional Operations",
+      "architecture": "RV64",
+      "category": "ZICOND",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zicond.html"
+    },
+    {
+      "name": "zicbom",
+      "description": "Cache-block Management",
+      "architecture": "RV32",
+      "category": "ZICBOM",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html"
+    },
+    {
+      "name": "zicbop",
+      "description": "Cache-block Prefetch",
+      "architecture": "RV32",
+      "category": "ZICBOP",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html"
+    },
+    {
+      "name": "zicboz",
+      "description": "Cache-block Zero",
+      "architecture": "RV32",
+      "category": "ZICBOZ",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html"
+    },
+    
+    {
+      "name": "zicbom",
+      "description": "Cache-block Management",
+      "architecture": "RV64",
+      "category": "ZICBOM",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html"
+    },
+    {
+      "name": "zicbop",
+      "description": "Cache-block Prefetch",
+      "architecture": "RV64",
+      "category": "ZICBOP",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html"
+    },
+    {
+      "name": "zicboz",
+      "description": "Cache-block Zero",
+      "architecture": "RV64",
+      "category": "ZICBOZ",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html"
+    },
+    
+    {
+      "name": "zfh",
+      "description": "Extensions for Half-Precision Floating-Point",
+      "architecture": "RV32",
+      "category": "ZFH",
+      "dependencies": [
+        "f"
+      ],
+      "conflicts": [
+        "zdinx",
+        "zfinx"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfh.html"
+    },
+    {
+      "name": "zfh",
+      "description": "Extensions for Half-Precision Floating-Point",
+      "architecture": "RV64",
+      "category": "ZFH",
+      "dependencies": [
+        "f"
+      ],
+      "conflicts": [
+        "zdinx",
+        "zfinx"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfh.html"
+    },
+    {
+      "name": "zfhmin",
+      "description": "Extensions for Half-Precision Floating-Point",
+      "architecture": "RV32",
+      "category": "ZFHMIN",
+      "dependencies": [
+        "f"
+      ],
+      "conflicts": [
+        "zdinx",
+        "zfinx"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfh.html#half-pr-flt-class"
+    },
+    {
+      "name": "zfhmin",
+      "description": "Extensions for Half-Precision Floating-Point",
+      "architecture": "RV64",
+      "category": "ZFHMIN",
+      "dependencies": [
+        "f"
+      ],
+      "conflicts": [
+        "zdinx",
+        "zfinx"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfh.html#half-pr-flt-class"
+    },
+    {
+      "name": "zfbfmin",
+      "description": "Scalar BF16 Minimum",
+      "architecture": "RV32",
+      "category": "BF16",
+      "dependencies": [
+        "f"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/bfloat16.html#zfbfmin"
+    },
+    {
+      "name": "zvfbfmin",
+      "description": "Vector BF16 Minimum",
+      "architecture": "RV32",
+      "category": "BF16",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/bfloat16.html#zvfbfmin"
+    },
+    {
+      "name": "zvfbfwma",
+      "description": "Vector BF16 Widening Multiply-Add",
+      "architecture": "RV32",
+      "category": "BF16",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/bfloat16.html#zvfbfwma"
+    },
+    {
+      "name": "zfbfmin",
+      "description": "Scalar BF16 Minimum",
+      "architecture": "RV64",
+      "category": "BF16",
+      "dependencies": [
+        "f"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/bfloat16.html#zfbfmin"
+    },
+    {
+      "name": "zvfbfmin",
+      "description": "Vector BF16 Minimum",
+      "architecture": "RV64",
+      "category": "BF16",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/bfloat16.html#zvfbfmin"
+    },
+    {
+      "name": "zvfbfwma",
+      "description": "Vector BF16 Widening Multiply-Add",
+      "architecture": "RV64",
+      "category": "BF16",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/bfloat16.html#zvfbfwma"
+    },
+    {
+      "name": "zfa",
+      "description": "Extension for Additional Floating-Point Instructions",
+      "architecture": "RV32",
+      "category": "ZFA",
+      "dependencies": [
+        "f"
+      ],
+      "conflicts": [
+        "zdinx",
+        "zfinx"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfa.html"
+    },
+    {
+      "name": "zfa",
+      "description": "Extension for Additional Floating-Point Instructions",
+      "architecture": "RV64",
+      "category": "ZFA",
+      "dependencies": [
+        "f"
+      ],
+      "conflicts": [
+        "zdinx",
+        "zfinx"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfa.html"
+    },
+    {
+      "name": "zfinx",
+      "description": "Extensions for Floating-Point in Integer Registers",
+      "architecture": "RV32",
+      "category": "ZFINX",
+      "dependencies": [
+        "zicsr"
+      ],
+      "conflicts": [
+        "f",
+        "d",
+        "q",
+        "v",
+        "zcd",
+        "zcf",
+        "zfa",
+        "zfh",
+        "zfhmin",
+        "zve32f",
+        "zve64d",
+        "zve64f",
+        "zvfbfmin",
+        "zvfbfwma",
+        "zvfh",
+        "zvfhmin"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html#sec:zfinx"
+    },
+    {
+      "name": "zfinx",
+      "description": "Extensions for Floating-Point in Integer Registers",
+      "architecture": "RV64",
+      "category": "ZFINX",
+      "dependencies": [
+        "zicsr"
+      ],
+      "conflicts": [
+        "f",
+        "d",
+        "q",
+        "v",
+        "zcd",
+        "zcf",
+        "zfa",
+        "zfh",
+        "zfhmin",
+        "zve32f",
+        "zve64d",
+        "zve64f",
+        "zvfbfmin",
+        "zvfbfwma",
+        "zvfh",
+        "zvfhmin"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html#sec:zfinx"
+    },
+    {
+      "name": "zdinx",
+      "description": "Extensions for Floating-Point in Integer Registers",
+      "architecture": "RV32",
+      "category": "ZDINX",
+      "dependencies": [
+        "zfinx"
+      ],
+      "conflicts": [
+        "f",
+        "d",
+        "q",
+        "v",
+        "zcd",
+        "zcf",
+        "zfa",
+        "zfh",
+        "zfhmin",
+        "zve32f",
+        "zve64d",
+        "zve64f",
+        "zvfbfmin",
+        "zvfbfwma",
+        "zvfh",
+        "zvfhmin"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html#27-1-2-zdinx"
+    },
+    {
+      "name": "zdinx",
+      "description": "Extensions for Floating-Point in Integer Registers",
+      "architecture": "RV64",
+      "category": "ZDINX",
+      "dependencies": [
+        "zfinx"
+      ],
+      "conflicts": [
+        "f",
+        "d",
+        "q",
+        "v",
+        "zcd",
+        "zcf",
+        "zfa",
+        "zfh",
+        "zfhmin",
+        "zve32f",
+        "zve64d",
+        "zve64f",
+        "zvfbfmin",
+        "zvfbfwma",
+        "zvfh",
+        "zvfhmin"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html#27-1-2-zdinx"
+    },
+    {
+      "name": "zhinx",
+      "description": "Extensions for Floating-Point in Integer Registers",
+      "architecture": "RV32",
+      "category": "ZHINX",
+      "dependencies": [
+        "zfinx"
+      ],
+      "conflicts": [
+        "zdinx",
+        "zfinx"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html#27-1-4-zhinx"
+    },
+    {
+      "name": "zhinx",
+      "description": "Extensions for Floating-Point in Integer Registers",
+      "architecture": "RV64",
+      "category": "ZHINX",
+      "dependencies": [
+        "zfinx"
+      ],
+      "conflicts": [
+        "zdinx",
+        "zfinx"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html#27-1-4-zhinx"
+    },
+    {
+      "name": "zhinxmin",
+      "description": "Extensions for Floating-Point in Integer Registers",
+      "architecture": "RV32",
+      "category": "ZHINXMIN",
+      "dependencies": [
+        "zfinx"
+      ],
+      "conflicts": [
+        "zdinx",
+        "zfinx"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html#27-1-5-zhinxmin"
+    },
+    {
+      "name": "zhinxmin",
+      "description": "Extensions for Floating-Point in Integer Registers",
+      "architecture": "RV64",
+      "category": "ZHINXMIN",
+      "dependencies": [
+        "zfinx"
+      ],
+      "conflicts": [
+        "zdinx",
+        "zfinx"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html#27-1-5-zhinxmin"
+    },
+    {
+      "name": "zca",
+      "description": "Compressed Integer",
+      "architecture": "RV32",
+      "category": "ZCA",
+      "dependencies": [
+        "c"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#29-1-5-zca"
+    },
+    {
+      "name": "zca",
+      "description": "Compressed Integer",
+      "architecture": "RV64",
+      "category": "ZCA",
+      "dependencies": [
+        "c"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#29-1-5-zca"
+    },
+    {
+      "name": "zcb",
+      "description": "Simple Code-Size Saving Instructions",
+      "architecture": "RV32",
+      "category": "ZCB",
+      "dependencies": [
+        "c"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#29-1-8-zcb"
+    },
+    {
+      "name": "zcb",
+      "description": "Simple Code-Size Saving Instructions",
+      "architecture": "RV64",
+      "category": "ZCB",
+      "dependencies": [
+        "c"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#29-1-8-zcb"
+    },
+    {
+      "name": "zcd",
+      "description": "Compressed Double FP",
+      "architecture": "RV32",
+      "category": "ZCD",
+      "dependencies": [
+        "c",
+        "d"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#29-1-7-zcd"
+    },
+    {
+      "name": "zcd",
+      "description": "Compressed Double FP",
+      "architecture": "RV64",
+      "category": "ZCD",
+      "dependencies": [
+        "c",
+        "d"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#29-1-7-zcd"
+    },
+    {
+      "name": "zcf",
+      "description": "Compressed Single FP",
+      "architecture": "RV32",
+      "category": "ZCF",
+      "dependencies": [
+        "c",
+        "f"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#29-1-6-zcf-rv32-only"
+    },
+    {
+      "name": "zcmp",
+      "description": "Compressed Push/Pop",
+      "architecture": "RV32",
+      "category": "ZCMP",
+      "dependencies": [
+        "c"
+      ],
+      "conflicts": [
+        "zce"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#Zcmp"
+    },
+    {
+      "name": "zcmp",
+      "description": "Compressed Push/Pop",
+      "architecture": "RV64",
+      "category": "ZCMP",
+      "dependencies": [
+        "c"
+      ],
+      "conflicts": [
+        "zce"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#Zcmp"
+    },
+    {
+      "name": "zcmt",
+      "description": "Compressed Table Jump",
+      "architecture": "RV32",
+      "category": "ZCMT",
+      "dependencies": [
+        "c"
+      ],
+      "conflicts": [
+        "zce"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#Zcmt"
+    },
+    {
+      "name": "zcmt",
+      "description": "Compressed Table Jump",
+      "architecture": "RV64",
+      "category": "ZCMT",
+      "dependencies": [
+        "c"
+      ],
+      "conflicts": [
+        "zce"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#Zcmt"
+    },
+    {
+      "name": "zce",
+      "description": "Zce - All Zc Extensions for Microcontrollers",
+      "architecture": "RV32",
+      "category": "ZC_OTHER",
+      "dependencies": [
+        "c"
+      ],
+      "conflicts": [
+        "zcmp",
+        "zcmt"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#29-1-3-zce"
+    },
+    {
+      "name": "zce",
+      "description": "Zce - All Zc Extensions for Microcontrollers",
+      "architecture": "RV64",
+      "category": "ZC_OTHER",
+      "dependencies": [
+        "c"
+      ],
+      "conflicts": [
+        "zcmp",
+        "zcmt"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#29-1-3-zce"
+    },
+    {
+      "name": "zba",
+      "description": "Address Generation",
+      "architecture": "RV32",
+      "category": "ZBA",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/b-st-ext.html#zba"
+    },
+    {
+      "name": "zba",
+      "description": "Address Generation",
+      "architecture": "RV64",
+      "category": "ZBA",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/b-st-ext.html#zba"
+    },
+    {
+      "name": "zbb",
+      "description": "Basic Bit-Manipulation",
+      "architecture": "RV32",
+      "category": "ZBB",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/b-st-ext.html#zbb"
+    },
+    {
+      "name": "zbb",
+      "description": "Basic Bit-Manipulation",
+      "architecture": "RV64",
+      "category": "ZBB",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/b-st-ext.html#zbb"
+    },
+    {
+      "name": "zbc",
+      "description": "Carry-less Multiplication",
+      "architecture": "RV32",
+      "category": "ZBC",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/b-st-ext.html#zbc"
+    },
+    {
+      "name": "zbc",
+      "description": "Carry-less Multiplication",
+      "architecture": "RV64",
+      "category": "ZBC",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/b-st-ext.html#zbc"
+    },
+    {
+      "name": "zbs",
+      "description": "Single-bit Instructions",
+      "architecture": "RV32",
+      "category": "ZBS",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/b-st-ext.html#zbs"
+    },
+    {
+      "name": "zbs",
+      "description": "Single-bit Instructions",
+      "architecture": "RV64",
+      "category": "ZBS",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/b-st-ext.html#zbs"
+    },
+    {
+      "name": "b",
+      "description": "Extension for Bit Manipulation",
+      "architecture": "RV32",
+      "category": "B",
+      "dependencies": [
+        "zba",
+        "zbb",
+        "zbs"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/b-st-ext.html#bits"
+    },
+    {
+      "name": "b",
+      "description": "Extension for Bit Manipulation",
+      "architecture": "RV64",
+      "category": "B",
+      "dependencies": [
+        "zba",
+        "zbb",
+        "zbc",
+        "zbs"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/b-st-ext.html#bits"
+    },
+    {
+      "name": "v",
+      "description": "Standard Extension for Vector Operations",
+      "architecture": "RV32",
+      "category": "V",
+      "dependencies": [
+        "zve64d"
+      ],
+      "conflicts": [
+        "zdinx",
+        "zfinx"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html"
+    },
+    {
+      "name": "v",
+      "description": "Standard Extension for Vector Operations",
+      "architecture": "RV64",
+      "category": "V",
+      "dependencies": [
+        "zve64d"
+      ],
+      "conflicts": [
+        "zdinx",
+        "zfinx"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html"
+    },
+    {
+      "name": "zve32x",
+      "description": "Vector for RV32 without FPU, EEW 8/16/32",
+      "architecture": "RV32",
+      "category": "ZVE32X",
+      "dependencies": [
+        "zicsr",
+        "zvl32b"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-2-zve-vector-extensions-for-embedded-processors"
+    },
+    {
+      "name": "zve32f",
+      "description": "Vector for RV32 with Single FPU, EEW 8/16/32",
+      "architecture": "RV32",
+      "category": "ZVE32F",
+      "dependencies": [
+        "f",
+        "zve32x"
+      ],
+      "conflicts": [
+        "zdinx",
+        "zfinx"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-2-zve-vector-extensions-for-embedded-processors"
+    },
+    {
+      "name": "zve64x",
+      "description": "Vector without FPU, EEW 8/16/32/64",
+      "architecture": "RV32",
+      "category": "ZVE64X",
+      "dependencies": [
+        "zve32x",
+        "zvl64b"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-2-zve-vector-extensions-for-embedded-processors"
+    },
+    {
+      "name": "zve64f",
+      "description": "Vector with Single FPU, EEW 8/16/32/64",
+      "architecture": "RV32",
+      "category": "ZVE64F",
+      "dependencies": [
+        "f",
+        "zve64x"
+      ],
+      "conflicts": [
+        "zdinx",
+        "zfinx"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-2-zve-vector-extensions-for-embedded-processors"
+    },
+    {
+      "name": "zve64d",
+      "description": "Vector with Double FPU, EEW 8/16/32/64",
+      "architecture": "RV32",
+      "category": "ZVE64D",
+      "dependencies": [
+        "f",
+        "d",
+        "zve64f"
+      ],
+      "conflicts": [
+        "zdinx",
+        "zfinx"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-2-zve-vector-extensions-for-embedded-processors"
+    },
+    {
+      "name": "zve64x",
+      "description": "Vector without FPU, EEW 8/16/32/64",
+      "architecture": "RV64",
+      "category": "ZVE64X",
+      "dependencies": [
+        "zve32x",
+        "zvl64b"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-2-zve-vector-extensions-for-embedded-processors"
+    },
+    {
+      "name": "zve64f",
+      "description": "Vector with Single FPU, EEW 8/16/32/64",
+      "architecture": "RV64",
+      "category": "ZVE64F",
+      "dependencies": [
+        "f",
+        "zve64x"
+      ],
+      "conflicts": [
+        "zdinx",
+        "zfinx"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-2-zve-vector-extensions-for-embedded-processors"
+    },
+    {
+      "name": "zve64d",
+      "description": "Vector with Double FPU, EEW 8/16/32/64",
+      "architecture": "RV64",
+      "category": "ZVE64D",
+      "dependencies": [
+        "f",
+        "d",
+        "zve64f"
+      ],
+      "conflicts": [
+        "zdinx",
+        "zfinx"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-2-zve-vector-extensions-for-embedded-processors"
+    },
+    {
+      "name": "zvl32b",
+      "description": "Vector VLEN 32",
+      "architecture": "RV32",
+      "category": "ZVL",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-1-zvl-minimum-vector-length-standard-extensions"
+    },
+    {
+      "name": "zvl64b",
+      "description": "Vector VLEN 64",
+      "architecture": "RV32",
+      "category": "ZVL",
+      "dependencies": [
+        "zvl32b"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-1-zvl-minimum-vector-length-standard-extensions"
+    },
+    {
+      "name": "zvl128b",
+      "description": "Vector VLEN 128",
+      "architecture": "RV32",
+      "category": "ZVL",
+      "dependencies": [
+        "zvl64b"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-1-zvl-minimum-vector-length-standard-extensions"
+    },
+    {
+      "name": "zvl256b",
+      "description": "Vector VLEN 256",
+      "architecture": "RV32",
+      "category": "ZVL",
+      "dependencies": [
+        "zvl128b"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-1-zvl-minimum-vector-length-standard-extensions"
+    },
+    {
+      "name": "zvl512b",
+      "description": "Vector VLEN 512",
+      "architecture": "RV32",
+      "category": "ZVL",
+      "dependencies": [
+        "zvl256b"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-1-zvl-minimum-vector-length-standard-extensions"
+    },
+    {
+      "name": "zvl1024b",
+      "description": "Vector VLEN 1024",
+      "architecture": "RV32",
+      "category": "ZVL",
+      "dependencies": [
+        "zvl512b"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-1-zvl-minimum-vector-length-standard-extensions"
+    },
+    {
+      "name": "zvl32b",
+      "description": "Vector VLEN 32",
+      "architecture": "RV64",
+      "category": "ZVL",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html"
+    },
+    {
+      "name": "zvl64b",
+      "description": "Vector VLEN 64",
+      "architecture": "RV64",
+      "category": "ZVL",
+      "dependencies": [
+        "zvl32b"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html"
+    },
+    {
+      "name": "zvl128b",
+      "description": "Vector VLEN 128",
+      "architecture": "RV64",
+      "category": "ZVL",
+      "dependencies": [
+        "zvl64b"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-1-zvl-minimum-vector-length-standard-extensions"
+    },
+    {
+      "name": "zvl256b",
+      "description": "Vector VLEN 256",
+      "architecture": "RV64",
+      "category": "ZVL",
+      "dependencies": [
+        "zvl128b"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-1-zvl-minimum-vector-length-standard-extensions"
+    },
+    {
+      "name": "zvl512b",
+      "description": "Vector VLEN 512",
+      "architecture": "RV64",
+      "category": "ZVL",
+      "dependencies": [
+        "zvl256b"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-1-zvl-minimum-vector-length-standard-extensions"
+    },
+    {
+      "name": "zvl1024b",
+      "description": "Vector VLEN 1024",
+      "architecture": "RV64",
+      "category": "ZVL",
+      "dependencies": [
+        "zvl512b"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-1-zvl-minimum-vector-length-standard-extensions"
+    },
+    {
+      "name": "zbkb",
+      "description": "Bitmanip instructions for Cryptography",
+      "architecture": "RV32",
+      "category": "ZBKB",
+      "dependencies": [
+        "zkb"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zbkb-sc"
+    },
+    {
+      "name": "zbkb",
+      "description": "Bitmanip instructions for Cryptography",
+      "architecture": "RV64",
+      "category": "ZBKB",
+      "dependencies": [
+        "zkb"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zbkb-sc"
+    },
+    {
+      "name": "zbkc",
+      "description": "Carry-less multiply instructions for Galois/Counter Mode",
+      "architecture": "RV32",
+      "category": "ZBKC",
+      "dependencies": [
+        "zkc"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zbkc-sc"
+    },
+    {
+      "name": "zbkc",
+      "description": "Carry-less multiply instructions for Galois/Counter Mode",
+      "architecture": "RV64",
+      "category": "ZBKC",
+      "dependencies": [
+        "zkc"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zbkc-sc"
+    },
+    {
+      "name": "zbkx",
+      "description": "Crossbar permutation instructions for SBoxes",
+      "architecture": "RV32",
+      "category": "ZBKX",
+      "dependencies": [
+        "zkx"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zbkx-sc"
+    },
+    {
+      "name": "zbkx",
+      "description": "Crossbar permutation instructions for SBoxes",
+      "architecture": "RV64",
+      "category": "ZBKX",
+      "dependencies": [
+        "zkx"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zbkx-sc"
+    },
+    {
+      "name": "zkne",
+      "description": "NIST AES Encryption",
+      "architecture": "RV32",
+      "category": "ZKNE",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zkne"
+    },
+    {
+      "name": "zknd",
+      "description": "NIST AES Decryption",
+      "architecture": "RV32",
+      "category": "ZKND",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zknd"
+    },
+    {
+      "name": "zknh",
+      "description": "NIST Hash Function (SHA-256/SHA-512)",
+      "architecture": "RV32",
+      "category": "ZKNH",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zknh"
+    },
+    {
+      "name": "zkne",
+      "description": "NIST AES Encryption",
+      "architecture": "RV64",
+      "category": "ZKNE",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zkne"
+    },
+    {
+      "name": "zknd",
+      "description": "NIST AES Decryption",
+      "architecture": "RV64",
+      "category": "ZKND",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zknd"
+    },
+    {
+      "name": "zknh",
+      "description": "NIST Hash Function (SHA-256/SHA-512)",
+      "architecture": "RV64",
+      "category": "ZKNH",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zknh"
+    },
+    {
+      "name": "zksed",
+      "description": "SM4 Block Cipher",
+      "architecture": "RV32",
+      "category": "ZKSED",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zksed"
+    },
+    {
+      "name": "zksed",
+      "description": "SM4 Block Cipher",
+      "architecture": "RV64",
+      "category": "ZKSED",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zksed"
+    },
+    {
+      "name": "zksh",
+      "description": "SM3 Hash Function",
+      "architecture": "RV32",
+      "category": "ZKSH",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zksh"
+    },
+    {
+      "name": "zksh",
+      "description": "SM3 Hash Function",
+      "architecture": "RV64",
+      "category": "ZKSH",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zksh"
+    },
+    {
+      "name": "zkr",
+      "description": "Entropy Source",
+      "architecture": "RV32",
+      "category": "ZKR",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zkr"
+    },
+    {
+      "name": "zkr",
+      "description": "Entropy Source",
+      "architecture": "RV64",
+      "category": "ZKR",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#zkr"
+    },
+    {
+      "name": "zkt",
+      "description": "Data-independent execution latency",
+      "architecture": "RV32",
+      "category": "ZKT",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#32-1-5-5-zkt-listings"
+    },
+    {
+      "name": "zkt",
+      "description": "Data-independent execution latency",
+      "architecture": "RV64",
+      "category": "ZKT",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/scalar-crypto.html#32-1-5-5-zkt-listings"
+    },
+    {
+      "name": "zvbb",
+      "description": "Vector Basic Bit-manipulation",
+      "architecture": "RV32",
+      "category": "ZVBB",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#33-1-2-15-1-all-zvbb-instructions"
+    },
+    {
+      "name": "zvbc",
+      "description": "Vector Carryless Multiplication",
+      "architecture": "RV32",
+      "category": "ZVBC",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#33-1-2-15-2-all-zvbc-instructions"
+    },
+    {
+      "name": "zvkb",
+      "description": "Vector Crypto Bit-manipulation",
+      "architecture": "RV32",
+      "category": "ZVKB",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkb"
+    },
+    {
+      "name": "zvkg",
+      "description": "Vector GCM/GMAC",
+      "architecture": "RV32",
+      "category": "ZVKG",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkg"
+    },
+    {
+      "name": "zvkned",
+      "description": "Vector AES Encryption/Decryption",
+      "architecture": "RV32",
+      "category": "ZVKN",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkned"
+    },
+    {
+      "name": "zvknha",
+      "description": "Vector SHA-256 Hash Function",
+      "architecture": "RV32",
+      "category": "ZVKN",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html"
+    },
+    {
+      "name": "zvknhb",
+      "description": "Vector SHA-512 Hash Function",
+      "architecture": "RV32",
+      "category": "ZVKN",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#crypto-vector-element-groups"
+    },
+    {
+      "name": "zvkn",
+      "description": "Vector NIST Suite",
+      "architecture": "RV32",
+      "category": "ZVKN",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkn"
+    },
+    {
+      "name": "zvknc",
+      "description": "Vector NIST with carryless",
+      "architecture": "RV32",
+      "category": "ZVKN",
+      "dependencies": [
+        "v",
+        "zvkn"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvknc"
+    },
+    {
+      "name": "zvkng",
+      "description": "Vector NIST with GCM",
+      "architecture": "RV32",
+      "category": "ZVKN",
+      "dependencies": [
+        "v",
+        "zvkn"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkng"
+    },
+    {
+      "name": "zvksed",
+      "description": "Vector SM4",
+      "architecture": "RV32",
+      "category": "ZVKS",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvksed"
+    },
+    {
+      "name": "zvksh",
+      "description": "Vector SM3",
+      "architecture": "RV32",
+      "category": "ZVKS",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvksh"
+    },
+    {
+      "name": "zvks",
+      "description": "Vector ShangMi Suite",
+      "architecture": "RV32",
+      "category": "ZVKS",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvks"
+    },
+    {
+      "name": "zvksc",
+      "description": "Vector ShangMi with carryless",
+      "architecture": "RV32",
+      "category": "ZVKS",
+      "dependencies": [
+        "v",
+        "zvks"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvksc"
+    },
+    {
+      "name": "zvksg",
+      "description": "Vector ShangMi with GCM",
+      "architecture": "RV32",
+      "category": "ZVKS",
+      "dependencies": [
+        "v",
+        "zvks"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvksg"
+    },
+    {
+      "name": "zvkt",
+      "description": "Vector data-independent latency",
+      "architecture": "RV32",
+      "category": "ZVKT",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkt"
+    },
+    {
+      "name": "zvbb",
+      "description": "Vector Basic Bit-manipulation",
+      "architecture": "RV64",
+      "category": "ZVBB",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#33-1-2-15-1-all-zvbb-instructions"
+    },
+    {
+      "name": "zvbc",
+      "description": "Vector Carryless Multiplication",
+      "architecture": "RV64",
+      "category": "ZVBC",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#33-1-2-15-2-all-zvbc-instructions"
+    },
+    {
+      "name": "zvkb",
+      "description": "Vector Crypto Bit-manipulation",
+      "architecture": "RV64",
+      "category": "ZVKB",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkb"
+    },
+    {
+      "name": "zvkg",
+      "description": "Vector GCM/GMAC",
+      "architecture": "RV64",
+      "category": "ZVKG",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkg"
+    },
+    {
+      "name": "zvkned",
+      "description": "Vector AES Encryption/Decryption",
+      "architecture": "RV64",
+      "category": "ZVKN",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkned"
+    },
+    {
+      "name": "zvknha",
+      "description": "Vector SHA-256 Hash Function",
+      "architecture": "RV64",
+      "category": "ZVKN",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html"
+    },
+    {
+      "name": "zvknhb",
+      "description": "Vector SHA-512 Hash Function",
+      "architecture": "RV64",
+      "category": "ZVKN",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html"
+    },
+    {
+      "name": "zvkn",
+      "description": "Vector NIST Suite",
+      "architecture": "RV64",
+      "category": "ZVKN",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkn"
+    },
+    {
+      "name": "zvknc",
+      "description": "Vector NIST with carryless",
+      "architecture": "RV64",
+      "category": "ZVKN",
+      "dependencies": [
+        "v",
+        "zvkn"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvknc"
+    },
+    {
+      "name": "zvkng",
+      "description": "Vector NIST with GCM",
+      "architecture": "RV64",
+      "category": "ZVKN",
+      "dependencies": [
+        "v",
+        "zvkn"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkng"
+    },
+    {
+      "name": "zvksed",
+      "description": "Vector SM4",
+      "architecture": "RV64",
+      "category": "ZVKS",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvksed"
+    },
+    {
+      "name": "zvksh",
+      "description": "Vector SM3",
+      "architecture": "RV64",
+      "category": "ZVKS",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvksh"
+    },
+    {
+      "name": "zvks",
+      "description": "Vector ShangMi Suite",
+      "architecture": "RV64",
+      "category": "ZVKS",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvks"
+    },
+    {
+      "name": "zvksc",
+      "description": "Vector ShangMi with carryless",
+      "architecture": "RV64",
+      "category": "ZVKS",
+      "dependencies": [
+        "v",
+        "zvks"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvksc"
+    },
+    {
+      "name": "zvksg",
+      "description": "Vector ShangMi with GCM",
+      "architecture": "RV64",
+      "category": "ZVKS",
+      "dependencies": [
+        "v",
+        "zvks"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvksg"
+    },
+    {
+      "name": "zvkt",
+      "description": "Vector data-independent latency",
+      "architecture": "RV64",
+      "category": "ZVKT",
+      "dependencies": [
+        "v"
+      ],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/vector-crypto.html#zvkt"
+    },
+    {
+      "name": "zicfilp",
+      "description": "Landing Pad for Control-flow Integrity",
+      "architecture": "RV32",
+      "category": "CFI",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/unpriv-cfi.html#unpriv-forward"
+    },
+    {
+      "name": "zicfiss",
+      "description": "Shadow Stack for Control-flow Integrity",
+      "architecture": "RV32",
+      "category": "CFI",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/unpriv-cfi.html#34-1-2-3-zicfiss-instructions"
+    },
+    {
+      "name": "zicfilp",
+      "description": "Landing Pad for Control-flow Integrity",
+      "architecture": "RV64",
+      "category": "CFI",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/unpriv-cfi.html#unpriv-forward"
+    },
+    {
+      "name": "zicfiss",
+      "description": "Shadow Stack for Control-flow Integrity",
+      "architecture": "RV64",
+      "category": "CFI",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/unpriv-cfi.html#34-1-2-3-zicfiss-instructions"
+    },
+    {
+      "name": "zilsd",
+      "description": "Extensions for Load/Store pair for RV32",
+      "architecture": "RV32",
+      "category": "ZILSD",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zilsd.html"
+    },
+    {
+      "name": "zclsd",
+      "description": "Compressed Load/Store pair for RV32",
+      "architecture": "RV32",
+      "category": "ZCLSD",
+      "dependencies": [
+        "zilsd",
+        "zca"
+      ],
+      "conflicts": [
+        "zcf"
+      ],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zilsd.html"
+    },
+    {
+      "name": "zicsr",
+      "description": "Control and Status Register",
+      "architecture": "RV32",
+      "category": "ZI",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zicsr.html"
+    },
+    {
+      "name": "zifencei",
+      "description": "Instruction-Fetch Fence",
+      "architecture": "RV32",
+      "category": "ZI",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zifencei.html"
+    },
+    {
+      "name": "ztso",
+      "description": "Total Store Ordering",
+      "architecture": "RV32",
+      "category": "ZT",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/ztso-st-ext.html#ztso"
+    },
+    {
+      "name": "zawrs",
+      "description": "Wait-on-Reservation-Set",
+      "architecture": "RV32",
+      "category": "ZA",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zawrs.html"
+    },
+    {
+      "name": "zicsr",
+      "description": "Control and Status Register",
+      "architecture": "RV64",
+      "category": "ZI",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zicsr.html"
+    },
+    {
+      "name": "zifencei",
+      "description": "Instruction-Fetch Fence",
+      "architecture": "RV64",
+      "category": "ZI",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zifencei.html"
+    },
+    {
+      "name": "ztso",
+      "description": "Total Store Ordering",
+      "architecture": "RV64",
+      "category": "ZT",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/ztso-st-ext.html#ztso"
+    },
+    {
+      "name": "zawrs",
+      "description": "Wait-on-Reservation-Set",
+      "architecture": "RV64",
+      "category": "ZA",
+      "dependencies": [],
+      "conflicts": [],
+      "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zawrs.html"
+    }
+  ]
+}

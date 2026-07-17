@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { CpuCore } from '../data/cores';
 import { EXTENSIONS, EXTENSION_CATEGORIES } from '../data/extensions';
 import type { Extension } from '../data/extensions';
 import { getExtensionDisabledReason } from '../utils/marchBuilder';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Info, ExternalLink, X } from 'lucide-react';
+import EXTENSION_INFO from '../../extension.json';
+
+interface ExtensionInfo {
+  name: string;
+  description: string;
+  url: string;
+}
+
+const extInfoMap = new Map<string, ExtensionInfo>();
+(EXTENSION_INFO as ExtensionInfo[]).forEach(e => extInfoMap.set(e.name, e));
 
 interface ExtensionGroupProps {
   selectedCore: CpuCore;
@@ -20,6 +30,7 @@ export const ExtensionGroup: React.FC<ExtensionGroupProps> = ({
   onToggleExtension,
   onSelectAllCategory,
 }) => {
+  const [infoExt, setInfoExt] = useState<ExtensionInfo | null>(null);
 
   const getParentCompositeId = (extId: string): string | null => {
     const parent = EXTENSIONS.find(e =>
@@ -33,7 +44,8 @@ export const ExtensionGroup: React.FC<ExtensionGroupProps> = ({
     const isDisabled = disabledReason !== null;
     const isChecked = selectedIds.has(ext.id);
     const parentName = getParentCompositeId(ext.id);
-    const isPassivelyChecked = isChecked && parentName !== null && ext.id !== 'ext_zk_zks' && ext.id !== 'ext_zk' && ext.id !== 'ext_zkn' && ext.id !== 'ext_zks';
+    const isPassivelyChecked = isChecked && parentName !== null;
+    const info = extInfoMap.get(ext.name) || extInfoMap.get(ext.id);
 
     let labelClass = "text-xs font-semibold transition-colors ";
     let containerClass = "relative flex items-start p-2 rounded-lg border transition-all select-none ";
@@ -53,38 +65,42 @@ export const ExtensionGroup: React.FC<ExtensionGroupProps> = ({
     }
 
     return (
-      <div
-        key={ext.id}
-        id={`ext-card-${ext.id}`}
-        onClick={() => !isDisabled && onToggleExtension(ext.id)}
-        className={containerClass}
-        title={disabledReason || ext.description}
-      >
-        <div className="flex items-center h-5">
+      <div key={ext.id} className={containerClass}>
+        {/* Click area for checkbox toggle */}
+        <div className="flex items-center h-5 flex-shrink-0" onClick={() => !isDisabled && onToggleExtension(ext.id)}>
           <input
             id={`ext-${ext.id}`}
             type="checkbox"
             checked={isChecked}
             disabled={isDisabled}
             onChange={() => {}}
-            className={`h-3.5 w-3.5 rounded border-slate-300 bg-white text-indigo-600 focus:ring-indigo-500 ${
-              isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'
-            }`}
+            className={`h-3.5 w-3.5 rounded border-slate-300 bg-white text-indigo-600 focus:ring-indigo-500 ${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
           />
         </div>
-        <div className="ml-2 flex-1 flex flex-col justify-between">
+        <div className="ml-2 flex-1 flex flex-col justify-between min-w-0">
           <div className="flex items-center justify-between gap-1">
-            <span className={labelClass}>{ext.name}</span>
-            {ext.isComposite && (
-              <span className="text-[8px] font-bold bg-indigo-100 text-indigo-700 border border-indigo-200/50 px-1 py-0.5 rounded-md tracking-wider">组合</span>
-            )}
-            {ext.type === 'custom' && (
-              <span className="text-[8px] font-bold bg-amber-100 text-amber-700 border border-amber-300/50 px-1 py-0.5 rounded-md tracking-wider">Nuclei</span>
-            )}
+            <span className={`${labelClass} truncate`}>{ext.name}</span>
+            <div className="flex items-center gap-1 flex-shrink-0">
+              {info && (
+                <button
+                  onClick={(e) => { e.stopPropagation(); setInfoExt(info); }}
+                  className="text-slate-400 hover:text-indigo-600 transition-colors"
+                  title="查看扩展详情"
+                >
+                  <Info className="h-3 w-3" />
+                </button>
+              )}
+              {ext.isComposite && (
+                <span className="text-[8px] font-bold bg-indigo-100 text-indigo-700 border border-indigo-200/50 px-1 py-0.5 rounded-md tracking-wider">组合</span>
+              )}
+              {ext.type === 'custom' && (
+                <span className="text-[8px] font-bold bg-amber-100 text-amber-700 border border-amber-300/50 px-1 py-0.5 rounded-md tracking-wider">Nuclei</span>
+              )}
+            </div>
           </div>
-          <p className="text-[10px] text-slate-400 mt-0.5 leading-normal break-words line-clamp-2">{ext.description}</p>
+          <p className="text-[10px] text-slate-400 mt-0.5 leading-normal break-words line-clamp-1">{ext.description}</p>
           {isPassivelyChecked && (
-            <span className="text-[8px] text-indigo-500 font-bold mt-0.5 flex items-center gap-0.5">已由 {parentName} 自动包含</span>
+            <span className="text-[8px] text-indigo-500 font-bold mt-0.5">已由 {parentName} 自动包含</span>
           )}
           {isDisabled && (
             <div className="flex items-start gap-0.5 mt-0.5 text-[9px] text-red-500 font-medium leading-normal">
@@ -102,64 +118,85 @@ export const ExtensionGroup: React.FC<ExtensionGroupProps> = ({
   };
 
   return (
-    <div className="space-y-4">
-      {EXTENSION_CATEGORIES.map((category) => {
-        const exts = getCategorizedExtensions(category.id);
+    <>
+      <div className="space-y-4">
+        {EXTENSION_CATEGORIES.map((category) => {
+          const exts = getCategorizedExtensions(category.id);
+          const allHiddenOrDisabled = exts.every(ext => {
+            const reason = getExtensionDisabledReason(ext.id, selectedIds, selectedCore);
+            return reason?.includes('系列处理器') || (ext.id === 'zmmul' && selectedCore.series !== 'nuclei-100-series');
+          });
+          if (allHiddenOrDisabled) return null;
 
-        const allHiddenOrDisabled = exts.every(ext => {
-          const reason = getExtensionDisabledReason(ext.id, selectedIds, selectedCore);
-          return reason?.includes('系列处理器') || (ext.id === 'zmmul' && selectedCore.series !== 'nuclei-100-series');
-        });
-
-        if (allHiddenOrDisabled) return null;
-
-        return (
-          <div key={category.id} id={`cat-${category.id}`} className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm scroll-mt-24">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-2 mb-3">
-              <div>
-                <h4 className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                  <span>{category.name}</span>
-                </h4>
-                <p className="text-[10px] text-slate-400 mt-0.5">{category.description}</p>
-              </div>
-
-              <div className="flex gap-1">
-                {(CATEGORIES_WITH_ALL_SELECT.includes(category.id) || category.id === 'zc') && (
-                  <button onClick={(e) => { e.stopPropagation(); onSelectAllCategory(category.id); }}
-                    className="px-2 py-0.5 text-[10px] font-semibold bg-indigo-50 text-indigo-600 border border-indigo-200 rounded hover:bg-indigo-100 transition-colors shadow-sm">全选</button>
-                )}
-              </div>
-            </div>
-
-            {category.id === 'vector' ? (
-              <>
-                <div className="mb-3">
-                  <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <span className="w-1 h-3 bg-indigo-400 rounded-full" />
-                    Zvl*: Minimum Vector Length Standard Extensions
-                  </h5>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                    {exts.filter(ext => ext.id.startsWith('zvl')).map(renderExtensionCheckbox)}
-                  </div>
-                </div>
+          return (
+            <div key={category.id} id={`cat-${category.id}`} className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm scroll-mt-24">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-2 mb-3">
                 <div>
-                  <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-                    <span className="w-1 h-3 bg-sky-400 rounded-full" />
-                    Zve*: Vector Extensions for Embedded Processors
-                  </h5>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                    {exts.filter(ext => !ext.id.startsWith('zvl')).map(renderExtensionCheckbox)}
-                  </div>
+                  <h4 className="text-xs font-bold text-slate-800">{category.name}</h4>
+                  <p className="text-[10px] text-slate-400 mt-0.5">{category.description}</p>
                 </div>
-              </>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                {exts.map(renderExtensionCheckbox)}
+                <div className="flex gap-1">
+                  {(CATEGORIES_WITH_ALL_SELECT.includes(category.id) || category.id === 'zc') && (
+                    <button onClick={(e) => { e.stopPropagation(); onSelectAllCategory(category.id); }}
+                      className="px-2 py-0.5 text-[10px] font-semibold bg-indigo-50 text-indigo-600 border border-indigo-200 rounded hover:bg-indigo-100 transition-colors shadow-sm">全选</button>
+                  )}
+                </div>
               </div>
-            )}
+
+              {category.id === 'vector' ? (
+                <>
+                  <div className="mb-3">
+                    <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                      <span className="w-1 h-3 bg-indigo-400 rounded-full" />
+                      Zvl*: Minimum Vector Length Standard Extensions
+                    </h5>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                      {exts.filter(ext => ext.id.startsWith('zvl')).map(renderExtensionCheckbox)}
+                    </div>
+                  </div>
+                  <div>
+                    <h5 className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                      <span className="w-1 h-3 bg-sky-400 rounded-full" />
+                      Zve*: Vector Extensions for Embedded Processors
+                    </h5>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                      {exts.filter(ext => !ext.id.startsWith('zvl')).map(renderExtensionCheckbox)}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                  {exts.map(renderExtensionCheckbox)}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Extension Info Popover */}
+      {infoExt && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20" onClick={() => setInfoExt(null)}>
+          <div className="bg-white rounded-xl shadow-xl border border-slate-200 p-5 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-bold text-slate-900 font-mono">{infoExt.name}</h3>
+              <button onClick={() => setInfoExt(null)} className="text-slate-400 hover:text-slate-600 transition-colors">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            <p className="text-xs text-slate-600 leading-relaxed mb-4">{infoExt.description}</p>
+            <a
+              href={infoExt.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:text-indigo-500 transition-colors"
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+              <span>查看官方文档 &rarr;</span>
+            </a>
           </div>
-        );
-      })}
-    </div>
+        </div>
+      )}
+    </>
   );
 };
