@@ -353,6 +353,25 @@ function App() {
     setSelectedIds(syncCompositesAndConflicts(nextSet, selectedCore));
   };
 
+  // "全选分类" Action
+  const handleSelectAllCategory = (catId: string) => {
+    const nextSet = new Set(selectedIds);
+    const exts = EXTENSIONS.filter(e => e.category === catId);
+    exts.forEach(ext => {
+      if (!isExtensionDisabled(ext.id, nextSet, selectedCore)) {
+        recursiveAdd(ext.id, nextSet);
+      }
+    });
+    setSelectedIds(syncCompositesAndConflicts(nextSet, selectedCore));
+  };
+
+  // "清除选中扩展" Action (keep C ext if core has it)
+  const handleClearAll = () => {
+    const nextSet = new Set<string>();
+    if (selectedCore.arch.toLowerCase().includes('c')) nextSet.add('ext_c');
+    setSelectedIds(syncCompositesAndConflicts(nextSet, selectedCore));
+  };
+
   // "全选兼容组合" Action
   const handleSelectAllCompatibleComposites = () => {
     const nextSet = new Set(selectedIds);
@@ -460,6 +479,12 @@ function App() {
                   >
                     一键全选兼容组合扩展
                   </button>
+                  <button
+                    onClick={handleClearAll}
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-semibold bg-white border border-slate-300 text-slate-600 rounded-lg hover:bg-slate-50 transition-colors shadow-sm whitespace-nowrap"
+                  >
+                    清除选中扩展
+                  </button>
                   <span className="text-[10px] text-slate-400">自动扫描并勾选所有当前 Core 支持的组合扩展</span>
                 </div>
 
@@ -513,6 +538,7 @@ function App() {
             onToggleExtension={handleToggleExtension}
             onZcAllSelect={handleZcAllSelect}
             onZcClear={handleZcClear}
+            onSelectAllCategory={handleSelectAllCategory}
           />
         </div>
 
@@ -523,6 +549,7 @@ function App() {
               march={march}
               mabi={mabi}
               logs={logs}
+              selectedCore={selectedCore}
             />
           </div>
         </div>

@@ -11,7 +11,10 @@ interface ExtensionGroupProps {
   onToggleExtension: (id: string) => void;
   onZcAllSelect: () => void;
   onZcClear: () => void;
+  onSelectAllCategory: (catId: string) => void;
 }
+
+const CATEGORIES_WITH_ALL_SELECT = ['crypto-scalar', 'crypto-vector', 'mop', 'bf16', 'float', 'zihint', 'cmo', 'bitmanip'];
 
 export const ExtensionGroup: React.FC<ExtensionGroupProps> = ({
   selectedCore,
@@ -19,13 +22,10 @@ export const ExtensionGroup: React.FC<ExtensionGroupProps> = ({
   onToggleExtension,
   onZcAllSelect,
   onZcClear,
+  onSelectAllCategory,
 }) => {
 
-  // Helper to determine if an extension is active because a parent composite is selected
   const getParentCompositeId = (extId: string): string | null => {
-    // If the extension itself is checked directly, it's not "passively" selected
-    // Wait, if it's selected directly, it is not just passive.
-    // But if it is part of a composite, we can display which composite includes it.
     const parent = EXTENSIONS.find(e =>
       e.isComposite && e.components?.includes(extId) && selectedIds.has(e.id)
     );
@@ -70,7 +70,7 @@ export const ExtensionGroup: React.FC<ExtensionGroupProps> = ({
             type="checkbox"
             checked={isChecked}
             disabled={isDisabled}
-            onChange={() => {}} // Handled by container click
+            onChange={() => {}}
             className={`h-3.5 w-3.5 rounded border-slate-300 bg-white text-indigo-600 focus:ring-indigo-500 ${
               isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'
             }`}
@@ -78,31 +78,18 @@ export const ExtensionGroup: React.FC<ExtensionGroupProps> = ({
         </div>
         <div className="ml-2 flex-1 flex flex-col justify-between">
           <div className="flex items-center justify-between gap-1">
-            <span className={labelClass}>
-              {ext.name}
-            </span>
+            <span className={labelClass}>{ext.name}</span>
             {ext.isComposite && (
-              <span className="text-[8px] font-bold bg-indigo-100 text-indigo-700 border border-indigo-200/50 px-1 py-0.5 rounded-md tracking-wider">
-                组合
-              </span>
+              <span className="text-[8px] font-bold bg-indigo-100 text-indigo-700 border border-indigo-200/50 px-1 py-0.5 rounded-md tracking-wider">组合</span>
             )}
             {ext.type === 'custom' && (
-              <span className="text-[8px] font-bold bg-amber-100 text-amber-700 border border-amber-300/50 px-1 py-0.5 rounded-md tracking-wider">
-                Nuclei
-              </span>
+              <span className="text-[8px] font-bold bg-amber-100 text-amber-700 border border-amber-300/50 px-1 py-0.5 rounded-md tracking-wider">Nuclei</span>
             )}
           </div>
-
-          <p className="text-[10px] text-slate-400 mt-0.5 leading-normal break-words line-clamp-2">
-            {ext.description}
-          </p>
-
+          <p className="text-[10px] text-slate-400 mt-0.5 leading-normal break-words line-clamp-2">{ext.description}</p>
           {isPassivelyChecked && (
-            <span className="text-[8px] text-indigo-500 font-bold mt-0.5 flex items-center gap-0.5">
-              已由 {parentName} 自动包含
-            </span>
+            <span className="text-[8px] text-indigo-500 font-bold mt-0.5 flex items-center gap-0.5">已由 {parentName} 自动包含</span>
           )}
-
           {isDisabled && (
             <div className="flex items-start gap-0.5 mt-0.5 text-[9px] text-red-500 font-medium leading-normal">
               <AlertCircle className="h-2.5 w-2.5 mt-0.5 flex-shrink-0" />
@@ -131,43 +118,29 @@ export const ExtensionGroup: React.FC<ExtensionGroupProps> = ({
         if (allHiddenOrDisabled) return null;
 
         return (
-          <div
-            key={category.id}
-            id={`cat-${category.id}`}
-            className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm scroll-mt-24"
-          >
+          <div key={category.id} id={`cat-${category.id}`} className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm scroll-mt-24">
             <div className="flex items-center justify-between border-b border-slate-100 pb-2 mb-3">
               <div>
                 <h4 className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
                   <span>{category.name}</span>
                 </h4>
-                <p className="text-[10px] text-slate-400 mt-0.5">
-                  {category.description}
-                </p>
+                <p className="text-[10px] text-slate-400 mt-0.5">{category.description}</p>
               </div>
 
-              {category.id === 'zc' && (
-                <div className="flex gap-1">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onZcAllSelect();
-                    }}
-                    className="px-2 py-0.5 text-[10px] font-semibold bg-indigo-50 text-indigo-600 border border-indigo-200 rounded hover:bg-indigo-100 transition-colors shadow-sm"
-                  >
-                    按核心自动全选
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onZcClear();
-                    }}
-                    className="px-2 py-0.5 text-[10px] font-semibold bg-slate-50 text-slate-500 border border-slate-200 rounded hover:bg-slate-100 transition-colors shadow-sm"
-                  >
-                    清空
-                  </button>
-                </div>
-              )}
+              <div className="flex gap-1">
+                {category.id === 'zc' && (
+                  <>
+                    <button onClick={(e) => { e.stopPropagation(); onZcAllSelect(); }}
+                      className="px-2 py-0.5 text-[10px] font-semibold bg-indigo-50 text-indigo-600 border border-indigo-200 rounded hover:bg-indigo-100 transition-colors shadow-sm">按核心自动全选</button>
+                    <button onClick={(e) => { e.stopPropagation(); onZcClear(); }}
+                      className="px-2 py-0.5 text-[10px] font-semibold bg-slate-50 text-slate-500 border border-slate-200 rounded hover:bg-slate-100 transition-colors shadow-sm">清空</button>
+                  </>
+                )}
+                {CATEGORIES_WITH_ALL_SELECT.includes(category.id) && (
+                  <button onClick={(e) => { e.stopPropagation(); onSelectAllCategory(category.id); }}
+                    className="px-2 py-0.5 text-[10px] font-semibold bg-indigo-50 text-indigo-600 border border-indigo-200 rounded hover:bg-indigo-100 transition-colors shadow-sm">全选</button>
+                )}
+              </div>
             </div>
 
             {category.id === 'vector' ? (
