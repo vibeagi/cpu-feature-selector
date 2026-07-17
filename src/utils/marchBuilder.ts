@@ -476,20 +476,22 @@ export function buildMarchString(
   const allFolded = [...dspOutput, ...cryptoOutput, ...vectorCryptoOutput];
 
   // Zfinx folding: zdinx includes zfinx, zhinx includes zfinx+zhinxmin, zhinxmin depends on zfinx
-  const hasZfinx = baseSelected.includes('zfinx');
+  const hasZfinx = validSelected.has('zfinx');
   if (validSelected.has('ext_zdinx') && !isExtensionDisabled('ext_zdinx', validSelected, core)) {
     allFolded.push('zdinx');
-    baseSelected = baseSelected.filter(id => id !== 'zfinx' && id !== 'ext_zdinx');
+    baseSelected = baseSelected.filter(id => id !== 'zfinx' && id !== 'ext_zdinx' && id !== 'ext_zhinx' && id !== 'zhinxmin');
   } else if (validSelected.has('ext_zhinx') && !isExtensionDisabled('ext_zhinx', validSelected, core)) {
     allFolded.push('zhinx');
-    baseSelected = baseSelected.filter(id => id !== 'zfinx' && id !== 'zhinxmin' && id !== 'ext_zhinx');
-  } else if (hasZfinx && baseSelected.includes('zhinxmin')) {
+    baseSelected = baseSelected.filter(id => id !== 'zfinx' && id !== 'zhinxmin' && id !== 'ext_zhinx' && id !== 'ext_zdinx');
+  } else if (validSelected.has('zhinxmin') && !isExtensionDisabled('zhinxmin', validSelected, core)) {
     allFolded.push('zhinxmin');
-    baseSelected = baseSelected.filter(id => id !== 'zfinx' && id !== 'zhinxmin');
-  } else if (hasZfinx) {
+    baseSelected = baseSelected.filter(id => id !== 'zfinx' && id !== 'zhinxmin' && id !== 'ext_zhinx' && id !== 'ext_zdinx');
+  } else if (hasZfinx && !isExtensionDisabled('zfinx', validSelected, core)) {
     allFolded.push('zfinx');
-    baseSelected = baseSelected.filter(id => id !== 'zfinx');
+    baseSelected = baseSelected.filter(id => id !== 'zfinx' && id !== 'zhinxmin' && id !== 'ext_zhinx' && id !== 'ext_zdinx');
   }
+  // Clean up any remaining float-int composite IDs from output
+  baseSelected = baseSelected.filter(id => id !== 'ext_zdinx' && id !== 'ext_zhinx');
 
   // Also push standard/custom from baseSelected (filtering composites)
   for (const id of baseSelected) {
