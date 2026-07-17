@@ -80,24 +80,24 @@
     "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfa.html"
   },
   {
-    "name": "zfinx",
-    "description": "Extensions for Floating-Point in Integer Registers",
-    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html#sec:zfinx"
+    "name": "Zfinx",
+    "description": "Extensions for Floating-Point in Integer Registers, Version 1.0",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html"
   },
   {
-    "name": "zdinx",
-    "description": "Extensions for Floating-Point in Integer Registers",
-    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html#27-1-2-zdinx"
+    "name": "Zdinx",
+    "description": "Extensions for Floating-Point in Integer Registers, Version 1.0",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html"
   },
   {
-    "name": "zhinx",
-    "description": "Extensions for Floating-Point in Integer Registers",
-    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html#27-1-4-zhinx"
+    "name": "Zhinx",
+    "description": "Extensions for Floating-Point in Integer Registers, Version 1.0",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html"
   },
   {
-    "name": "zhinxmin",
-    "description": "Extensions for Floating-Point in Integer Registers",
-    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html#27-1-5-zhinxmin"
+    "name": "Zhinxmin",
+    "description": "Extensions for Floating-Point in Integer Registers, Version 1.0",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zfinx.html"
   },
   {
     "name": "zca",
@@ -388,5 +388,10 @@
     "name": "zawrs",
     "description": "Wait-on-Reservation-Set",
     "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zawrs.html"
+  },
+  {
+    "name": "zibi",
+    "description": "Branch with Immediate (Zibi)",
+    "url": "https://github.com/riscv/zibi/releases/tag/v0.6"
   }
 ]

@@ -23,7 +23,7 @@ export const EXTENSION_CATEGORIES: ExtensionCategory[] = [
   { id: 'bitmanip', name: 'Bit-Manipulation 位操作扩展', description: '提供高效的位操作指令（B 扩展）。' },
   { id: 'cmo', name: 'CMO 缓存管理扩展', description: 'Base Cache Management Operation 缓存块管理、预取及清零指令。' },
   { id: 'zicond', name: 'Zicond 条件操作扩展', description: '整数条件操作指令（Integer Conditional Operations）。' },
-  { id: 'zibi', name: 'Zibi 立即数分支扩展', description: '带立即数操作数的条件分支指令，优化控制流。' },
+  { id: 'zibi', name: 'Zibi 立即数分支扩展', description: 'Branch with Immediate (Zibi)，带立即数操作数的条件分支指令。' },
   { id: 'zmmul', name: 'Zmmul 乘法扩展', description: '仅乘法部分的标准扩展（不包含除法）。' },
   { id: 'zihint', name: 'Zihint 提示扩展', description: '包含 Pause Hint 延迟与非临时局部性提示指令。' },
   { id: 'float-int', name: 'Zfinx+ 整型寄存器浮点扩展', description: '"Zfinx", "Zdinx", "Zhinx", "Zhinxmin" 整型寄存器浮点扩展' },
@@ -65,7 +65,7 @@ export const EXTENSIONS: Extension[] = [
   { id: 'zicond', name: 'Zicond', category: 'zicond', description: 'Integer Conditional Operations v1.0', supportedSeries: [], type: 'standard' },
 
   // 5. Zibi
-  { id: 'zibi', name: 'Zibi', category: 'zibi', description: 'Branch with Immediate Instructions v0.6', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], type: 'standard' },
+  { id: 'zibi', name: 'Zibi', category: 'zibi', description: 'Branch with Immediate (Zibi) v0.6', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], type: 'standard' },
 
   // 6. Zmmul
   { id: 'zmmul', name: 'Zmmul', category: 'zmmul', description: 'Integer Multiplication instructions v1.0 (Only for N100 series without M)', supportedSeries: ['nuclei-100-series'], type: 'standard' },
