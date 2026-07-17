@@ -169,7 +169,7 @@ function App() {
             }
           }
         } else {
-          // Skip auto-check for C/Zce composites (user-managed)
+          // Skip auto-check for C/Zce composites (handled separately below)
           if (ext.id === 'ext_c' || ext.id === 'ext_zce') continue;
 
           // If all components are checked and NOT disabled, auto-check the composite
@@ -186,6 +186,32 @@ function App() {
           }
         }
       }
+    }
+
+    // 4b. C and Zce auto-check: if all applicable sub-extensions are selected, auto-check
+    const arch = core.arch.toLowerCase();
+    const rv32 = arch.startsWith('rv32');
+    const hasF = arch.includes('f');
+    const hasD = arch.includes('d');
+
+    const canAutoCheckC = nextSet.has('zca') &&
+      (!(rv32 && hasF) || nextSet.has('zcf')) &&
+      (!hasD || nextSet.has('zcd')) &&
+      !isExtensionDisabled('ext_c', nextSet, core);
+    if (canAutoCheckC && !nextSet.has('ext_c')) {
+      nextSet.add('ext_c');
+    } else if (!canAutoCheckC && nextSet.has('ext_c')) {
+      nextSet.delete('ext_c');
+    }
+
+    const canAutoCheckZce = nextSet.has('zca') && nextSet.has('zcb') &&
+      nextSet.has('zcmp') && nextSet.has('zcmt') &&
+      (!(rv32 && hasF) || nextSet.has('zcf')) &&
+      !isExtensionDisabled('ext_zce', nextSet, core);
+    if (canAutoCheckZce && !nextSet.has('ext_zce')) {
+      nextSet.add('ext_zce');
+    } else if (!canAutoCheckZce && nextSet.has('ext_zce')) {
+      nextSet.delete('ext_zce');
     }
 
     // 5. Clean up disabled options from composite checks
@@ -243,6 +269,20 @@ function App() {
         dspOptions.forEach(opt => nextSet.delete(opt));
       }
 
+      // C ↔ Zce mutual exclusion with conditional sub-extensions
+      if (id === 'ext_c') {
+        recursiveDelete('ext_zce', nextSet);
+        const baseArch = selectedCore.arch.toLowerCase();
+        if (baseArch.startsWith('rv32') && baseArch.includes('f')) nextSet.add('zcf');
+        if (baseArch.includes('d')) nextSet.add('zcd');
+      }
+      if (id === 'ext_zce') {
+        recursiveDelete('ext_c', nextSet);
+        nextSet.delete('zcd');
+        const baseArch = selectedCore.arch.toLowerCase();
+        if (baseArch.startsWith('rv32') && baseArch.includes('f')) nextSet.add('zcf');
+      }
+
       // Mutually exclusive conflicts: zcf vs zclsd
       if (id === 'zcf') {
         nextSet.delete('zclsd');
@@ -260,22 +300,6 @@ function App() {
 
       // Recursive add to check all child components
       recursiveAdd(id, nextSet);
-
-      // C composite: conditionally add Zcf (RV32+F) and Zcd (D)
-      if (id === 'ext_c') {
-        const baseArch = selectedCore.arch.toLowerCase();
-        const isRV32 = baseArch.startsWith('rv32');
-        if (isRV32 && baseArch.includes('f')) nextSet.add('zcf');
-        if (baseArch.includes('d')) nextSet.add('zcd');
-      }
-
-      // Zce composite: conditionally add Zcf (RV32+F)
-      if (id === 'ext_zce') {
-        const baseArch = selectedCore.arch.toLowerCase();
-        if (baseArch.startsWith('rv32') && baseArch.includes('f')) {
-          nextSet.add('zcf');
-        }
-      }
     }
 
     setSelectedIds(syncCompositesAndConflicts(nextSet, selectedCore));

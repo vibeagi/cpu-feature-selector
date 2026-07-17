@@ -117,7 +117,7 @@ export function getExtensionDisabledReason(
   }
 
   // BF16 dependencies on vector extension
-  if (extId === 'zvfbfmin' || extId === 'xxlvfbf') {
+  if (extId === 'zvfbfmin' || extId === 'zvfbfwma' || extId === 'xxlvfbf') {
     if (!selectedVector) {
       return '依赖 Vector 扩展级别至少为 zve32f';
     }
