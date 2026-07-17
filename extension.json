@@ -412,6 +412,6 @@
   {
     "name": "c",
     "description": "C Extension for Compressed Instructions, Version 2.0",
-    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/c-st-ext.html"
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/zc.html#C"
   }
 ]
