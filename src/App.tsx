@@ -334,15 +334,15 @@ function App() {
         {/* Header */}
         <header className="border-b border-slate-200 bg-white/85 backdrop-blur-md z-30 py-3 px-6 shadow-sm">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-            <div className="flex items-center gap-4">
-              <div className="bg-indigo-50 border border-indigo-200 p-2.5 rounded-lg text-indigo-600 shadow-sm">
-                <Cpu className="h-7 w-7" />
+            <div className="flex items-center gap-3">
+              <div className="bg-indigo-50 border border-indigo-200 p-1.5 rounded-lg text-indigo-600 shadow-sm flex items-center justify-center">
+                <Cpu className="h-5 w-5" />
               </div>
               <div>
-                <h1 className="text-xl font-bold tracking-tight text-slate-900 m-0 leading-tight">
+                <h1 className="text-lg font-bold tracking-tight text-slate-900 m-0 leading-snug">
                   Nuclei RISC-V CPU 扩展选择器
                 </h1>
-                <p className="text-sm text-slate-500 mt-0.5">
+                <p className="text-xs text-slate-500 mt-0.5">
                   选择 CPU Core 与支持的扩展，自动进行依赖校验、冲突解决与复合扩展折叠
                 </p>
               </div>
