@@ -56,7 +56,7 @@ export const ResultPanel: React.FC<ResultPanelProps> = ({
       const bits = parseInt(zvlExt.replace('zvl', '').replace('b', ''), 10);
       cpuArg += `,vlen=${bits / 2}`;
     }
-    return `${qemuBin} -M nuclei_evalsoc,download=ilm -cpu ${cpuArg} -smp 1 -icount shift=0 -nodefaults -nographic -serial stdio -kernel `;
+    return `${qemuBin} -M nuclei_evalsoc,download=ilm -cpu ${cpuArg} -smp 1 -icount shift=0 -nodefaults -nographic -serial stdio -kernel appilm.elf`;
   }, [march, selectedCore]);
 
   const cpuModelCommand = useMemo(() => {
