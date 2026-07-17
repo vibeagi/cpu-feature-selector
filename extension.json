@@ -1,8 +1,8 @@
 [
   {
     "name": "b",
-    "description": "Extension for Bit Manipulation",
-    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/b-st-ext.html#bits"
+    "description": "B Extension for Bit Manipulation, Version 1.0.0",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/b-st-ext.html#30-1-1-b-extension-for-bit-manipulation-version-1-0-0"
   },
   {
     "name": "v",
@@ -408,5 +408,10 @@
     "name": "zvl64b",
     "description": "Vector VLEN 64",
     "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/v-st-ext.html#31-1-18-1-zvl-minimum-vector-length-standard-extensions"
+  },
+  {
+    "name": "c",
+    "description": "C Extension for Compressed Instructions, Version 2.0",
+    "url": "https://docs.riscv.org/reference/isa/v20260120/unpriv/c-st-ext.html"
   }
 ]

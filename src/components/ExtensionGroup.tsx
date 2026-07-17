@@ -20,7 +20,7 @@ const extIdToInfoName: Record<string, string> = {
   'ext_zvkn': 'zvkn', 'ext_zvknc': 'zvknc', 'ext_zvkng': 'zvkng',
   'ext_zvks': 'zvks', 'ext_zvksc': 'zvksc', 'ext_zvksg': 'zvksg',
   'ext_b': 'b',
-  'ext_c': 'zca', 'ext_zce': 'zce',
+  'ext_c': 'c', 'ext_zce': 'zce',
   'ext_zdinx': 'zdinx', 'ext_zhinx': 'zhinx',
 };
 
