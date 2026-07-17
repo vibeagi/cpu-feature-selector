@@ -104,6 +104,18 @@ describe('buildMarchString', () => {
     expect(result.march).toBe('rv64imafdc_zba_zbb_zicbom_xxldsp_xxlfbf');
   });
 
+  it('folds Vector Crypto to zvknc_zvksc_zvkg_zvbb on full selection', () => {
+    // Select v + all vector crypto sub-extensions
+    const selected = new Set<string>([
+      'v', 'zvbb', 'zvbc', 'zvkb', 'zvkg', 'zvkned', 'zvknhb', 'zvksed', 'zvksh', 'zvkt'
+    ]);
+    const result = buildMarchString(mockCore64FD, selected);
+    expect(result.march).toContain('_zvknc');
+    expect(result.march).toContain('_zvksc');
+    expect(result.march).toContain('_zvkg');
+    expect(result.march).toContain('_zvbb');
+  });
+
   it('checks disabling and compatibility rules correctly', () => {
     // Zmmul should be enabled only on N100 series without M
     const selected = new Set<string>();

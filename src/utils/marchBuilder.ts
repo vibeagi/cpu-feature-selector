@@ -428,7 +428,11 @@ export function buildMarchString(
   if (!isZvkncFull && !isZvkscFull && hasSubZvbc) {
     vectorCryptoOutput.push('zvbc');
   }
-  if (!isZvkngFull && !isZvksgFull && hasSubZvkg) {
+  // zvkg: output if zvkng is NOT actually emitted (preempted by zvknc)
+  // and zvksg is NOT actually emitted (preempted by zvksc)
+  const zvkngEmitted = isZvkngFull && !isZvkncFull;
+  const zvksgEmitted = isZvksgFull && !isZvkscFull;
+  if (!zvkngEmitted && !zvksgEmitted && hasSubZvkg) {
     vectorCryptoOutput.push('zvkg');
   }
   if (hasZvbb) vectorCryptoOutput.push('zvbb');
