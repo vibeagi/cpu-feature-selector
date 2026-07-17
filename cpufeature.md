@@ -67,6 +67,7 @@ Format: `CORE_NAME = arch abi series`
 **Composites (user-managed, manual toggle only):**
 - `C 扩展` (ext_c): C always implies Zca; C+F→Zcf(RV32); C+D→Zcd
 - `Zce 扩展` (ext_zce): RV32: Zca+Zcb+Zcmp+Zcmt±Zcf; RV64: Zca+Zcb+Zcmp+Zcmt
+  - Zce in march output expands to its sub-extensions, does NOT output `_zce`
 
 **Sub-extensions:**
 - `zca` — Zc Base compressed instructions for integer (implied by C)
@@ -133,6 +134,8 @@ Format: `CORE_NAME = arch abi series`
 **Rules:**
 - All depend on `f` extension
 - Only 300/600/900/1000 series
+- Zfh depends on Zfhmin (auto-includes; Zfhmin cannot be unchecked while Zfh is selected)
+- March output: if Zfh selected → suppress Zfhmin
 
 ### 10. BF16 浮点扩展
 
