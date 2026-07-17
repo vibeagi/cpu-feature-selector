@@ -237,6 +237,22 @@ function App() {
 
       // Recursive add to check all child components
       recursiveAdd(id, nextSet);
+
+      // C composite: conditionally add Zcf (RV32+F) and Zcd (D)
+      if (id === 'ext_c') {
+        const baseArch = selectedCore.arch.toLowerCase();
+        const isRV32 = baseArch.startsWith('rv32');
+        if (isRV32 && baseArch.includes('f')) nextSet.add('zcf');
+        if (baseArch.includes('d')) nextSet.add('zcd');
+      }
+
+      // Zce composite: conditionally add Zcf (RV32+F)
+      if (id === 'ext_zce') {
+        const baseArch = selectedCore.arch.toLowerCase();
+        if (baseArch.startsWith('rv32') && baseArch.includes('f')) {
+          nextSet.add('zcf');
+        }
+      }
     }
 
     setSelectedIds(syncCompositesAndConflicts(nextSet, selectedCore));

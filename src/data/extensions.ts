@@ -19,7 +19,7 @@ export interface ExtensionCategory {
 }
 
 export const EXTENSION_CATEGORIES: ExtensionCategory[] = [
-  { id: 'zc', name: 'Zc 压缩指令扩展', description: '针对微控制器的压缩指令集，可根据规则缩减/合并代码大小。' },
+  { id: 'zc', name: 'C/Zc 压缩指令扩展', description: '针对微控制器的压缩指令集，可根据规则缩减/合并代码大小。' },
   { id: 'bitmanip', name: 'Bit-Manipulation 位操作扩展', description: '提供高效的位操作指令（B 扩展）。' },
   { id: 'cmo', name: 'CMO 缓存管理扩展', description: 'Base Cache Management Operation 缓存块管理、预取及清零指令。' },
   { id: 'zicond', name: 'Zicond 条件操作扩展', description: '整数条件操作指令（Integer Conditional Operations）。' },
@@ -38,6 +38,8 @@ export const EXTENSION_CATEGORIES: ExtensionCategory[] = [
 
 export const EXTENSIONS: Extension[] = [
   // 1. Zc
+  { id: 'ext_c', name: 'C 扩展', category: 'zc', description: 'C 压缩指令扩展 (隐含 Zca、RV32+F→Zcf、有D→Zcd)', supportedSeries: [], type: 'standard', isComposite: true, components: ['zca'] },
+  { id: 'ext_zce', name: 'Zce 扩展', category: 'zc', description: 'Zce 组合 (RV32: Zca+Zcb+Zcmp+Zcmt±Zcf; RV64: Zca+Zcb+Zcmp+Zcmt)', supportedSeries: [], type: 'standard', isComposite: true, components: ['zca', 'zcb', 'zcmp', 'zcmt'] },
   { id: 'zca', name: 'Zca', category: 'zc', description: 'Zc Base compressed instructions for integer (implied by C)', supportedSeries: [], type: 'standard' },
   { id: 'zcb', name: 'Zcb', category: 'zc', description: 'Zc Extension for additional simple compressed instructions', supportedSeries: [], type: 'standard', dependsOnExtensions: ['zca'] },
   { id: 'zcmp', name: 'Zcmp', category: 'zc', description: 'Zc Extension for push/pop and double move compressed instructions', supportedSeries: [], type: 'standard', dependsOnExtensions: ['zca'], conflictsWith: ['zcd'] },

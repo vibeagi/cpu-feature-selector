@@ -425,12 +425,20 @@ export function buildMarchString(
     baseSelected = baseSelected.filter(id => id !== 'zfhmin');
   }
 
-  // 8. Construct standard and custom collections
+  // 10. Construct standard and custom collections
   let standardExts: string[] = [];
   const customExts: string[] = [];
 
   // Add the folded ones to their lists based on ID prefix
   const allFolded = [...dspOutput, ...cryptoOutput, ...vectorCryptoOutput];
+
+  // Zce folding: if Zce is selected, output _zce and suppress sub-extensions
+  // C is folded by base arch 'c' + implicit suppression
+  if (validSelected.has('ext_zce') && !isExtensionDisabled('ext_zce', validSelected, core)) {
+    const zceComponents = ['zca', 'zcb', 'zcmp', 'zcmt', 'zcf'];
+    baseSelected = baseSelected.filter(id => !zceComponents.includes(id));
+    allFolded.push('zce');
+  }
 
   // Also push standard/custom from baseSelected (filtering composites)
   for (const id of baseSelected) {
@@ -455,6 +463,15 @@ export function buildMarchString(
     } else {
       standardExts.push(id);
     }
+  }
+
+  // If C composite is selected and base arch doesn't have 'c', add 'c' to the letters
+  if (validSelected.has('ext_c') && !isExtensionDisabled('ext_c', validSelected, core) && !baseArch.includes('c')) {
+    const letters = baseArch.replace(/^rv(32|64)/, '').split('');
+    letters.push('c');
+    const order = ['i', 'e', 'g', 'm', 'a', 'f', 'd', 'c', 'v'];
+    letters.sort((a, b) => order.indexOf(a) - order.indexOf(b));
+    baseArch = baseArch.startsWith('rv32') ? 'rv32' + letters.join('') : 'rv64' + letters.join('');
   }
 
   // If base arch still has 'c' (not stripped by zcmp/zcmt), zca, zcf, and zcd are
