@@ -432,14 +432,6 @@ export function buildMarchString(
   // Add the folded ones to their lists based on ID prefix
   const allFolded = [...dspOutput, ...cryptoOutput, ...vectorCryptoOutput];
 
-  // Zce folding: if Zce is selected, output _zce and suppress sub-extensions
-  // C is folded by base arch 'c' + implicit suppression
-  if (validSelected.has('ext_zce') && !isExtensionDisabled('ext_zce', validSelected, core)) {
-    const zceComponents = ['zca', 'zcb', 'zcmp', 'zcmt', 'zcf'];
-    baseSelected = baseSelected.filter(id => !zceComponents.includes(id));
-    allFolded.push('zce');
-  }
-
   // Also push standard/custom from baseSelected (filtering composites)
   for (const id of baseSelected) {
     const ext = EXTENSIONS.find(e => e.id === id);

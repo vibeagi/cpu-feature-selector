@@ -63,6 +63,11 @@ function App() {
       nextSet.add(recVec);
     }
 
+    // Auto-select C extension if core arch has 'c'
+    if (core.arch.toLowerCase().includes('c')) {
+      nextSet.add('ext_c');
+    }
+
     setSelectedIds(syncCompositesAndConflicts(nextSet, core));
   };
 
@@ -293,11 +298,14 @@ function App() {
   // Shortcut for Zc Clear
   const handleZcClear = () => {
     const nextSet = new Set(selectedIds);
+    nextSet.delete('ext_c');
+    nextSet.delete('ext_zce');
     nextSet.delete('zca');
     nextSet.delete('zcb');
     nextSet.delete('zcmp');
     nextSet.delete('zcmt');
     nextSet.delete('zcf');
+    nextSet.delete('zcd');
     nextSet.delete('xxlcz');
 
     setSelectedIds(syncCompositesAndConflicts(nextSet, selectedCore));
@@ -328,6 +336,7 @@ function App() {
     const initialSet = new Set<string>();
     const recVec = recommendVector(defaultCore);
     if (recVec) initialSet.add(recVec);
+    if (defaultCore.arch.toLowerCase().includes('c')) initialSet.add('ext_c');
     setSelectedIds(initialSet);
   };
 
@@ -335,6 +344,7 @@ function App() {
     const initialSet = new Set<string>();
     const recVec = recommendVector(defaultCore);
     if (recVec) initialSet.add(recVec);
+    if (defaultCore.arch.toLowerCase().includes('c')) initialSet.add('ext_c');
     setSelectedIds(initialSet);
   }, []);
 
