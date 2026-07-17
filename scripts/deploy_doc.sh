@@ -8,14 +8,19 @@ WH_TEMP_DIR="~/temp"
 DOC_TARGET_DIR_BETA="~/doc_center/beta/cpuextsel"
 DOC_TARGET_DIR_PROD="~/doc_center/tools/cpuextsel"
 
+DOC_URL_BETA="https://doc.corp.nucleisys.com/beta/cpuextsel"
+DOC_URL_PROD="https://doc.corp.nucleisys.com/tools/cpuextsel"
+
 DEPLOY_MODE="${1:-beta}"
 
 case "${DEPLOY_MODE}" in
   beta)
     DOC_TARGET_DIR="${DOC_TARGET_DIR_BETA}"
+    DOC_URL="${DOC_URL_BETA}"
     ;;
   prod|formal)
     DOC_TARGET_DIR="${DOC_TARGET_DIR_PROD}"
+    DOC_URL="${DOC_URL_PROD}"
     ;;
   *)
     printf 'Usage: %s [beta|prod|formal]\n' "$(basename "$0")" >&2
@@ -69,8 +74,10 @@ log "目标目录: ${DOC_TARGET_DIR}"
 
 cd "${REPO_ROOT}"
 
-log "步骤 1/5: 编译网页"
-npm run build
+log "步骤 1/5: 编译网页 (base: ${DOC_TARGET_DIR})"
+# 解析 VITE_BASE_URL: ~/doc_center/beta/cpuextsel -> /beta/cpuextsel/
+VITE_BASE_PATH="$(printf '%s' "${DOC_TARGET_DIR}" | sed 's|.*doc_center||')/"
+VITE_BASE_URL="${VITE_BASE_PATH}" npm run build
 
 if [[ ! -d "${REPO_ROOT}/dist" ]]; then
   log "错误: 未找到 dist 目录，构建结果异常"
@@ -89,6 +96,8 @@ if [[ "${HOST_SHORT_LOWER}" == wh* ]]; then
   scp -r "${REPO_ROOT}/dist/." "xl_ci@doc:${DOC_TARGET_DIR}/"
 
   log "步骤 5/5: 部署完成"
+log "部署网址: ${DOC_URL}"
+  log "部署网址: ${DOC_URL}"
   exit 0
 fi
 
@@ -114,3 +123,4 @@ ssh "${WH_HOST}" "\
   rm -f ${REMOTE_ARCHIVE_PATH}"
 
 log "步骤 5/5: 部署完成"
+log "部署网址: ${DOC_URL}"
