@@ -26,6 +26,7 @@ export const EXTENSION_CATEGORIES: ExtensionCategory[] = [
   { id: 'zibi', name: 'Zibi 立即数分支扩展', description: '带立即数操作数的条件分支指令，优化控制流。' },
   { id: 'zmmul', name: 'Zmmul 乘法扩展', description: '仅乘法部分的标准扩展（不包含除法）。' },
   { id: 'zihint', name: 'Zihint 提示扩展', description: '包含 Pause Hint 延迟与非临时局部性提示指令。' },
+  { id: 'float-int', name: 'Zfinx+ 整型寄存器浮点扩展', description: '"Zfinx", "Zdinx", "Zhinx", "Zhinxmin" 整型寄存器浮点扩展' },
   { id: 'float', name: 'F16+Zfa', description: '半精度浮点（Zfh/Zfhmin）与附加浮点指令（Zfa）。' },
   { id: 'bf16', name: 'BF16 浮点扩展', description: 'BFloat16 精度的标量及向量浮点转换指令。' },
   { id: 'loadstore', name: 'Load/Store Pair', description: 'RV32 专用的成对 Load/Store 操作指令。' },
@@ -33,8 +34,7 @@ export const EXTENSION_CATEGORIES: ExtensionCategory[] = [
   { id: 'dsp', name: 'DSP 扩展', description: 'Nuclei 定制 DSP 扩展指令，支持各种级别的数据流加速（单选）。' },
   { id: 'crypto-scalar', name: 'Scalar Crypto', description: '标量层面的商用及标准密码算法指令集。' },
   { id: 'vector', name: 'Vector 向量扩展', description: '向量计算标准扩展（可根据规则和默认值自动勾选，单选）。' },
-  { id: 'crypto-vector', name: 'Vector Crypto 向量加密扩展', description: '基于向量处理器的密码算法指令集（依赖于 Vector 扩展）。' },
-  { id: 'float-int', name: 'Zfinx+ 整型寄存器浮点扩展', description: '整型寄存器浮点扩展，与 F/D/Zfa 互斥。依赖 F 支持。' }
+  { id: 'crypto-vector', name: 'Vector Crypto 向量加密扩展', description: '基于向量处理器的密码算法指令集（依赖于 Vector 扩展）。' }
 ];
 
 export const EXTENSIONS: Extension[] = [

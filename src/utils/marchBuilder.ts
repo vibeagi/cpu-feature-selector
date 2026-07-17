@@ -475,23 +475,13 @@ export function buildMarchString(
   // Add the folded ones to their lists based on ID prefix
   const allFolded = [...dspOutput, ...cryptoOutput, ...vectorCryptoOutput];
 
-  // Zfinx folding: zdinx includes zfinx, zhinx includes zfinx+zhinxmin, zhinxmin depends on zfinx
-  const hasZfinx = validSelected.has('zfinx');
-  if (validSelected.has('ext_zdinx') && !isExtensionDisabled('ext_zdinx', validSelected, core)) {
-    allFolded.push('zdinx');
-    baseSelected = baseSelected.filter(id => id !== 'zfinx' && id !== 'ext_zdinx' && id !== 'ext_zhinx' && id !== 'zhinxmin');
-  } else if (validSelected.has('ext_zhinx') && !isExtensionDisabled('ext_zhinx', validSelected, core)) {
-    allFolded.push('zhinx');
-    baseSelected = baseSelected.filter(id => id !== 'zfinx' && id !== 'zhinxmin' && id !== 'ext_zhinx' && id !== 'ext_zdinx');
-  } else if (validSelected.has('zhinxmin') && !isExtensionDisabled('zhinxmin', validSelected, core)) {
-    allFolded.push('zhinxmin');
-    baseSelected = baseSelected.filter(id => id !== 'zfinx' && id !== 'zhinxmin' && id !== 'ext_zhinx' && id !== 'ext_zdinx');
-  } else if (hasZfinx && !isExtensionDisabled('zfinx', validSelected, core)) {
-    allFolded.push('zfinx');
-    baseSelected = baseSelected.filter(id => id !== 'zfinx' && id !== 'zhinxmin' && id !== 'ext_zhinx' && id !== 'ext_zdinx');
-  }
-  // Clean up any remaining float-int composite IDs from output
-  baseSelected = baseSelected.filter(id => id !== 'ext_zdinx' && id !== 'ext_zhinx');
+  // Zfinx folding: zdinx folds zfinx, zhinx folds zfinx+zhinxmin; all can coexist
+  const floatIntFoldIds = ['zfinx', 'zhinxmin', 'ext_zdinx', 'ext_zhinx'];
+  if (validSelected.has('ext_zdinx')) allFolded.push('zdinx');
+  if (validSelected.has('ext_zhinx')) allFolded.push('zhinx');
+  if (!validSelected.has('ext_zhinx') && validSelected.has('zhinxmin')) allFolded.push('zhinxmin');
+  if (!validSelected.has('ext_zdinx') && !validSelected.has('ext_zhinx') && !validSelected.has('zhinxmin') && validSelected.has('zfinx')) allFolded.push('zfinx');
+  baseSelected = baseSelected.filter(id => !floatIntFoldIds.includes(id));
 
   // Also push standard/custom from baseSelected (filtering composites)
   for (const id of baseSelected) {

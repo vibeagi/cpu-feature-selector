@@ -12,7 +12,7 @@ interface ExtensionGroupProps {
   onSelectAllCategory: (catId: string) => void;
 }
 
-const CATEGORIES_WITH_ALL_SELECT = ['crypto-scalar', 'crypto-vector', 'mop', 'bf16', 'float', 'zihint', 'cmo', 'bitmanip'];
+const CATEGORIES_WITH_ALL_SELECT = ['crypto-scalar', 'crypto-vector', 'mop', 'bf16', 'float', 'float-int', 'zihint', 'cmo', 'bitmanip'];
 
 export const ExtensionGroup: React.FC<ExtensionGroupProps> = ({
   selectedCore,

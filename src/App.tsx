@@ -206,11 +206,9 @@ function App() {
       // Recursive delete to fix composite cancellation bug
       recursiveDelete(id, nextSet);
 
-      // Float-int cleanup: if unchecking zdinx/zhinx/zhinxmin, also remove zfinx
-      const floatIntIds = ['zfinx', 'ext_zdinx', 'ext_zhinx', 'zhinxmin'];
-      if (floatIntIds.includes(id)) {
-        floatIntIds.forEach(fid => nextSet.delete(fid));
-      }
+      // Float-int cleanup: dependent extensions
+      if (id === 'ext_zdinx' || id === 'ext_zhinx') nextSet.delete('zfinx');
+      if (id === 'ext_zhinx') nextSet.delete('zhinxmin');
 
       // Linkage: If we unchecked a component, uncheck any composite that depends on it
       let parentFound = true;
@@ -280,13 +278,11 @@ function App() {
       const floatStdIds = ['zfh', 'zfhmin', 'zfa', 'zfbfmin'];
       if (floatIntIds.includes(id)) {
         floatStdIds.forEach(fid => nextSet.delete(fid));
-        // float-int mutual exclusion (only one level at a time)
-        floatIntIds.forEach(fid => { if (fid !== id) nextSet.delete(fid); });
-        recursiveAdd(id, nextSet);
-        // Zdinx and Zhinx include zfinx; Zhinx includes zhinxmin
-        if (id === 'ext_zdinx') nextSet.add('zfinx');
-        if (id === 'ext_zhinx') { nextSet.add('zfinx'); nextSet.add('zhinxmin'); }
-        if (id === 'zhinxmin') nextSet.add('zfinx');
+        // Auto-include sub-extensions
+        if (id === 'ext_zdinx') { nextSet.add(id); nextSet.add('zfinx'); }
+        else if (id === 'ext_zhinx') { nextSet.add(id); nextSet.add('zfinx'); nextSet.add('zhinxmin'); }
+        else if (id === 'zhinxmin') { nextSet.add(id); nextSet.add('zfinx'); }
+        else nextSet.add(id);
       }
       if (floatStdIds.includes(id)) {
         floatIntIds.forEach(fid => nextSet.delete(fid));
