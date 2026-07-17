@@ -83,7 +83,7 @@ export const EXTENSIONS: Extension[] = [
   { id: 'zfinx', name: 'Zfinx', category: 'float-int', description: 'Single-precision float in integer registers (与 F/D 互斥)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series'], type: 'standard' },
   { id: 'ext_zdinx', name: 'Zdinx', category: 'float-int', description: 'Double-precision float in integer registers (includes Zfinx)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series'], type: 'standard', isComposite: true, components: ['zfinx'] },
   { id: 'ext_zhinx', name: 'Zhinx', category: 'float-int', description: 'Half-precision float in integer registers (includes Zfinx+Zhinxmin)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series'], type: 'standard', isComposite: true, components: ['zfinx', 'zhinxmin'] },
-  { id: 'zhinxmin', name: 'Zhinxmin', category: 'float-int', description: 'Minimal half-precision float in integer registers (includes Zfinx)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series'], type: 'standard', dependsOnExtensions: ['zfinx'] },
+  { id: 'zhinxmin', name: 'Zhinxmin', category: 'float-int', description: 'Minimal half-precision float in integer registers (includes Zfinx)', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series'], type: 'standard', isComposite: true, components: ['zfinx'] },
 
   // 9. BF16
   { id: 'zfbfmin', name: 'Zfbfmin', category: 'bf16', description: 'Scalar BF16 Converts', supportedSeries: ['nuclei-300-series', 'nuclei-600-series', 'nuclei-900-series', 'nuclei-1000-series'], dependsOnArch: ['f'], type: 'standard' },
