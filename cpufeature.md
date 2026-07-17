@@ -1,155 +1,220 @@
-N100E_CORE_ARCH_ABI = rv32ec ilp32e nuclei-100-series
-N100EM_CORE_ARCH_ABI = rv32emc ilp32e nuclei-100-series
-N100_CORE_ARCH_ABI = rv32ic ilp32 nuclei-100-series
-N100M_CORE_ARCH_ABI = rv32imc ilp32 nuclei-100-series
-N200_CORE_ARCH_ABI = rv32imc ilp32 nuclei-200-series
-N200E_CORE_ARCH_ABI = rv32emc ilp32e nuclei-200-series
-N201_CORE_ARCH_ABI = rv32iac ilp32 nuclei-200-series
-N201E_CORE_ARCH_ABI = rv32eac ilp32e nuclei-200-series
-N202_CORE_ARCH_ABI = rv32ic ilp32 nuclei-200-series
-N202E_CORE_ARCH_ABI = rv32ec ilp32e nuclei-200-series
-N203_CORE_ARCH_ABI = rv32imac ilp32 nuclei-200-series
-N203E_CORE_ARCH_ABI = rv32emac ilp32e nuclei-200-series
-N205_CORE_ARCH_ABI = rv32imac ilp32 nuclei-200-series
-N205E_CORE_ARCH_ABI = rv32emac ilp32e nuclei-200-series
-N300E_CORE_ARCH_ABI = rv32emac ilp32e nuclei-300-series
-N300_CORE_ARCH_ABI = rv32imac ilp32 nuclei-300-series
-N300F_CORE_ARCH_ABI = rv32imafc ilp32f nuclei-300-series
-N300FD_CORE_ARCH_ABI = rv32imafdc ilp32d nuclei-300-series
-N305_CORE_ARCH_ABI = rv32imac ilp32 nuclei-300-series
-N307_CORE_ARCH_ABI = rv32imafc ilp32f nuclei-300-series
-N307FD_CORE_ARCH_ABI = rv32imafdc ilp32d nuclei-300-series
-N600_CORE_ARCH_ABI = rv32imac ilp32 nuclei-600-series
-N600F_CORE_ARCH_ABI = rv32imafc ilp32f nuclei-600-series
-N600FD_CORE_ARCH_ABI = rv32imafdc ilp32d nuclei-600-series
-U600_CORE_ARCH_ABI = rv32imac ilp32 nuclei-600-series
-U600F_CORE_ARCH_ABI = rv32imafc ilp32f nuclei-600-series
-U600FD_CORE_ARCH_ABI = rv32imafdc ilp32d nuclei-600-series
-NX600_CORE_ARCH_ABI = rv64imac lp64 nuclei-600-series
-NX600F_CORE_ARCH_ABI = rv64imafc lp64f nuclei-600-series
-NX600FD_CORE_ARCH_ABI = rv64imafdc lp64d nuclei-600-series
-UX600_CORE_ARCH_ABI = rv64imac lp64 nuclei-600-series
-UX600F_CORE_ARCH_ABI = rv64imafc lp64f nuclei-600-series
-UX600FD_CORE_ARCH_ABI = rv64imafdc lp64d nuclei-600-series
-N900_CORE_ARCH_ABI = rv32imac ilp32 nuclei-900-series
-N900F_CORE_ARCH_ABI = rv32imafc ilp32f nuclei-900-series
-N900FD_CORE_ARCH_ABI = rv32imafdc ilp32d nuclei-900-series
-U900_CORE_ARCH_ABI = rv32imac ilp32 nuclei-900-series
-U900F_CORE_ARCH_ABI = rv32imafc ilp32f nuclei-900-series
-U900FD_CORE_ARCH_ABI = rv32imafdc ilp32d nuclei-900-series
-NX900_CORE_ARCH_ABI = rv64imac lp64 nuclei-900-series
-NX900F_CORE_ARCH_ABI = rv64imafc lp64f nuclei-900-series
-NX900FD_CORE_ARCH_ABI = rv64imafdc lp64d nuclei-900-series
-UX900_CORE_ARCH_ABI = rv64imac lp64 nuclei-900-series
-UX900F_CORE_ARCH_ABI = rv64imafc lp64f nuclei-900-series
-UX900FD_CORE_ARCH_ABI = rv64imafdc lp64d nuclei-900-series
-NX1000_CORE_ARCH_ABI = rv64imac lp64 nuclei-1000-series
-NX1000F_CORE_ARCH_ABI = rv64imafc lp64f nuclei-1000-series
-NX1000FD_CORE_ARCH_ABI = rv64imafdc lp64d nuclei-1000-series
-UX1000_CORE_ARCH_ABI = rv64imac lp64 nuclei-1000-series
-UX1000F_CORE_ARCH_ABI = rv64imafc lp64f nuclei-1000-series
-UX1000FD_CORE_ARCH_ABI = rv64imafdc lp64d nuclei-1000-series
+# Nuclei RISC-V CPU Feature Selector Architecture Guide
 
-最上面显示 CORE (ARCH + ABI), 用户可以自己选择并更改
+## CORE Definitions
 
-然后下面选择支持的扩展
+Format: `CORE_NAME = arch abi series`
 
-- Zc(可以单选下面内容)
-  - Zca/Zcb/Zcmp/Zcmt(RV32 or RV64)
-  - Zcf(RV32 only)
-  - 如果选择了Zcmp或者Zcmt，则前面CORE里面的rv32imafdc里面的c就要去掉
-  - rv32 + 不带f或者d 的情况下全选就是 _zca_zcb_zcmp_zcmt
-  - rv32 + f 情况下全选就是 _zca_zcb_zcf_zcmp_zcmt
-  - rv32 + fd 情况下全选就是 _zca_zcb_zcf_zcmp_zcmt
-  - rv64 情况下就是 _zca_zcb_zcmp_zcmt
-  - Xxlcz : Nuclei Customized XLCZ ISA Extension
+| Core Name | Base Arch | Default ABI | Series |
+|---|---|---|---|
+| N100E | rv32ec | ilp32e | nuclei-100-series |
+| N100EM | rv32emc | ilp32e | nuclei-100-series |
+| N100 | rv32ic | ilp32 | nuclei-100-series |
+| N100M | rv32imc | ilp32 | nuclei-100-series |
+| N200 | rv32imc | ilp32 | nuclei-200-series |
+| N200E | rv32emc | ilp32e | nuclei-200-series |
+| N201 | rv32iac | ilp32 | nuclei-200-series |
+| N201E | rv32eac | ilp32e | nuclei-200-series |
+| N202 | rv32ic | ilp32 | nuclei-200-series |
+| N202E | rv32ec | ilp32e | nuclei-200-series |
+| N203 | rv32imac | ilp32 | nuclei-200-series |
+| N203E | rv32emac | ilp32e | nuclei-200-series |
+| N205 | rv32imac | ilp32 | nuclei-200-series |
+| N205E | rv32emac | ilp32e | nuclei-200-series |
+| N300E | rv32emac | ilp32e | nuclei-300-series |
+| N300 | rv32imac | ilp32 | nuclei-300-series |
+| N300F | rv32imafc | ilp32f | nuclei-300-series |
+| N300FD | rv32imafdc | ilp32d | nuclei-300-series |
+| N305 | rv32imac | ilp32 | nuclei-300-series |
+| N307 | rv32imafc | ilp32f | nuclei-300-series |
+| N307FD | rv32imafdc | ilp32d | nuclei-300-series |
+| N600 | rv32imac | ilp32 | nuclei-600-series |
+| N600F | rv32imafc | ilp32f | nuclei-600-series |
+| N600FD | rv32imafdc | ilp32d | nuclei-600-series |
+| U600 | rv32imac | ilp32 | nuclei-600-series |
+| U600F | rv32imafc | ilp32f | nuclei-600-series |
+| U600FD | rv32imafdc | ilp32d | nuclei-600-series |
+| NX600 | rv64imac | lp64 | nuclei-600-series |
+| NX600F | rv64imafc | lp64f | nuclei-600-series |
+| NX600FD | rv64imafdc | lp64d | nuclei-600-series |
+| UX600 | rv64imac | lp64 | nuclei-600-series |
+| UX600F | rv64imafc | lp64f | nuclei-600-series |
+| UX600FD | rv64imafdc | lp64d | nuclei-600-series |
+| N900 | rv32imac | ilp32 | nuclei-900-series |
+| N900F | rv32imafc | ilp32f | nuclei-900-series |
+| N900FD | rv32imafdc | ilp32d | nuclei-900-series |
+| U900 | rv32imac | ilp32 | nuclei-900-series |
+| U900F | rv32imafc | ilp32f | nuclei-900-series |
+| U900FD | rv32imafdc | ilp32d | nuclei-900-series |
+| NX900 | rv64imac | lp64 | nuclei-900-series |
+| NX900F | rv64imafc | lp64f | nuclei-900-series |
+| NX900FD | rv64imafdc | lp64d | nuclei-900-series |
+| UX900 | rv64imac | lp64 | nuclei-900-series |
+| UX900F | rv64imafc | lp64f | nuclei-900-series |
+| UX900FD | rv64imafdc | lp64d | nuclei-900-series |
+| NX1000 | rv64imac | lp64 | nuclei-1000-series |
+| NX1000F | rv64imafc | lp64f | nuclei-1000-series |
+| NX1000FD | rv64imafdc | lp64d | nuclei-1000-series |
+| UX1000 | rv64imac | lp64 | nuclei-1000-series |
+| UX1000F | rv64imafc | lp64f | nuclei-1000-series |
+| UX1000FD | rv64imafdc | lp64d | nuclei-1000-series |
 
-- Bit-Manipulation (全选就是_zba_zbb_zbc_zbs)
-  - "B" Extension for Bit Manipulation, Version 1.0.0 (zba+zbb+zbs) 选择这个就自动选中 zba + zbb + zbs
-  - zba/zbb/zbc/zbs
+---
 
-- "CMO" Extensions for Base Cache Management Operation ISA, Version 1.0.0  只有300/600/900/1000可选
-  - Zicbom: Cache-block management instructions.
-  - Zicbop: Cache-block prefetch instructions.
-  - Zicboz: Cache-block zero instructions
+## Extension Categories & Rules
 
-- Zicond, v1.0: Integer Conditional Operations Extension.
+### 1. C/Zc 压缩指令扩展
 
-- Zibi, v0.6: Branch with Immediate Instructions, which appends conditional branch instructions with an immediate
-operand. 只有300/600/900/1000可选
+**Composites (user-managed, manual toggle only):**
+- `C 扩展` (ext_c): C always implies Zca; C+F→Zcf(RV32); C+D→Zcd
+- `Zce 扩展` (ext_zce): RV32: Zca+Zcb+Zcmp+Zcmt±Zcf; RV64: Zca+Zcb+Zcmp+Zcmt
 
-- Zmmul, v1.0: Integer Multiplication instructions
-  只有在CORE是N100的情况下，且CORE里面没有M扩展，这个才显示出来，然后让用户可以选择 这个才可以选择 _zmmul
+**Sub-extensions:**
+- `zca` — Zc Base compressed instructions for integer (implied by C)
+- `zcb` — Zc additional simple compressed instructions (depends on Zca)
+- `zcf` — RV32 float load/store compressed (implied by C+F on RV32, conflicts with Zclsd)
+- `zcd` — Double-precision float load/store compressed (implied by C+D, conflicts with Zcmp/Zcmt)
+- `zcmp` — Push/pop and double move compressed (depends on Zca, conflicts with Zcd)
+- `zcmt` — Table jump compressed (depends on Zca, conflicts with Zcd)
+- `xxlcz` — Nuclei Customized XLCZ ISA Extension (200/300/600/900 series)
 
--  "Zihintpause" Extension for Pause Hint, Version 2.0 只有600/900/1000可选
-   - _Zihintpause
+**Rules:**
+- `zcmp`/`zcmt` selected → strip `c` from base arch letters
+- C ↔ Zce mutual exclusion (user-switched)
+- C with D → excludes Zcmp/Zcmt (per 29.1.4)
+- Base arch has `c` → `zca`/`zcf`/`zcd` suppressed from march output
 
-- "Zihintntl" Extension for Non-Temporal Locality Hints, Version 1.0 只有600/900/1000可选
-   - _Zihintntl
+**March output Zc sort order:** `zca`, `zcb`, `zcf`, `zcd`, `zcmp`, `zcmt`
 
-- "Zfh" and "Zfhmin" Extensions for Half-Precision Floating-Point, Version 1.0 选中这个就是 zfh 只有300/600/900/1000可选 依赖f扩展
+**Display order:** C, Zce, Zca, Zcb, Zcf, Zcd, Zcmp, Zcmt, Xxlcz
 
-  - zfh The Zfh extension depends on the single-precision floating-point extension
-  - "Zfhmin" Standard Extension for Minimal Half-Precision Floating-Point 
+### 2. Bit-Manipulation 位操作扩展
 
-- "Zfa" Extension for Additional Floating-Point Instructions, Version 1.0 :  The Zfa extension depends on the F extension 只有300/600/900/1000可选 依赖f扩展
+- `B 扩展` (ext_b): composite of zba+zbb+zbs
+- `zba`, `zbb`, `zbc`, `zbs`
 
-- "BF16" Extensions for BFloat16-precision Floating-Point, Version 1.0 依赖 imaf 扩展 只有300/600/900/1000可选 依赖f扩展
+### 3. CMO 缓存管理扩展 (600/900/1000 only)
 
-   - Zfbfmin - Scalar BF16 Converts 依赖 f 扩展
-   - Zvfbfmin - Vector BF16 Converts 依赖 Zve32f 扩展
-   - Zvfbfwma - Vector BF16 widening mul-add  This extension depends upon the Zvfbfmin extension and the Zfbfmin extension.
-   - Xxlfbf - Nuclei Customized BF16 extension 依赖 f 扩展 
-   - Xxlvfbf - Nuclei Customized Vector BF16 extension 依赖 Zve32f 扩展
+- `zicbom`, `zicbop`, `zicboz`
 
-- "Zilsd", "Zclsd" Extensions for Load/Store pair for RV32, Version 1.0 : RV32 only 只有300/600/900/1000可选
-  - Zilsd : _zilsd
-  - zclsd : _zclsd 选择这个的时候 就不能带 zcf ， 那就意味着 rv32imafc + zclsd + zilsd -> rv32imaf_zilsd_zca_zclsd (不推荐)
+### 4. Zicond 条件操作扩展
 
-- "Zimop" Extension for May-Be-Operations, Version 1.0  只有600/900/1000可选
-  - "Zimop" Extension for May-Be-Operations, Version 1.0
-  - "Zcmop" Compressed May-Be-Operations Extension, Version 1.0
+- `zicond`
 
-- DSP Extension 依赖 im 扩展 只有300/600/900/1000可选
-   - Xxldsp(Draft P extension)
-   - Xxldspn1x(Xxldspn1x + Xxldsp)
-   - Xxldspn2x(Xxldspn2x + Xxldspn1x)
-   - Xxldspn3x(Xxldspn3x + Xxldspn2x)
+### 5. Zibi 立即数分支扩展 (300/600/900/1000)
 
-- Scalar Crypto: 全选就是 _zk_zks 依赖 ima 扩展 只有600/900/1000可选
+- `zibi` (standard extension, not custom)
 
-  - zbkb/zbkc/zbkx/zknd/zkne/zknh/zksed/zksh/zkr/zkt
-  - zkn = zbkb/zbkc/zbkx/zknd/zkne/zknh
-  - zks = zbkb/zbkcc/zbkx/zksed/zksh
-  - Zk = zkn + zkr + zkt
+### 6. Zmmul 乘法扩展 (N100 series only, without M)
 
-- Vector Extension 依赖 ima 扩展 只有600/900/1000可选 帮他选择一个，选择规则如下描述
-   - rv32 时选择这个 zve32x， rv32f/d的时候选择这个是 zve32f
-   - rv64 时选择这个是 zve64x , rv64f的时候选择这个是 zve64f, rv64d的时候选择这个是 v
-   - zve32x/zve32f/zve64x/zve64f/zve64d/v 用户可以单选其中一个或者不选
-   - zvl128b/zvl256b/zvl512b/zvl1024b 用户可以单选其中一个也可以不选
+- `zmmul` — only visible when core is N100 series and arch has no `m`
 
-- Vector Crypto Cryptography Extensions: Vector Instructions, Version 1.0 只有600/900/1000可选
-   - 依赖vector扩展
-   - 选择这个扩展的时候，需要注意下下面的规则
-   - The Zvknhb and Zvbc Vector Crypto Extensions and accordingly the composite extensions Zvkn, Zvknc, Zvkng, and Zvksc -- depend on Zve64x.
-   - All of the other Vector Crypto Extensions depend on Zve32x. 其他的扩展 >= zve32x 就可以选择
-   - Zvbb - Vector Basic Bit-manipulation
-   - Zvbc - Vector Carry-less Multiplication -> 依赖 >= zve64x 
-   - Zvkb - Vector Cryptography Bit-manipulation
-   - Zvkg - Vector GCM/GMAC
-   - Zvkned - NIST Suite: Vector AES Block Cipher
-   - Zvknh[ab] - NIST Suite: Vector SHA-2 Secure Hash
-     - Zvknhb supports SHA-256 and SHA-512. Zvknhb 包含 Zvknha  -> 依赖 >= zve64x 
-     - Zvknha supports only SHA-256. 
-   - Zvksed - ShangMi Suite: SM4 Block Cipher 
-   - Zvksh - ShangMi Suite: SM3 Secure Hash 
+### 7. Zihint 提示扩展 (600/900/1000 only)
 
-   - Zvkn - NIST Algorithm Suite = Zvkned + Zvknhb + Zvkb + Zvkt -> 依赖 >= zve64x 
-   - Zvknc - NIST Algorithm Suite with carry-less multiply = Zvkn + Zvbc -> 依赖 >= zve64x 
-   - Zvkng - NIST Algorithm Suite with GCM = = Zvkn + Zvkg -> 依赖 >= zve64x 
-   - Zvks - ShangMi Algorithm Suite = Zvksed + Zvksh + Zvkb + Zvkt
-   - Zvksc - ShangMi Algorithm Suite with carry-less multiplication = Zvks + Zvbc -> 依赖 >= zve64x 
-   - Zvksg - ShangMi Algorithm Suite with GCM = Zvks + Zvkg
-   - Zvkt - Vector Data-Independent Execution Latency
+- `zihintpause`, `zihintntl`
 
+### 8. Zfinx+ 整型寄存器浮点扩展 (300/600/900 only)
+
+- `zfinx` — Single-precision float in integer registers
+- `zdinx` (ext_zdinx) — Double-precision (includes Zfinx)
+- `zhinx` (ext_zhinx) — Half-precision (includes Zfinx+Zhinxmin)
+- `zhinxmin` — Minimal half-precision (includes Zfinx)
+
+**Rules:**
+- Can be selected simultaneously (e.g. zdinx + zhinx)
+- Mutually exclusive with standard F/D/Zfa/BF16
+- March folding: `zdinx` absorbs `zfinx`; `zhinx` absorbs `zfinx`+`zhinxmin`
+
+### 9. F16+Zfa 浮点与半精度扩展
+
+- `zfh` — Standard Half-Precision Floating-Point (includes Zfhmin)
+- `zfhmin` — Minimal Half-Precision Floating-Point
+- `zfa` — Additional Floating-Point Instructions
+
+**Rules:**
+- All depend on `f` extension
+- Only 300/600/900/1000 series
+
+### 10. BF16 浮点扩展
+
+- `zfbfmin` — Scalar BF16 Converts (depends on F)
+- `zvfbfmin` — Vector BF16 Converts (requires Vector >= zve32f)
+- `zvfbfwma` — Vector BF16 widening mul-add (depends on Zfbfmin + Zvfbfmin)
+- `xxlfbf` — Nuclei Customized BF16 (depends on F)
+- `xxlvfbf` — Nuclei Customized Vector BF16 (requires Vector >= zve32f)
+
+### 11. Load/Store Pair (RV32 only, 300/600/900/1000)
+
+- `zilsd`, `zclsd` (Zclsd conflicts with Zcf)
+
+### 12. May-Be-Operations 扩展 (600/900/1000 only)
+
+- `zimop`, `zcmop`
+
+### 13. DSP 扩展 (300/600/900/1000, depends on M, mutually exclusive levels)
+
+- `xxldsp`, `xxldspn1x`, `xxldspn2x`, `xxldspn3x`
+- Only one level at a time; march output folds to the highest
+
+### 14. Scalar Crypto 标量加密扩展 (600/900/1000, depends on A+M)
+
+**Composites:**
+- `Zk 组合` = Zkn + Zkr + Zkt
+- `Zkn 组合` = Zbkb + Zbkc + Zbkx + Zknd + Zkne + Zknh
+- `Zks 组合` = Zbkb + Zbkc + Zbkx + Zksed + Zksh
+
+**Sub-extensions:** `zbkb`, `zbkc`, `zbkx`, `zknd`, `zkne`, `zknh`, `zksed`, `zksh`, `zkr`, `zkt`
+
+**March folding:** Full `zk` + `zks` → `_zk_zks`; `zkn` + `zks` → `_zkn_zks`
+
+### 15. Vector 向量扩展 (600/900/1000, depends on A+M)
+
+**Vector levels (single choice):** `zve32x`, `zve32f`, `zve64x`, `zve64f`, `zve64d`, `v`
+
+**Vector register lengths (single choice):** `zvl128b`, `zvl256b`, `zvl512b`, `zvl1024b`
+
+### 16. Vector Crypto 向量加密扩展 (600/900/1000, depends on Vector)
+
+**Composites:**
+- `Zvknc 组合` = Zvkn + Zvbc
+- `Zvkng 组合` = Zvkn + Zvkg
+- `Zvkn 组合` = Zvkned + Zvknhb + Zvkb + Zvkt
+- `Zvksc 组合` = Zvks + Zvbc
+- `Zvksg 组合` = Zvks + Zvkg
+- `Zvks 组合` = Zvksed + Zvksh + Zvkb + Zvkt
+
+**Zvknhb** includes Zvknha.
+
+**Dependencies:**
+- Zvknhb, Zvbc, and composites Zvkn/Zvknc/Zvkng/Zvksc require Vector >= zve64x
+- Others require Vector >= zve32x
+
+---
+
+## March String Assembly Rules
+
+1. Base ISA letters: `rv32`/`rv64` + `i`/`e`, `m`, `a`, `f`, `d`, `c`, `v` (sorted)
+2. Strip `c` if `zcmp`/`zcmt` selected
+3. Append `v` to base letters if standard `v` selected
+4. Multi-letter `z*` extensions alphabetically sorted (Zc special order)
+5. Custom `x*` extensions sorted alphabetically at the end
+6. C-implied `zca`/`zcf`/`zcd` suppressed from output if arch has `c`
+
+---
+
+## Output Sections
+
+### GCC Options
+- `-march=...` (base arch + _z* + _x*)
+- `-mabi=...` (core default ABI)
+- `-mtune=...` (core series)
+
+### Nuclei SDK Make Options
+- `CORE=xxx ARCH_EXT=_yyy`
+
+### QEMU Run Command
+- `qemu-system-riscv64/32 -M nuclei_evalsoc,download=ilm -cpu nuclei-xxx,ext=yyy -smp 1 ... -kernel appilm.elf`
+- zvl* selected → `,vlen=128` appended to cpu arg
+
+### XL CPU Model Command
+- `xl_cpumodel -M nuclei_evalsoc --cpu=xxx --download=ilm --ext=yyy --smp=1 appilm.elf`
+- zvl* selected → `--varch=vlen:256` before `--smp=1`
