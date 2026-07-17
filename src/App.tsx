@@ -269,6 +269,16 @@ function App() {
         nextSet.delete('zcd');
       }
 
+      // Zfinx+ mutually exclusive with standard float/F/D/Zfa/BF16
+      const floatIntIds = ['zfinx', 'ext_zdinx', 'ext_zhinx', 'zhinxmin'];
+      const floatStdIds = ['zfh', 'zfhmin', 'zfa', 'zfbfmin'];
+      if (floatIntIds.includes(id)) {
+        floatStdIds.forEach(fid => nextSet.delete(fid));
+      }
+      if (floatStdIds.includes(id)) {
+        floatIntIds.forEach(fid => nextSet.delete(fid));
+      }
+
       // Recursive add to check all child components
       recursiveAdd(id, nextSet);
     }
