@@ -1,7 +1,7 @@
 {
-  "name": "temp-scaffold",
+  "name": "cpu-feature-selector",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
