@@ -43,6 +43,7 @@ if [[ -z "${APP_SLUG:-}" ]]; then
     printf '[deploy-doc] 将使用当前目录名 [%s] 作为默认 APP_SLUG\n' "${APP_SLUG}" >&2
   fi
 fi
+
 BUILD_CMD="${BUILD_CMD:-npm run build}"
 DIST_DIR="${DIST_DIR:-dist}"
 
@@ -63,22 +64,27 @@ WEB_URL="https://doc.nucleisys.com/${FTP_REMOTE_DIR}"
 # 解析参数
 DEPLOY_MODE="beta"
 AUTO_CONFIRM=false
+DRY_RUN=false
 
 for arg in "$@"; do
   case "${arg}" in
     -y|--yes|--auto-confirm)
       AUTO_CONFIRM=true
       ;;
+    --dry-run)
+      DRY_RUN=true
+      ;;
     beta|prod|formal|web|website|official)
       DEPLOY_MODE="${arg}"
       ;;
     -h|--help)
-      printf 'Usage: %s [beta|prod|web] [-y|--yes]\n' "$(basename "$0")"
+      printf 'Usage: %s [beta|prod|web] [-y|--yes] [--dry-run]\n' "$(basename "$0")"
       printf 'Options:\n'
       printf '  beta                  部署到内网测试环境 (默认)\n'
       printf '  prod / formal         部署到内网正式环境\n'
       printf '  web / official        部署到外网官网 (通过 FTP)\n'
       printf '  -y, --yes             免确认直接部署 (适用于 CI/CD)\n'
+      printf '  --dry-run             预演运行模式：仅打印执行计划与命令，不触发实际部署\n'
       exit 0
       ;;
     *)
@@ -123,13 +129,16 @@ log() {
 }
 
 cleanup_local() {
+  if [[ "${DRY_RUN}" == true ]]; then
+    return
+  fi
   if [[ -f "${LOCAL_ARCHIVE}" ]]; then
     rm -f "${LOCAL_ARCHIVE}"
   fi
 }
 
 cleanup_remote() {
-  if [[ "${HOST_SHORT_LOWER}" == wh* ]] || [[ "${DEPLOY_MODE}" =~ ^(web|website|official)$ ]]; then
+  if [[ "${DRY_RUN}" == true ]] || [[ "${HOST_SHORT_LOWER}" == wh* ]] || [[ "${DEPLOY_MODE}" =~ ^(web|website|official)$ ]]; then
     return
   fi
 
@@ -149,6 +158,11 @@ trap cleanup_all EXIT INT TERM
 
 # 部署二次确认面板
 confirm_deploy() {
+  if [[ "${DRY_RUN}" == true ]]; then
+    log "🔍 检测到 --dry-run 预演运行模式，跳过确认环节。"
+    return 0
+  fi
+
   if [[ "${AUTO_CONFIRM}" == true ]] || [[ ! -t 0 ]]; then
     log "检测到自动确认选项或非交互环境，跳过手动确认。"
     return 0
@@ -196,6 +210,36 @@ confirm_deploy() {
 
 # 1. 触发提示确认
 confirm_deploy
+
+# DRY RUN 逻辑分支
+if [[ "${DRY_RUN}" == true ]]; then
+  printf '\n'
+  printf '============================================================\n'
+  printf '               🔍 DRY-RUN 预演运行计划                      \n'
+  printf '============================================================\n'
+  printf ' 项目标识 (SLUG) : %s\n' "${APP_SLUG}"
+  printf ' 部署模式 (MODE) : %s\n' "${DEPLOY_MODE}"
+  printf ' 构建命令        : VITE_BASE_URL="%s" %s\n' "${VITE_BASE_PATH}" "${BUILD_CMD}"
+  printf ' 预定目标网址    : %s\n' "${DOC_URL}"
+  printf '%s\n' '------------------------------------------------------------'
+
+  if [[ "${DEPLOY_MODE}" =~ ^(web|website|official)$ ]]; then
+    printf ' 拟执行 FTP 镜像命令:\n'
+    printf '   lftp -u"%s","***" "%s" -e "mirror --parallel=2 -p -e -R %s %s; bye"\n' \
+      "${FTPUSER:-[未设置]}" "${FTPSERVER:-[未设置]}" "${DIST_DIR}" "${FTP_REMOTE_DIR}"
+  elif [[ "${HOST_SHORT_LOWER}" == wh* ]]; then
+    printf ' 拟执行直连部署命令:\n'
+    printf '   ssh xl_ci@doc "mkdir -p %s"\n' "${DOC_TARGET_DIR}"
+    printf '   scp -r %s/. xl_ci@doc:%s/\n' "${REPO_ROOT}/${DIST_DIR}" "${DOC_TARGET_DIR}"
+  else
+    printf ' 拟执行中转部署命令:\n'
+    printf '   scp %s %s:%s/\n' "${LOCAL_ARCHIVE}" "${WH_HOST}" "${WH_TEMP_DIR}"
+    printf '   ssh %s -> %s -> xl_ci@doc:%s\n' "${WH_HOST}" "${WH_XL_USER}" "${DOC_TARGET_DIR}"
+  fi
+  printf '============================================================\n\n'
+  log "DRY-RUN 结束：未对系统或远程服务器造成任何修改。"
+  exit 0
+fi
 
 log "当前主机: ${HOST_SHORT}"
 log "仓库目录: ${REPO_ROOT}"

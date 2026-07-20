@@ -77,6 +77,9 @@ npx vitest run
 
 # Deploy to official website via FTP (doc.nucleisys.com/tools/cpuextsel)
 FTPUSER=xxx FTPPWD=yyy FTPSERVER=zzz ./scripts/deploy_doc.sh web
+
+# Dry-run mode (preview build & deployment commands without changing anything)
+./scripts/deploy_doc.sh web --dry-run
 ```
 
 ---
