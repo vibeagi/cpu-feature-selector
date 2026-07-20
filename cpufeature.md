@@ -195,14 +195,42 @@ Format: `CORE_NAME = arch abi series`
 
 ---
 
-## March String Assembly Rules
+## March String Assembly & Folding Rules
 
-1. Base ISA letters: `rv32`/`rv64` + `i`/`e`, `m`, `a`, `f`, `d`, `c`, `v` (sorted)
-2. Strip `c` if `zcmp`/`zcmt` selected
-3. Append `v` to base letters if standard `v` selected
-4. Multi-letter `z*` extensions alphabetically sorted (Zc special order)
-5. Custom `x*` extensions sorted alphabetically at the end
-6. C-implied `zca`/`zcf`/`zcd` suppressed from output if arch has `c`
+### Assembly Rules
+1. **Base ISA letters**: `rv32`/`rv64` + `i`/`e`, `m`, `a`, `f`, `d`, `c`, `v` (sorted in standard single-letter order).
+2. **Strip `c`**: If `zcmp` or `zcmt` is selected, remove `c` from base ISA letters.
+3. **Append `v`**: If standard `v` vector extension is selected, append `v` directly to base ISA letters (e.g. `rv64imafdcv`).
+4. **Multi-letter `z*` extensions**: Sorted alphabetically, except Zc extensions which follow the fixed order: `zca`, `zcb`, `zcf`, `zcd`, `zcmp`, `zcmt`.
+5. **Custom `x*` extensions**: Sorted alphabetically and placed at the very end of the ISA string.
+6. **C-implied suppression**: If base arch still contains `c` (not stripped), `zca`, `zcf`, and `zcd` are implicitly included by `c` and suppressed from the output string.
+
+### Folding Rules (Composite Absorption)
+- **DSP Folding**: If multiple `xxldsp*` levels are selected, output only the highest level (`xxldspn3x` > `xxldspn2x` > `xxldspn1x` > `xxldsp`).
+- **Scalar Crypto Folding**:
+  - Full `zk` + `zks` → output `_zk_zks` (suppresses all sub-extensions)
+  - Full `zk` only → output `_zk` (plus remaining `zks` sub-extensions if any)
+  - Full `zkn` + `zks` → output `_zkn_zks`
+  - Full `zkn` only → output `_zkn`
+  - Full `zks` only → output `_zks`
+- **Vector Crypto Folding**:
+  - Full `zvknc` (zvkn + zvbc) → output `_zvknc` (preempts zvkng/zvkn)
+  - Full `zvkng` (zvkn + zvkg) → output `_zvkng` (preempts zvkn)
+  - Full `zvkn` (zvkned + zvknhb + zvkb + zvkt) → output `_zvkn`
+  - Full `zvksc` (zvks + zvbc) → output `_zvksc` (preempts zvksg/zvks)
+  - Full `zvksg` (zvks + zvkg) → output `_zvksg` (preempts zvks)
+  - Full `zvks` (zvksed + zvksh + zvkb + zvkt) → output `_zvks`
+  - Sub-extension `zvknhb` includes `zvknha` → suppress `zvknha` when `zvknhb` is selected
+- **Zfinx+ Folding**:
+  - `ext_zdinx` selected → output `_zdinx` (absorbs `zfinx`)
+  - `ext_zhinx` selected → output `_zhinx` (absorbs `zfinx` and `zhinxmin`)
+  - `zhinxmin` selected (without zhinx) → output `_zhinxmin` (absorbs `zfinx`)
+  - `zfinx` selected alone → output `_zfinx`
+  - If multiple (e.g. `zdinx` + `zhinx`), both `_zdinx_zhinx` are output
+- **Zfh Folding**:
+  - If `zfh` is selected, suppress `zfhmin` from output (Zfh implies Zfhmin)
+- **Zce Folding**:
+  - `ext_zce` in UI expands to its sub-extensions (`zca`, `zcb`, `zcmp`, `zcmt` ± `zcf`), does NOT output `_zce` directly in march string.
 
 ---
 
