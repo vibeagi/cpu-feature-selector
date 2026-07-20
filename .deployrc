@@ -1,0 +1,15 @@
+# ------------------------------------------------------------------------------
+# Project Deployment Configuration (.deployrc)
+# ------------------------------------------------------------------------------
+
+# 项目标识名称 (用于部署子目录名称: /beta/cpuextsel, /tools/cpuextsel)
+APP_SLUG="cpuextsel"
+
+# 构建命令
+BUILD_CMD="npm run build"
+
+# 构建产物目录
+DIST_DIR="dist"
+
+# 官网 FTP 远程目标路径 (用于 web 模式)
+FTP_DIR="tools/cpuextsel"
