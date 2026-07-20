@@ -69,11 +69,14 @@ npm run build
 # Run tests
 npx vitest run
 
-# Deploy to beta
+# Deploy to beta (doc.corp.nucleisys.com/beta/cpuextsel)
 ./scripts/deploy_doc.sh
 
-# Deploy to production
+# Deploy to production (doc.corp.nucleisys.com/tools/cpuextsel)
 ./scripts/deploy_doc.sh prod
+
+# Deploy to official website via FTP (doc.nucleisys.com/tools/cpuextsel)
+FTPUSER=xxx FTPPWD=yyy FTPSERVER=zzz ./scripts/deploy_doc.sh web
 ```
 
 ---

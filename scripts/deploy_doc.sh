@@ -5,25 +5,38 @@ set -euo pipefail
 WH_HOST="hqfang@whss1.corp.nucleisys.com"
 WH_XL_USER="xl_ci@whss1.corp.nucleisys.com"
 WH_TEMP_DIR="~/temp"
+
 DOC_TARGET_DIR_BETA="~/doc_center/beta/cpuextsel"
 DOC_TARGET_DIR_PROD="~/doc_center/tools/cpuextsel"
 
 DOC_URL_BETA="https://doc.corp.nucleisys.com/beta/cpuextsel"
 DOC_URL_PROD="https://doc.corp.nucleisys.com/tools/cpuextsel"
 
+FTP_REMOTE_DIR="tools/cpuextsel"
+WEB_URL="https://doc.nucleisys.com/${FTP_REMOTE_DIR}"
+
 DEPLOY_MODE="${1:-beta}"
+DOC_TARGET_DIR=""
+DOC_URL=""
+VITE_BASE_PATH=""
 
 case "${DEPLOY_MODE}" in
   beta)
     DOC_TARGET_DIR="${DOC_TARGET_DIR_BETA}"
     DOC_URL="${DOC_URL_BETA}"
+    VITE_BASE_PATH="/beta/cpuextsel/"
     ;;
   prod|formal)
     DOC_TARGET_DIR="${DOC_TARGET_DIR_PROD}"
     DOC_URL="${DOC_URL_PROD}"
+    VITE_BASE_PATH="/tools/cpuextsel/"
+    ;;
+  web|website|official)
+    DOC_URL="${WEB_URL}"
+    VITE_BASE_PATH="/tools/cpuextsel/"
     ;;
   *)
-    printf 'Usage: %s [beta|prod|formal]\n' "$(basename "$0")" >&2
+    printf 'Usage: %s [beta|prod|formal|web|website|official]\n' "$(basename "$0")" >&2
     exit 1
     ;;
 esac
@@ -49,7 +62,7 @@ cleanup_local() {
 }
 
 cleanup_remote() {
-  if [[ "${HOST_SHORT_LOWER}" == wh* ]]; then
+  if [[ "${HOST_SHORT_LOWER}" == wh* ]] || [[ "${DEPLOY_MODE}" =~ ^(web|website|official)$ ]]; then
     return
   fi
 
@@ -70,19 +83,40 @@ trap cleanup_all EXIT INT TERM
 log "当前主机: ${HOST_SHORT}"
 log "仓库目录: ${REPO_ROOT}"
 log "部署模式: ${DEPLOY_MODE}"
-log "目标目录: ${DOC_TARGET_DIR}"
 
 cd "${REPO_ROOT}"
 
-log "步骤 1/5: 编译网页 (base: ${DOC_TARGET_DIR})"
-# 解析 VITE_BASE_URL: ~/doc_center/beta/cpuextsel -> /beta/cpuextsel/
-VITE_BASE_PATH="$(printf '%s' "${DOC_TARGET_DIR}" | sed 's|.*doc_center||')/"
+log "步骤 1/4: 编译网页 (VITE_BASE_URL: ${VITE_BASE_PATH})"
 VITE_BASE_URL="${VITE_BASE_PATH}" npm run build
 
 if [[ ! -d "${REPO_ROOT}/dist" ]]; then
   log "错误: 未找到 dist 目录，构建结果异常"
   exit 1
 fi
+
+# 如果是 web / website / official 模式，通过 FTP 使用 lftp 部署到官网外网服务器
+if [[ "${DEPLOY_MODE}" =~ ^(web|website|official)$ ]]; then
+  log "步骤 2/3: 检查 FTP 环境变量"
+  if [[ -z "${FTPUSER:-}" ]] || [[ -z "${FTPPWD:-}" ]] || [[ -z "${FTPSERVER:-}" ]]; then
+    log "错误: web 模式需要设置 FTPUSER, FTPPWD, FTPSERVER 环境变量"
+    exit 1
+  fi
+
+  log "步骤 3/3: 使用 lftp 部署 dist 目录到 ${FTPSERVER}:${FTP_REMOTE_DIR}"
+  lftp -u"${FTPUSER}","${FTPPWD}" "${FTPSERVER}" -e "
+  set net:timeout 5;
+  set net:max-retries 2;
+  set net:reconnect-interval-base 3;
+  mirror --parallel=2 -p -e -R dist ${FTP_REMOTE_DIR};
+  bye"
+
+  log "部署完成！"
+  log "官网网址: ${DOC_URL}"
+  exit 0
+fi
+
+# 以下为 doc.corp 内网部署分支
+log "目标目录: ${DOC_TARGET_DIR}"
 
 log "步骤 2/5: 打包 dist 目录为 ${ARCHIVE_BASENAME}"
 tar -czf "${LOCAL_ARCHIVE}" -C "${REPO_ROOT}/dist" .
@@ -96,7 +130,6 @@ if [[ "${HOST_SHORT_LOWER}" == wh* ]]; then
   scp -r "${REPO_ROOT}/dist/." "xl_ci@doc:${DOC_TARGET_DIR}/"
 
   log "步骤 5/5: 部署完成"
-log "部署网址: ${DOC_URL}"
   log "部署网址: ${DOC_URL}"
   exit 0
 fi
