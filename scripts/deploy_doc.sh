@@ -32,7 +32,7 @@ fi
 
 # 自动从 package.json 获取项目名或以当前目录名兜底
 DEFAULT_APP_NAME="$(node -p "require('${REPO_ROOT}/package.json').name" 2>/dev/null || basename "${REPO_ROOT}")"
-APP_SLUG="${APP_SLUG:-${DEFAULT_APP_NAME}}"
+APP_SLUG="${APP_SLUG:-cpuextsel}"
 BUILD_CMD="${BUILD_CMD:-npm run build}"
 DIST_DIR="${DIST_DIR:-dist}"
 
@@ -156,7 +156,7 @@ confirm_deploy() {
   else
     printf ' 目标部署目录    : %s\n' "${DOC_TARGET_DIR}"
   fi
-  printf '------------------------------------------------------------\n'
+  printf '%s\n' '------------------------------------------------------------'
 
   if [[ "${DEPLOY_MODE}" =~ ^(prod|formal)$ ]]; then
     printf '\033[1;31m[ ⚠️ 警告 ]: 您即将部署到【内网正式环境 (PROD)】！请确保已充分测试！\033[0m\n'
