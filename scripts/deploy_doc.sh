@@ -4,10 +4,27 @@
 # ------------------------------------------------------------------------------
 set -euo pipefail
 
-# 1. 自动定位与配置文件加载 (.deployrc 可选)
+# 1. 自动定位与环境变量/配置文件加载
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
+# 自动加载用户全局 ~/.env (如果存在)
+if [[ -f "${HOME}/.env" ]]; then
+  set -o allexport
+  # shellcheck source=/dev/null
+  source "${HOME}/.env"
+  set +o allexport
+fi
+
+# 自动加载项目本地 .env (如果存在)
+if [[ -f "${REPO_ROOT}/.env" ]]; then
+  set -o allexport
+  # shellcheck source=/dev/null
+  source "${REPO_ROOT}/.env"
+  set +o allexport
+fi
+
+# 自动加载项目本地 .deployrc (如果存在)
 if [[ -f "${REPO_ROOT}/.deployrc" ]]; then
   # shellcheck source=/dev/null
   source "${REPO_ROOT}/.deployrc"
