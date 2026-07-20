@@ -30,9 +30,19 @@ if [[ -f "${REPO_ROOT}/.deployrc" ]]; then
   source "${REPO_ROOT}/.deployrc"
 fi
 
-# 自动从 package.json 获取项目名或以当前目录名兜底
-DEFAULT_APP_NAME="$(node -p "require('${REPO_ROOT}/package.json').name" 2>/dev/null || basename "${REPO_ROOT}")"
-APP_SLUG="${APP_SLUG:-cpuextsel}"
+# 从 package.json 获取项目名或从项目环境变量中读取 APP_SLUG
+DEFAULT_APP_NAME="$(node -p "require('${REPO_ROOT}/package.json').name" 2>/dev/null || true)"
+
+if [[ -z "${APP_SLUG:-}" ]]; then
+  if [[ -n "${DEFAULT_APP_NAME}" ]]; then
+    APP_SLUG="${DEFAULT_APP_NAME}"
+  else
+    printf '[deploy-doc] 警告: 未在 package.json 中找到 name，且未在 .deployrc 中配置 APP_SLUG！\n' >&2
+    printf '[deploy-doc] 建议在项目根目录下创建 .deployrc 文件并设置 APP_SLUG="your-app-slug"\n' >&2
+    APP_SLUG="$(basename "${REPO_ROOT}")"
+    printf '[deploy-doc] 将使用当前目录名 [%s] 作为默认 APP_SLUG\n' "${APP_SLUG}" >&2
+  fi
+fi
 BUILD_CMD="${BUILD_CMD:-npm run build}"
 DIST_DIR="${DIST_DIR:-dist}"
 
